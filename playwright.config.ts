@@ -25,6 +25,8 @@ export default defineConfig({
   reporter: [
     ['list'],
     ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    // custom summary → docs/report/index.html (GitHub Pages-ისთვის)
+    ['./scripts/summary-reporter.js', { outputFile: 'docs/report/index.html' }],
   ],
 
   use: {

@@ -7,10 +7,9 @@
   "scripts": {
     "test": "playwright test",
     "test:headed": "playwright test --headed",
-    "test:kyc": "playwright test tests/KYC",
-    "test:kyb": "playwright test tests/KYB",
-    "test:smoke": "playwright test tests/smoke.spec.ts",
     "report": "playwright show-report",
+    "publish-report": "node scripts/publish-report.js",
+    "share-report": "git add docs && git commit -m \"chore: update test report\" && git push",
     "codegen": "playwright codegen https://dev.portal.keepz.it/login"
   },
   "keywords": [
