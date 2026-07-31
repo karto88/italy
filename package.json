@@ -1,0 +1,34 @@
+{
+  "name": "italy-kyb-kyc-playwright",
+  "version": "1.0.0",
+  "description": "Playwright automation for Italy KYB/KYC portal (dev.portal.keepz.it)",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:kyc": "playwright test tests/KYC",
+    "test:kyb": "playwright test tests/KYB",
+    "test:smoke": "playwright test tests/smoke.spec.ts",
+    "report": "playwright show-report",
+    "codegen": "playwright codegen https://dev.portal.keepz.it/login"
+  },
+  "keywords": [
+    "playwright",
+    "kyb",
+    "kyc",
+    "italy",
+    "keepz"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.61.0",
+    "@types/node": "^25.9.4"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "imap-simple": "^5.1.0",
+    "mailparser": "^3.9.14"
+  }
+}
