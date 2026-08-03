@@ -36,21 +36,38 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/3/2026, 6:24:06 PM</div>
+  <div class="meta">8/3/2026, 6:58:58 PM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">PEP - Legami in affari con una persona politicamente esposta</span>
-            <span class="dur">38.3s</span>
-          </summary><pre class="log">📧 KYC email: d.kartozia+31@keepz.me
-🔎 summary validated: {"Nome":"Valentina","Cognome":"Bianchi","Sesso":"M","Data di nascita":"1988-05-22","Nazionalità":"Italia","Provincia di nascita":"Agrigento","Comune di nascita":"Agrigento","Codice Fiscale":"BNCVNT88E22A089V","Paese di residenza":"Italia","Provincia</pre></details></div>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Individual IS NO PEP</span>
+            <span class="dur">49.1s</span>
+          </summary><pre class="log">📧 KYC email: d.kartozia+33@keepz.me
+🔎 summary validated: {"Nome":"Federica","Cognome":"Mancini","Sesso":"M","Data di nascita":"1988-05-22","Nazionalità":"Italia","Provincia di nascita":"Agrigento","Comune di nascita":"Agrigento","Codice Fiscale":"MNCFRC88E22A089U","Paese di residenza":"Italia","Provincia d</pre><pre class="err">TimeoutError: locator.click: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: 'Firma 1 /' })[22m
+[2m    - locator resolved to &lt;button disabled tabindex="-1" type="button" class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary Mui-disabled MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-colorPrimary css-1htvuol"&gt;Firma  1 / 2&lt;/button&gt;[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    28 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not enabled[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
+</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
