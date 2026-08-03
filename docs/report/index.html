@@ -36,20 +36,23 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/3/2026, 1:29:51 PM</div>
+  <div class="meta">8/3/2026, 1:33:22 PM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Nuvei/nuvei-flow.spec.ts</div><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Nuvei/nuvei-flow.spec.ts</div><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">Nuvei business flow (interactive discovery)</span>
-            <span class="dur">140.7s</span>
-          </summary><pre class="log">📧 email: keepz1000+1@mailinator.com</pre></details></div>
+            <span class="dur">29.3s</span>
+          </summary><pre class="log">📧 email OTP: 746790</pre><pre class="err">TimeoutError: locator.waitFor: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('button', { name: /^Continue$/i }) to be visible[22m
+</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
