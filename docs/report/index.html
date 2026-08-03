@@ -36,20 +36,46 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/3/2026, 4:48:16 PM</div>
+  <div class="meta">8/3/2026, 5:03:13 PM</div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 4</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 2</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 2</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-onboarding.spec.ts</div><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">onboarding with passport - Individual</span>
-            <span class="dur">24.7s</span>
-          </summary><pre class="log">📧 KYC email: d.kartozia+20@keepz.me</pre></details></div>
+            <span class="name">Individual IS NO PEP</span>
+            <span class="dur">1643.8s</span>
+          </summary><pre class="log">📧 KYC email: d.kartozia+21@keepz.me
+🔎 summary validated: {"Nome":"Francesco","Cognome":"Russo","Sesso":"M","Data di nascita":"1988-05-22","Nazionalità":"Italia","Provincia di nascita":"Agrigento","Comune di nascita":"Agrigento","Codice Fiscale":"RSSFNC88E22A089I","Paese di residenza":"Italia","Provincia di</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">PEP: Persona politica esposta - is a PEP</span>
+            <span class="dur">111.2s</span>
+          </summary><pre class="log">📧 KYC email: d.kartozia+22@keepz.me
+🔎 summary validated: {"Nome":"Giulia","Cognome":"Romano","Sesso":"M","Data di nascita":"1988-05-22","Nazionalità":"Italia","Provincia di nascita":"Agrigento","Comune di nascita":"Agrigento","Codice Fiscale":"RMNGLI88E22A089B","Paese di residenza":"Italia","Provincia di r</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">PEP: Familiare di una persona politica esposta</span>
+            <span class="dur">32.9s</span>
+          </summary><pre class="err">Error: page.waitForURL: Target page, context or browser has been closed
+=========================== logs ===========================
+waiting for navigation until "load"
+============================================================</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">PEP: Legami in affari con una persona politicamente esposta</span>
+            <span class="dur">35.1s</span>
+          </summary><pre class="log">📧 KYC email: d.kartozia+23@keepz.me</pre><pre class="err">TimeoutError: locator.check: Timeout 15000ms exceeded.
+Call log:
+[2m  - waiting for getByRole('radio', { name: 'Deputato', exact: true })[22m
+</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
