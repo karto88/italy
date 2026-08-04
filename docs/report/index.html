@@ -36,7 +36,7 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/4/2026, 11:48:52 AM</div>
+  <div class="meta">8/4/2026, 11:56:45 AM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
@@ -48,23 +48,23 @@
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">Individual IS NO PEP</span>
-            <span class="dur">47.8s</span>
-          </summary><pre class="log">📱 Phone: 34004043 | 👤 Davide Ricci
+            <span class="dur">41.3s</span>
+          </summary><pre class="log">📱 Phone: 34004044 | 👤 Riccardo Costa
 ✅ Login OK (phone + SMS OTP)
 ✅ Registration submitted
-📧 KYC email: d.kartozia+45@keepz.me
+📧 KYC email: d.kartozia+46@keepz.me
 ✅ Email verified (Gmail OTP)
 ✅ Personal data (PEP: No)
 ✅ Document (Carta d’Identità)
 ✅ AML questionnaire
 ✅ Summary data verified (შევსებული მონაცემები სწორია)
 ✅ Signature complete (ორმაგი ხელმოწერა)
-🎥 Reached liveness — verificationStatus: NOT_VERIFIED</pre><pre class="err">Error: status უნდა იყოს review, არის: NOT_VERIFIED
+🎥 Tppay status: CONTRACT_SIGNED</pre><pre class="err">Error: Tppay status უნდა იყოს LIVENESS_PENDING, არის: CONTRACT_SIGNED
 
 [2mexpect([22m[31mreceived[39m[2m).[22mtoMatch[2m([22m[32mexpected[39m[2m)[22m
 
-Expected pattern: [32m/review|revision|revisione|pending|attesa/i[39m
-Received string:  [31m"NOT_VERIFIED"[39m</pre></details></div>
+Expected pattern: [32m/LIVENESS_PENDING|PENDING|REVIEW/i[39m
+Received string:  [31m"CONTRACT_SIGNED"[39m</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
