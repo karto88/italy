@@ -36,7 +36,7 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/5/2026, 6:05:23 PM</div>
+  <div class="meta">8/5/2026, 6:27:32 PM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
@@ -48,12 +48,18 @@
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">Tppay (Wallet) KYB onboarding</span>
-            <span class="dur">126.3s</span>
-          </summary><pre class="log">📧 email: d.kartozia+77@keepz.me
-📧 email OTP: 207992
-✍️ signature OTP: 936455</pre><pre class="err">TimeoutError: locator.click: Timeout 15000ms exceeded.
+            <span class="dur">224.5s</span>
+          </summary><pre class="log">📧 email: d.kartozia+79@keepz.me
+📧 email OTP: 936904
+✍️ signature OTP: 671311
+✅ Wallet selected, KYB started
+✅ Organization
+✅ Legal address</pre><pre class="err">Error: locator.fill: Error: strict mode violation: getByRole('textbox', { name: 'Numero' }) resolved to 2 elements:
+    1) &lt;input type="text" aria-invalid="false" id="houseNumberOfResidence" name="3.members.0.houseNumberOfResidence" class="MuiInputBase-input MuiOutlinedInput-input css-17tqjwc"/&gt; aka locator('#houseNumberOfResidence')
+    2) &lt;input type="text" aria-invalid="false" id="houseNumberOfDomicile" name="3.members.0.houseNumberOfDomicile" class="MuiInputBase-input MuiOutlinedInput-input css-17tqjwc"/&gt; aka locator('#houseNumberOfDomicile')
+
 Call log:
-[2m  - waiting for getByRole('button', { name: /^Verify$/i })[22m
+[2m  - waiting for getByRole('textbox', { name: 'Numero' })[22m
 </pre></details></div>
   <script>
     (function () {
