@@ -36,31 +36,25 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/5/2026, 6:27:32 PM</div>
+  <div class="meta">8/5/2026, 6:08:40 PM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
             <span class="name">Tppay (Wallet) KYB onboarding</span>
-            <span class="dur">224.5s</span>
-          </summary><pre class="log">📧 email: d.kartozia+79@keepz.me
-📧 email OTP: 936904
-✍️ signature OTP: 671311
+            <span class="dur">1360.1s</span>
+          </summary><pre class="log">📧 email: d.kartozia+78@keepz.me
+📧 email OTP: 988715
+✍️ signature OTP: 439959
 ✅ Wallet selected, KYB started
 ✅ Organization
-✅ Legal address</pre><pre class="err">Error: locator.fill: Error: strict mode violation: getByRole('textbox', { name: 'Numero' }) resolved to 2 elements:
-    1) &lt;input type="text" aria-invalid="false" id="houseNumberOfResidence" name="3.members.0.houseNumberOfResidence" class="MuiInputBase-input MuiOutlinedInput-input css-17tqjwc"/&gt; aka locator('#houseNumberOfResidence')
-    2) &lt;input type="text" aria-invalid="false" id="houseNumberOfDomicile" name="3.members.0.houseNumberOfDomicile" class="MuiInputBase-input MuiOutlinedInput-input css-17tqjwc"/&gt; aka locator('#houseNumberOfDomicile')
-
-Call log:
-[2m  - waiting for getByRole('textbox', { name: 'Numero' })[22m
-</pre></details></div>
+✅ Legal address</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
