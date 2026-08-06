@@ -36,25 +36,31 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/5/2026, 6:08:40 PM</div>
+  <div class="meta">8/6/2026, 11:19:33 AM</div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Tppay (Wallet) KYB onboarding</span>
-            <span class="dur">1360.1s</span>
-          </summary><pre class="log">📧 email: d.kartozia+78@keepz.me
-📧 email OTP: 988715
-✍️ signature OTP: 439959
-✅ Wallet selected, KYB started
-✅ Organization
-✅ Legal address</pre></details></div>
+            <span class="name">PEP: Persona politica esposta - is a PEP</span>
+            <span class="dur">60.9s</span>
+          </summary><pre class="log">📱 Phone: 34004095 | 👤 Federica Costa
+✅ Login OK (phone + SMS OTP)
+✅ Registration submitted
+📧 KYC email: d.kartozia+86@keepz.me
+✅ Email verified (Gmail OTP)
+✅ Personal data (PEP: Persona politica esposta)
+✅ Document (Carta d’Identità)
+✅ AML questionnaire
+✅ Summary data verified (შევსებული მონაცემები სწორია)
+✅ Signature complete (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
