@@ -16,6 +16,12 @@
     .card.active { border-color:#58a6ff; box-shadow:0 0 0 1px #58a6ff; }
     .card.pass { color:#3fb950; } .card.fail { color:#f85149; } .card.skip { color:#7d8590; }
     .file { color:#7d8590; font-size:13px; margin:18px 0 6px; font-weight:600; }
+    .suite { display:flex; align-items:center; justify-content:space-between; gap:12px;
+             background:#12171e; border:1px solid #30363d; border-radius:6px;
+             padding:9px 16px; margin:12px 0 8px; }
+    .suite-name { font-weight:700; font-size:14px; color:#e6edf3; }
+    .suite-counts { font-size:13px; font-weight:600; }
+    .c-pass { color:#3fb950; } .c-fail { color:#f85149; } .c-skip { color:#7d8590; } .c-total { color:#7d8590; }
     .test-item { margin-bottom:6px; }
     .test { display:flex; align-items:center; gap:16px; background:#161b22; border:1px solid #30363d;
             border-radius:6px; padding:12px 16px; cursor:pointer; list-style:none; user-select:none; }
@@ -36,36 +42,39 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">8/13/2026, 11:42:09 AM</div>
+  <div class="meta">8/13/2026, 3:31:31 PM</div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
+    <button type="button" class="card active" data-filter="all">Total: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/registration.spec.ts</div><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">registration only — stop at account type choice</span>
-            <span class="dur">13436.9s</span>
-          </summary><pre class="log">📱 Phone: 34004183</pre></details></div>
+  
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
       const items = document.querySelectorAll('.test-item');
       const groups = document.querySelectorAll('.file-group');
+      const suiteGroups = document.querySelectorAll('.suite-group');
+      const visible = (g) => {
+        let any = false;
+        g.querySelectorAll('.test-item').forEach((it) => { if (it.style.display !== 'none') any = true; });
+        return any;
+      };
       function applyFilter(f) {
         items.forEach((it) => {
           it.style.display = (f === 'all' || it.dataset.status === f) ? '' : 'none';
         });
+        // ცარიელი suite-group + მისი header დამალვა
+        suiteGroups.forEach((sg) => {
+          const show = visible(sg);
+          sg.style.display = show ? '' : 'none';
+          const hdr = sg.previousElementSibling;
+          if (hdr && hdr.classList.contains('suite')) hdr.style.display = show ? '' : 'none';
+        });
         // ცარიელი file-group-ის header დამალვა
         groups.forEach((g) => {
-          let anyVisible = false;
-          g.querySelectorAll('.test-item').forEach((it) => {
-            if (it.style.display !== 'none') anyVisible = true;
-          });
-          g.style.display = anyVisible ? '' : 'none';
+          g.style.display = visible(g) ? '' : 'none';
         });
         cards.forEach((c) => c.classList.toggle('active', c.dataset.filter === f));
       }
