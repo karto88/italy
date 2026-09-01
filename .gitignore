@@ -8,3 +8,8 @@ node_modules/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+.email-counter
+.phone-counter
+
+# Claude Code local settings
+.claude/settings.local.json

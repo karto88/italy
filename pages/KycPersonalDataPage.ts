@@ -43,21 +43,34 @@ export class KycPersonalDataPage extends BasePage {
     cap: string;
     citizenship: string;
     fiscalCountryAML: string;
-  }) {
+    residencePermitFile?: string; // Cittadinanza ≠ Italia → permesso di soggiorno (PDF)
+  }, pep: {
+    relationship: string;
+    isPep?: boolean;
+    tipoIncarico?: string;
+    nazione?: string;
+    status?: string;
+  } = { relationship: 'No' }) {
     // 1-2. სქესი (Sesso)
     await this.selectFromCombo('Sesso', data.gender);
 
-    // 3. დაბადების თარიღი (masked textbox — ციფრები)
-    const dob = this.textbox('Data di nascita');
+    // 3. დაბადების თარიღი (dev ID)
+    const dob = this.page.locator('input[id="1.birth.date"]');
     await dob.click();
     await dob.pressSequentially(data.birthDate, { delay: 50 });
 
     // 4. მოქალაქეობა/ნაციონალობა დაბადებისას (Nazionalità)
     await this.selectFromCombo('Nazionalità', data.nationality);
 
-    // 5-6. დაბადების პროვინცია/კომუნა
-    await this.selectFromCombo('Provincia di nascita', data.provinceOfBirth);
-    await this.selectFromCombo('Comune di nascita', data.municipalityOfBirth);
+    // 5-6. დაბადების ადგილი — Italia → Provincia/Comune dropdowns;
+    //      უცხო Nazionalità → "Provincia di nascita" ქრება, "Comune di nascita" = ტექსტ-ველი
+    if (data.nationality === 'Italia') {
+      await this.selectFromCombo('Provincia di nascita', data.provinceOfBirth);
+      await this.selectFromCombo('Comune di nascita', data.municipalityOfBirth);
+    } else {
+      await this.page.waitForTimeout(600); // ველების გადარენდერება
+      await this.page.locator('input[name="1.birth.cityNameText"]').fill(data.municipalityOfBirth);
+    }
 
     // 7. Codice Fiscale გენერაცია (ზემოთა ველების შემდეგ)
     await this.page.getByRole('button', { name: 'Generate' }).click();
@@ -82,12 +95,51 @@ export class KycPersonalDataPage extends BasePage {
       .getByRole('checkbox')
       .check();
 
-    // 15-16. მოქალაქეობა + საგადასახადო ქვეყანა (AML)
+    // 15. მოქალაქეობა (Cittadinanza)
     await this.selectFromCombo('Cittadinanza', data.citizenship);
+
+    // 15a. Cittadinanza ≠ Italia → permesso di soggiorno (PDF) ატვირთვა
+    if (data.citizenship !== 'Italia' && data.residencePermitFile) {
+      const fc = this.page.waitForEvent('filechooser');
+      await this.page.getByRole('button', { name: 'Carica documenti' }).click();
+      await (await fc).setFiles(data.residencePermitFile);
+    }
+
+    // 16. საგადასახადო ქვეყანა (AML)
     await this.selectFromCombo('Paese fiscale AML', data.fiscalCountryAML);
 
-    // 17. radio "No"
-    await this.page.getByRole('radio', { name: 'No' }).check();
+    // 17. PEP ბლოკი (Rapporti con PEP + declared-ის შემთხვევაში დამატებითი ველები)
+    await this.setPep(pep);
+  }
+
+  /**
+   * PEP ბლოკი — "Rapporti con PEP" არჩევა + declared (≠ No)-ზე დამატებითი ველები.
+   */
+  private async setPep(pep: {
+    relationship: string;
+    isPep?: boolean;
+    tipoIncarico?: string;
+    nazione?: string;
+    status?: string;
+  }) {
+    await this.page.getByRole('radio', { name: pep.relationship, exact: true }).check();
+
+    if (pep.isPep) {
+      await this.page
+        .getByRole('checkbox', { name: /Sei una Persona Politicamente Esposta/i })
+        .check();
+    }
+
+    // declared (≠ No) + isPep → Tipo di incarico (პოზიცია) + Nazione + Status incarico
+    if (pep.relationship !== 'No') {
+      if (pep.tipoIncarico) {
+        const tipo = this.page.locator('label').filter({ hasText: pep.tipoIncarico });
+        await tipo.scrollIntoViewIfNeeded();
+        await tipo.click();
+      }
+      if (pep.nazione) await this.selectFromCombo('Nazione incarico', pep.nazione);
+      if (pep.status) await this.selectFromCombo('Status incarico', pep.status);
+    }
   }
 
   /** 18. Avanti (გაგრძელება) */

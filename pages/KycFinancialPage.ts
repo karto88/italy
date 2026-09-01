@@ -21,6 +21,12 @@ export class KycFinancialPage extends BasePage {
     await this.page.getByRole('option', { name: optionName }).first().click();
   }
 
+  /** MUI Select dev-ID-ით → option (partial/first) */
+  private async selectByIdOption(id: string, optionName: string) {
+    await this.page.locator(`[id="${id}"]`).click();
+    await this.page.getByRole('option', { name: optionName }).first().click();
+  }
+
   /**
    * AML კითხვარის შევსება.
    */
@@ -34,19 +40,17 @@ export class KycFinancialPage extends BasePage {
     patrimony: string;
     corporateRoles: string;
   }) {
-    // checkbox-ები (თითო ჯგუფში ერთი)
+    // checkbox-ები უცვლელი (თითო ჯგუფში ერთი)
     await this.checkbox(data.scopo).check();
     await this.checkbox(data.incomeOrigin).check();
     await this.checkbox(data.patrimonyOrigin).check();
 
-    // Professione svolta (dropdown → partial option)
-    await this.selectFromCombo('Professione svolta', new RegExp(data.profession, 'i'));
-
-    // შემდეგი dropdown-ები
-    await this.selectFromCombo('Tipologia di contratto', data.contractType);
-    await this.selectFromCombo('Reddito Annuo', data.annualIncome);
-    await this.selectFromCombo('Patrimonio', data.patrimony);
-    await this.selectFromCombo('Cariche societarie in', data.corporateRoles);
+    // dropdown-ები — dev ID-ები (3.QP_*)
+    await this.selectByIdOption('3.QP_JOB', data.profession); // Professione (partial)
+    await this.selectByIdOption('3.QP_CONT', data.contractType); // Tipologia di contratto
+    await this.selectByIdOption('3.QP_REVENUE', data.annualIncome); // Reddito Annuo
+    await this.selectByIdOption('3.QP_ASSETS', data.patrimony); // Patrimonio
+    await this.selectByIdOption('3.QP_PUBB', data.corporateRoles); // Cariche societarie
   }
 
   /** Avanti */

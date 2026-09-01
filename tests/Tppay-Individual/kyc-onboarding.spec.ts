@@ -1,20 +1,20 @@
-import { test } from '../utils/kycFixture';
+import { test } from '../../utils/kycFixture';
 
 /**
- * KYC Onboarding — Individual (ფიზიკური პირი).
+ * KYC Onboarding — Individual (document type ვარიაციები).
  * flow-ის ლოგიკა: utils/KycFlowHelper.ts | setup+cleanup: utils/kycFixture.ts
- * negative/boundary roadmap: docs/kyc-verification-notes.md
+ * PEP ვარიაციები: kyc-pep.spec.ts
  */
 test.describe('KYC Onboarding — Individual', () => {
-  test('onboarding with ID card', async ({ flow }) => {
+  test('onboarding with ID card -Individual', async ({ flow }) => {
     await flow.completeOnboarding({ document: { documentType: 'Carta d’Identità' } });
   });
 
-  test('onboarding with driver license', async ({ flow }) => {
+  test('onboarding with driver license - Individual', async ({ flow }) => {
     await flow.completeOnboarding({ document: { documentType: 'Patente' } });
   });
 
-  test('onboarding with passport', async ({ flow }) => {
+  test('onboarding with passport - Individual', async ({ flow }) => {
     await flow.completeOnboarding({ document: { documentType: 'Passaporto' } });
   });
 });

@@ -59,9 +59,12 @@ export class EmailHelper {
           if (fromEmail && !from.toLowerCase().includes(fromEmail.toLowerCase())) continue;
           if (date < afterMs) continue; // მხოლოდ send-ის შემდეგ მოსული (ძველი OTP-ს ავცდეთ)
 
-          // "verification code:515585"
-          let match = body.match(/verification code:\s*(\d{4,8})/i);
-          if (!match) match = body.match(/\b(\d{6})\b/); // fallback
+          // "verification code:515585" | "FIRMA ELETTRONICA: 908357" | fallback 6-digit
+          let match =
+            body.match(/verification code:\s*(\d{4,8})/i) ||
+            body.match(/FIRMA ELETTRONICA:\s*(\d{4,8})/i) ||
+            body.match(/codice di sicurezza[^0-9]*(\d{4,8})/i) ||
+            body.match(/\b(\d{6})\b/);
 
           if (match) {
             await connection.end();

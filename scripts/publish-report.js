@@ -38,10 +38,21 @@ console.log(testsPassed ? '✅ ტესტები გაიარა' : '⚠�
 // 2️⃣ git add
 git(['add', 'docs']);
 
-// 3️⃣ ცვლილება თუ არ არის — გამოვტოვოთ
+const REPORT_URL = 'https://karto88.github.io/italy/report/';
+
+// shareable URL-ის თვალსაჩინო ბეჭდვა
+function printUrl() {
+  console.log('\n┌───────────────────────────────────────────────┐');
+  console.log('│  📊 REPORT (გაუგზავნე ბმული):                 │');
+  console.log(`│  ${REPORT_URL}       │`);
+  console.log('└───────────────────────────────────────────────┘\n');
+}
+
+// 3️⃣ ცვლილება თუ არ არის — push საჭირო არ არის, მაგრამ URL მაინც დავბეჭდოთ
 const staged = spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: ROOT });
 if (staged.status === 0) {
   console.log('ℹ️ report-ში ცვლილება არ არის — push საჭირო არ არის');
+  printUrl();
   process.exit(testsPassed ? 0 : 1);
 }
 
@@ -51,8 +62,8 @@ git(['commit', '-m', `chore: update Playwright report ${stamp}`]);
 const push = git(['push']);
 
 if (push.status === 0) {
-  console.log('\n✅ Report გამოქვეყნდა:');
-  console.log('   https://karto88.github.io/italy/report/');
+  console.log('\n✅ Report გამოქვეყნდა GitHub Pages-ზე:');
+  printUrl();
 } else {
   console.log('\n❌ git push ჩავარდა — შეამოწმე კავშირი/უფლებები');
 }

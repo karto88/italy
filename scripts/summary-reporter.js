@@ -24,9 +24,17 @@ class SummaryReporter {
       .map((c) => (typeof c === 'string' ? c : c.toString('utf8')))
       .join('')
       .trim();
+    // describe (suite) chain — file-ის ქვემოთ, test title-ის ზემოთ (positive/negative გასაცალკევებლად)
+    const chain = [];
+    for (let s = test.parent; s; s = s.parent) {
+      const t = s.title || '';
+      if (!t || t.includes('.spec') || t.includes('.test')) break; // file-suite-ზე გაჩერება
+      chain.unshift(t);
+    }
     this.results.push({
       title: test.title,
       file: path.relative(process.cwd(), test.location.file).replace(/\\/g, '/'),
+      suite: chain.join(' › '), // მაგ. "KYB — REA province codes › negative — invalid province codes"
       status: result.status, // passed | failed | timedOut | skipped
       durationMs: result.duration,
       error: err ? err.message || String(err) : null, // ჩავარდნის მიზეზი
@@ -40,10 +48,12 @@ class SummaryReporter {
     const failed = this.results.filter((r) => r.status === 'failed' || r.status === 'timedOut').length;
     const skipped = this.results.filter((r) => r.status === 'skipped').length;
 
-    // ფაილების მიხედვით დაჯგუფება
+    // ფაილი → suite (describe) მიხედვით დაჯგუფება
     const byFile = {};
     for (const r of this.results) {
-      (byFile[r.file] = byFile[r.file] || []).push(r);
+      const s = r.suite || '';
+      byFile[r.file] = byFile[r.file] || {};
+      (byFile[r.file][s] = byFile[r.file][s] || []).push(r);
     }
 
     const fmt = (ms) => (ms >= 1000 ? `${(ms / 1000).toFixed(1)}s` : `${ms}ms`);
@@ -54,31 +64,44 @@ class SummaryReporter {
     // ფილტრისთვის სტატუსის ნორმალიზება: pass | fail | skip
     const cls = (s) => (s === 'passed' ? 'pass' : s === 'skipped' ? 'skip' : 'fail');
 
-    let rows = '';
-    for (const [file, tests] of Object.entries(byFile)) {
-      // file-group wrapper — ფილტრისას ცარიელი ჯგუფის header დასამალად
-      rows += `<div class="file-group">`;
-      rows += `<div class="file">${esc(file)}</div>`;
-      for (const t of tests) {
-        // ჩამოსაშლელი (accordion): ჩავარდნილი ღიაა default-ად, დანარჩენი დაკეცილი
-        const hasDetail = t.stdout || (isFail(t.status) && t.error);
-        const openAttr = isFail(t.status) ? ' open' : '';
-        rows += `<details class="test-item" data-status="${cls(t.status)}"${openAttr}>
+    const renderTest = (t) => {
+      // ჩამოსაშლელი (accordion): ჩავარდნილი ღიაა default-ად, დანარჩენი დაკეცილი
+      const hasDetail = t.stdout || (isFail(t.status) && t.error);
+      const openAttr = isFail(t.status) ? ' open' : '';
+      let h = `<details class="test-item" data-status="${cls(t.status)}"${openAttr}>
           <summary class="test">
             <span class="chev">${hasDetail ? '▶' : ''}</span>
             <span class="st" style="color:${color(t.status)}">${icon(t.status)} ${t.status}</span>
             <span class="name">${esc(t.title)}</span>
             <span class="dur">${fmt(t.durationMs)}</span>
           </summary>`;
-        // ტესტის ლოგები (console.log ბიჯები) — ყველა ბიჯი
-        if (t.stdout) {
-          rows += `<pre class="log">${esc(t.stdout)}</pre>`;
+      if (t.stdout) h += `<pre class="log">${esc(t.stdout)}</pre>`;
+      if (isFail(t.status) && t.error) h += `<pre class="err">${esc(t.error)}</pre>`;
+      h += `</details>`;
+      return h;
+    };
+
+    let rows = '';
+    for (const [file, suites] of Object.entries(byFile)) {
+      // file-group wrapper — ფილტრისას ცარიელი ჯგუფის header დასამალად
+      rows += `<div class="file-group">`;
+      rows += `<div class="file">${esc(file)}</div>`;
+      for (const [suite, tests] of Object.entries(suites)) {
+        // suite-header — describe + per-suite pass/fail count (positive/negative გასაცალკევებლად)
+        const sPass = tests.filter((r) => r.status === 'passed').length;
+        const sFail = tests.filter((r) => isFail(r.status)).length;
+        const sSkip = tests.filter((r) => r.status === 'skipped').length;
+        if (suite) {
+          const counts =
+            `<span class="c-pass">✅ ${sPass}</span>` +
+            (sFail ? ` <span class="c-fail">❌ ${sFail}</span>` : '') +
+            (sSkip ? ` <span class="c-skip">⏭️ ${sSkip}</span>` : '') +
+            ` <span class="c-total">/ ${tests.length}</span>`;
+          rows += `<div class="suite"><span class="suite-name">${esc(suite)}</span><span class="suite-counts">${counts}</span></div>`;
         }
-        // ჩავარდნის მიზეზი (error) — მხოლოდ failed/timedOut ტესტებზე, წითლად
-        if (isFail(t.status) && t.error) {
-          rows += `<pre class="err">${esc(t.error)}</pre>`;
-        }
-        rows += `</details>`;
+        rows += `<div class="suite-group">`;
+        for (const t of tests) rows += renderTest(t);
+        rows += `</div>`;
       }
       rows += `</div>`;
     }
@@ -101,6 +124,12 @@ class SummaryReporter {
     .card.active { border-color:#58a6ff; box-shadow:0 0 0 1px #58a6ff; }
     .card.pass { color:#3fb950; } .card.fail { color:#f85149; } .card.skip { color:#7d8590; }
     .file { color:#7d8590; font-size:13px; margin:18px 0 6px; font-weight:600; }
+    .suite { display:flex; align-items:center; justify-content:space-between; gap:12px;
+             background:#12171e; border:1px solid #30363d; border-radius:6px;
+             padding:9px 16px; margin:12px 0 8px; }
+    .suite-name { font-weight:700; font-size:14px; color:#e6edf3; }
+    .suite-counts { font-size:13px; font-weight:600; }
+    .c-pass { color:#3fb950; } .c-fail { color:#f85149; } .c-skip { color:#7d8590; } .c-total { color:#7d8590; }
     .test-item { margin-bottom:6px; }
     .test { display:flex; align-items:center; gap:16px; background:#161b22; border:1px solid #30363d;
             border-radius:6px; padding:12px 16px; cursor:pointer; list-style:none; user-select:none; }
@@ -121,7 +150,7 @@ class SummaryReporter {
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">${this.startedAt.toLocaleString()}</div>
+  <div class="meta">${this.startedAt.toLocaleString()} · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: ${total}</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: ${passed}</button>
@@ -134,17 +163,26 @@ class SummaryReporter {
       const cards = document.querySelectorAll('.card');
       const items = document.querySelectorAll('.test-item');
       const groups = document.querySelectorAll('.file-group');
+      const suiteGroups = document.querySelectorAll('.suite-group');
+      const visible = (g) => {
+        let any = false;
+        g.querySelectorAll('.test-item').forEach((it) => { if (it.style.display !== 'none') any = true; });
+        return any;
+      };
       function applyFilter(f) {
         items.forEach((it) => {
           it.style.display = (f === 'all' || it.dataset.status === f) ? '' : 'none';
         });
+        // ცარიელი suite-group + მისი header დამალვა
+        suiteGroups.forEach((sg) => {
+          const show = visible(sg);
+          sg.style.display = show ? '' : 'none';
+          const hdr = sg.previousElementSibling;
+          if (hdr && hdr.classList.contains('suite')) hdr.style.display = show ? '' : 'none';
+        });
         // ცარიელი file-group-ის header დამალვა
         groups.forEach((g) => {
-          let anyVisible = false;
-          g.querySelectorAll('.test-item').forEach((it) => {
-            if (it.style.display !== 'none') anyVisible = true;
-          });
-          g.style.display = anyVisible ? '' : 'none';
+          g.style.display = visible(g) ? '' : 'none';
         });
         cards.forEach((c) => c.classList.toggle('active', c.dataset.filter === f));
       }
@@ -159,10 +197,98 @@ class SummaryReporter {
     fs.writeFileSync(outPath, html);
     console.log(`\n📄 Summary report: ${this.outputFile} (${passed}/${total} passed)`);
 
+    // ისტორია — თითო რანი არქივში (rolling 10)
+    this.archiveRun(path.dirname(outPath), html, { total, passed, failed, skipped });
+
     // ავტომატური push GitHub Pages-ზე (გამორთვა: NO_PUSH=1)
     if (!process.env.NO_PUSH) {
       this.pushToGit();
     }
+  }
+
+  /**
+   * თითო რანის არქივი: runs/report-<ts>.html + runs.html (სია). ბოლო MAX_HISTORY ინახება.
+   */
+  archiveRun(reportDir, html, stats) {
+    const MAX_HISTORY = 10;
+    try {
+      const runsDir = path.join(reportDir, 'runs');
+      fs.mkdirSync(runsDir, { recursive: true });
+      const manifestPath = path.join(runsDir, 'manifest.json');
+
+      // safe timestamp filename (Windows-ზე ':' არ შეიძლება)
+      const ts = this.startedAt.toISOString().replace(/[:.]/g, '-');
+      const file = `report-${ts}.html`;
+      fs.writeFileSync(path.join(runsDir, file), html);
+
+      // manifest — ახალი ჩანაწერი თავში
+      let manifest = [];
+      try {
+        manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+      } catch {
+        manifest = [];
+      }
+      manifest.unshift({
+        file,
+        date: this.startedAt.toISOString(),
+        label: this.startedAt.toLocaleString(),
+        ...stats,
+      });
+
+      // rolling — ძველების წაშლა (MAX_HISTORY-ს ზემოთ)
+      while (manifest.length > MAX_HISTORY) {
+        const old = manifest.pop();
+        try {
+          fs.unlinkSync(path.join(runsDir, old.file));
+        } catch {
+          /* already gone */
+        }
+      }
+      fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+
+      // runs.html — ისტორიის სია
+      fs.writeFileSync(path.join(reportDir, 'runs.html'), this.buildHistoryHtml(manifest));
+      console.log(`📚 History: ${manifest.length}/${MAX_HISTORY} runs archived`);
+    } catch (e) {
+      console.log('⚠️ history archive გამოტოვდა:', e.message);
+    }
+  }
+
+  /** ისტორიის სია (runs.html) — manifest-იდან, ბმულებით runs/<file>-ზე */
+  buildHistoryHtml(manifest) {
+    const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const items = manifest
+      .map((m) => {
+        const fail = (m.failed || 0) > 0;
+        const badge = fail ? `❌ ${m.passed}/${m.total}` : `✅ ${m.passed}/${m.total}`;
+        const col = fail ? '#f85149' : '#3fb950';
+        return `<a class="run" href="runs/${esc(m.file)}">
+          <span class="run-date">${esc(m.label || m.date)}</span>
+          <span class="run-badge" style="color:${col}">${badge}</span>
+        </a>`;
+      })
+      .join('\n');
+    return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Report History</title>
+<style>
+  body { font-family: system-ui, sans-serif; background:#0d1117; color:#e6edf3; margin:0; padding:32px; }
+  h1 { font-size:20px; margin:0 0 4px; }
+  .meta { color:#7d8590; font-size:13px; margin-bottom:20px; }
+  .meta a { color:#58a6ff; text-decoration:none; }
+  .run { display:flex; align-items:center; justify-content:space-between; gap:16px;
+         background:#161b22; border:1px solid #30363d; border-radius:6px;
+         padding:12px 16px; margin-bottom:6px; text-decoration:none; color:#e6edf3; }
+  .run:hover { border-color:#58a6ff; }
+  .run-date { font-size:14px; }
+  .run-badge { font-size:13px; font-weight:600; }
+</style></head>
+<body>
+  <h1>📚 Report History</h1>
+  <div class="meta">ბოლო ${manifest.length} რანი · <a href="index.html">← Latest</a></div>
+  ${items || '<div class="meta">ჯერ არქივი ცარიელია</div>'}
+</body></html>`;
   }
 
   /** docs/report-ის ავტომატური git push (ჩუმად, შეცდომას ვერ არღვევს ტესტს) */

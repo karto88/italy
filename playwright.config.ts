@@ -11,8 +11,8 @@ dotenv.config();
 export default defineConfig({
   testDir: './tests',
 
-  /* ერთი ტესტის მაქსიმალური დრო — 2 წუთი */
-  timeout: 120000,
+  /* ერთი ტესტის მაქსიმალური დრო — 4 წუთი (სრული KYB flow: რეგისტრაცია + wizard + ორმაგი Firma OTP + liveness) */
+  timeout: 240000,
 
   /* ტესტები სერიულად (KYB/KYC flow-ები ერთ user-ს ეხება) */
   fullyParallel: false,

@@ -14,24 +14,21 @@ export class KycDocumentPage extends BasePage {
     super(page);
   }
 
-  private async selectFromCombo(comboName: string, optionName: string) {
-    await this.page.getByRole('combobox', { name: comboName }).click();
-    await this.page.getByRole('option', { name: optionName, exact: true }).click();
+  /** MUI Select dev-ID-ით → option */
+  private async selectByIdOption(id: string, optionName: string) {
+    await this.page.locator(`[id="${id}"]`).click();
+    await this.page.getByRole('option', { name: optionName, exact: true }).first().click();
   }
 
-  private textbox(name: string) {
-    return this.page.getByRole('textbox', { name });
-  }
-
-  /** masked date textbox — ციფრებით შევსება */
-  private async fillDate(name: string, digits: string) {
-    const field = this.textbox(name);
+  /** masked date input (dev-ID) — ციფრებით შევსება */
+  private async fillDateById(id: string, digits: string) {
+    const field = this.page.locator(`input[id="${id}"]`);
     await field.click();
     await field.pressSequentially(digits, { delay: 50 });
   }
 
   /**
-   * დოკუმენტის გვერდის შევსება.
+   * დოკუმენტის გვერდის შევსება (dev ID-ები: 2.document.*).
    */
   async fillPage(data: {
     documentType: string;
@@ -41,21 +38,12 @@ export class KycDocumentPage extends BasePage {
     issuePlace: string;
     issuingAuthority: string;
   }) {
-    // 1. დოკუმენტის ტიპი
-    await this.selectFromCombo('Tipo di documento', data.documentType);
-
-    // 2. ნომერი
-    await this.textbox('Numero del documento').fill(data.documentNumber);
-
-    // 3-4. გაცემის და ვადის თარიღები
-    await this.fillDate('Data di rilascio del documento', data.issueDate);
-    await this.fillDate('Data di scadenza del documento', data.expiryDate);
-
-    // 5. გაცემის ადგილი
-    await this.textbox('Luogo di rilascio').fill(data.issuePlace);
-
-    // 6. გამცემი ორგანო
-    await this.selectFromCombo('Autorità di rilascio', data.issuingAuthority);
+    await this.selectByIdOption('2.document.type', data.documentType);
+    await this.page.locator('[id="2.document.number"]').fill(data.documentNumber);
+    await this.fillDateById('2.document.releaseDate', data.issueDate);
+    await this.fillDateById('2.document.expiryDate', data.expiryDate);
+    await this.page.locator('[id="2.document.releaseCity"]').fill(data.issuePlace);
+    await this.selectByIdOption('2.document.releaseInstitution', data.issuingAuthority);
   }
 
   /** Avanti (შემდეგ გვერდზე გადასვლა) */
