@@ -42,28 +42,24 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/3/2026, 2:21:11 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/3/2026, 4:10:15 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet)</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><div class="suite"><span class="suite-name">KYC Onboarding — Individual · PEP</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">PEP Persona politica esposta incarico terminato</span>
-            <span class="dur">92.1s</span>
-          </summary><pre class="log">📧 email: d.kartozia+261@keepz.me
-📧 email OTP: 373137
-✍️ signature OTP: 558719
-✅ Wallet selected, KYB started
-✅ Organization
-✅ Legal address
-✅ Persone (1 პიროვნება)</pre><pre class="err">TimeoutError: locator.check: Timeout 15000ms exceeded.
+            <span class="name">Individual IS NO PEP</span>
+            <span class="dur">27.6s</span>
+          </summary><pre class="log">📱 Phone: 34004283 | 👤 Valentina Rossi
+✅ Login OK (phone + SMS OTP)
+✅ Registration submitted</pre><pre class="err">TimeoutError: locator.waitFor: Timeout 15000ms exceeded.
 Call log:
-[2m  - waiting for locator('[id="4.members.0.amlPepRelationship-Persona politica esposta"]')[22m
+[2m  - waiting for getByRole('button', { name: 'Inizia il processo KYC' }) to be visible[22m
 </pre></details></div></div>
   <script>
     (function () {
