@@ -42,32 +42,26 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/3/2026, 2:53:26 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/3/2026, 2:26:59 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet)</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet)</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">PEP Persona politica esposta incarico terminato</span>
-            <span class="dur">108.5s</span>
-          </summary><pre class="log">📧 email: d.kartozia+264@keepz.me
-📧 email OTP: 077817
-✍️ signature OTP: 360903
+            <span class="dur">6702.1s</span>
+          </summary><pre class="log">📧 email: d.kartozia+262@keepz.me
+📧 email OTP: 298588
+✍️ signature OTP: 461613
 ✅ Wallet selected, KYB started
 ✅ Organization
 ✅ Legal address
-✅ Persone (1 პიროვნება)
-✅ PEP (1 პიროვნება)
-✅ AML
-✅ Documenti (1 პიროვნება, Carta d’Identità → Comune)
-✅ Firma (ორმაგი ხელმოწერა)
-🎥 Tppay status: LIVENESS_PENDING
-🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div>
+✅ Persone (1 პიროვნება)</pre><pre class="err">Error: locator.click: Target page, context or browser has been closed</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
