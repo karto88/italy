@@ -42,7 +42,7 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/3/2026, 2:48:03 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/3/2026, 4:12:22 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
@@ -54,11 +54,29 @@
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">Individual IS NO PEP</span>
-            <span class="dur">24.8s</span>
-          </summary><pre class="log">📱 Phone: 34004277 | 👤 Giulia Costa
-✅ Login OK (phone + SMS OTP)</pre><pre class="err">TimeoutError: locator.waitFor: Timeout 15000ms exceeded.
+            <span class="dur">41.2s</span>
+          </summary><pre class="log">📱 Phone: 34004284 | 👤 Sara Moretti
+✅ Login OK (phone + SMS OTP)
+✅ Registration submitted
+📧 KYC email: d.kartozia+268@keepz.me
+✅ Email verified (Gmail OTP)
+✅ Personal data (PEP: No)</pre><pre class="err">TimeoutError: locator.click: Timeout 15000ms exceeded.
 Call log:
-[2m  - waiting for getByRole('button', { name: /^Verify$/i }) to be visible[22m
+[2m  - waiting for locator('[id="2.document.releaseInstitution"]')[22m
+[2m    - locator resolved to &lt;input disabled type="text" value="Comune" role="combobox" autocomplete="off" spellcheck="false" aria-invalid="false" aria-expanded="false" autocapitalize="none" aria-autocomplete="list" id="2.document.releaseInstitution" class="MuiInputBase-input MuiOutlinedInput-input Mui-disabled MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-1ht8zha"/&gt;[22m
+[2m  - attempting click action[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m    - waiting 20ms[22m
+[2m    2 × waiting for element to be visible, enabled and stable[22m
+[2m      - element is not enabled[22m
+[2m    - retrying click action[22m
+[2m      - waiting 100ms[22m
+[2m    28 × waiting for element to be visible, enabled and stable[22m
+[2m       - element is not enabled[22m
+[2m     - retrying click action[22m
+[2m       - waiting 500ms[22m
 </pre></details></div></div>
   <script>
     (function () {
