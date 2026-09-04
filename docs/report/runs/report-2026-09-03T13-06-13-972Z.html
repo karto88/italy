@@ -42,32 +42,70 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/3/2026, 3:03:11 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/3/2026, 5:06:13 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 5</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 2</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 3</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-onboarding.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet)</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-documents.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet) · Documenti (document type)</span><span class="suite-counts"><span class="c-pass">✅ 2</span> <span class="c-fail">❌ 3</span> <span class="c-total">/ 5</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Documenti — Carta dIdentita - Comune</span>
+            <span class="dur">88.7s</span>
+          </summary><pre class="log">📧 email: d.kartozia+275@keepz.me
+📧 email OTP: 032739</pre><pre class="err">Error: Email verification code not found in time</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">PEP Persona politica esposta in corso</span>
-            <span class="dur">156.9s</span>
-          </summary><pre class="log">📧 email: d.kartozia+265@keepz.me
-📧 email OTP: 183439
-✍️ signature OTP: 338115
+            <span class="name">Documenti — Patente  Motorizzazione Civile</span>
+            <span class="dur">118.9s</span>
+          </summary><pre class="log">📧 email: d.kartozia+276@keepz.me
+📧 email OTP: 829040
+✍️ signature OTP: 965184
 ✅ Wallet selected, KYB started
 ✅ Organization
 ✅ Legal address
 ✅ Persone (1 პიროვნება)
 ✅ PEP (1 პიროვნება)
 ✅ AML
-✅ Documenti (1 პიროვნება, Carta d’Identità → Comune)
+✅ Documenti (1 პიროვნება, Patente → Motorizzazione Civile)
 ✅ Firma (ორმაგი ხელმოწერა)
 🎥 Tppay status: LIVENESS_PENDING
-🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div>
+🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">Documenti — Passaporto  Questura</span>
+            <span class="dur">85.6s</span>
+          </summary><pre class="log">📧 email: d.kartozia+277@keepz.me
+📧 email OTP: 754566
+✍️ signature OTP: 251303
+✅ Wallet selected, KYB started
+✅ Organization
+✅ Legal address
+✅ Persone (1 პიროვნება)
+✅ PEP (1 პიროვნება)
+✅ AML
+✅ Documenti (1 პიროვნება, Passaporto → Questura)
+✅ Firma (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Documenti — Passaporto  Consolato Ambasciata</span>
+            <span class="dur">36.7s</span>
+          </summary><pre class="log">📧 email: d.kartozia+278@keepz.me
+📧 email OTP: 995175</pre><pre class="err">Error: locator.click: Target page, context or browser has been closed</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Documenti — Permesso di soggiorno - Questura</span>
+            <span class="dur">0ms</span>
+          </summary><pre class="err">Error: worker process exited unexpectedly (code=3221225794, signal=null)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
