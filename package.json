@@ -10,7 +10,8 @@
     "report": "playwright show-report",
     "publish-report": "node scripts/publish-report.js",
     "share-report": "git add docs && git commit -m \"chore: update test report\" && git push",
-    "codegen": "playwright codegen https://dev.portal.keepz.it/login"
+    "codegen": "playwright codegen https://dev.portal.keepz.it/login",
+    "create-bug": "node jira-agent/create-bug.js"
   },
   "keywords": [
     "playwright",

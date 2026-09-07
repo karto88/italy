@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
@@ -43,7 +43,14 @@ export class KycDocumentPage extends BasePage {
     await this.fillDateById('2.document.releaseDate', data.issueDate);
     await this.fillDateById('2.document.expiryDate', data.expiryDate);
     await this.page.locator('[id="2.document.releaseCity"]').fill(data.issuePlace);
-    await this.selectByIdOption('2.document.releaseInstitution', data.issuingAuthority);
+    // Ente rilascio — auto-fill + disabled, თუ documentType-ს 1 ვარიანტი აქვს (KI-175);
+    // Passaporto-ზე (2 ვარიანტი) აქტიურია და ხელით ვირჩევთ.
+    const enteField = this.page.locator('[id="2.document.releaseInstitution"]');
+    if (await enteField.isEnabled()) {
+      await this.selectByIdOption('2.document.releaseInstitution', data.issuingAuthority);
+    } else {
+      await expect(enteField).toHaveValue(data.issuingAuthority);
+    }
   }
 
   /** Avanti (შემდეგ გვერდზე გადასვლა) */

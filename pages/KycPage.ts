@@ -39,9 +39,6 @@ export class KycPage extends BasePage {
   private get continueButton() {
     return this.page.getByRole('button', { name: /^Continue$/i });
   }
-  private get verifyButton() {
-    return this.page.getByRole('button', { name: /^Verify$/i });
-  }
   private get startKycButton() {
     return this.page.getByRole('button', { name: 'Inizia il processo KYC' });
   }
@@ -79,13 +76,7 @@ export class KycPage extends BasePage {
     await this.continueButton.click();
   }
 
-  /** Verify ღილაკი — KYC ვერიფიკაციის დაწყება */
-  async clickVerify() {
-    await this.verifyButton.waitFor({ state: 'visible' });
-    await this.verifyButton.click();
-  }
-
-  /** "Inizia il processo KYC" — KYC პროცესის დაწყება (post-Verify) */
+  /** "Inizia il processo KYC" — KYC პროცესის დაწყება */
   async startKycProcess() {
     await this.startKycButton.waitFor({ state: 'visible' });
     await this.startKycButton.click();

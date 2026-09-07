@@ -50,13 +50,15 @@ export class WalletFlowHelper {
       esRoles?: { titolare?: boolean; firmatario?: boolean }; // member 0-ის role (default ორივე)
       usaTaxpayers?: number[]; // US taxpayer (W9) member index-ები — PEP ბიჯზე
       documentType?: string; // Documenti — Carta d'Identità | Patente | Passaporto (ყველა პიროვნებაზე)
+      enteRilascio?: string; // Passaporto-ს 2 ვარიანტიდან რომელი (default: Questura); სხვა ტიპებზე auto-resolve (KI-175)
+      formaGiuridica?: string; // Organization step — TEST_DATA.formaGiuridicaOptions-იდან (default: SRL)
       pep?: PepVariant; // member 0-ის PEP (default: No); დანარჩენები ყოველთვის No
     } = {}
   ) {
     await this.business.registerBusiness(opts.phone);
     await this.business.signAgreement();
     await this.selectWalletAndStartKyb();
-    await this.fillOrganization();
+    await this.fillOrganization(opts.formaGiuridica);
     await this.fillLegalAddress();
     await this.fillPersone(opts.extraMembers, opts.esRoles);
     await this.fillPep(1 + (opts.extraMembers?.length ?? 0), opts.usaTaxpayers ?? [], opts.pep);
@@ -65,7 +67,7 @@ export class WalletFlowHelper {
       `${TEST_DATA.business.signerName} ${TEST_DATA.business.signerSurname}`,
       ...(opts.extraMembers ?? []).map((m) => `${m.name} ${m.surname}`),
     ];
-    await this.fillDocumenti(memberNames, opts.documentType);
+    await this.fillDocumenti(memberNames, opts.documentType, opts.enteRilascio);
     await this.signFirma();
   }
 
@@ -149,13 +151,13 @@ export class WalletFlowHelper {
   }
 
   /** Organization step — P.IVA (11 ციფრი) / REA / Numero REA უნიკალური */
-  private async fillOrganization() {
+  private async fillOrganization(formaGiuridica?: string) {
     // 🔎 DISCOVERY: Organization გვერდზე გაჩერება (ახალი ID-ების მოსაწოდებლად)
     if (process.env.HOLD_ORG) await this.page.pause();
 
     await this.wallet.fillOrganization({
       piva: uniqueTaxCode(),
-      formaGiuridica: TEST_DATA.walletKyb.formaGiuridica,
+      formaGiuridica: formaGiuridica ?? TEST_DATA.walletKyb.formaGiuridica,
       codiceSAE: TEST_DATA.walletKyb.codiceSAE,
       codiceATECO: TEST_DATA.walletKyb.codiceATECO,
       rea: 'MI-' + String(Date.now()).slice(-6), // ახალი ფორმატი: MI-987654
@@ -245,12 +247,13 @@ export class WalletFlowHelper {
   }
 
   /** Documenti step — Visura Camerale (company, once) + პიროვნების დოკუმენტი (per-member, ბარათით) */
-  private async fillDocumenti(memberNames: string[], documentType?: string) {
+  private async fillDocumenti(memberNames: string[], documentType?: string, enteRilascio?: string) {
     const d = TEST_DATA.walletKyb.documenti;
     const tipo = documentType ?? d.tipoDocumento;
     // Carta d'Identità → ზუსტად 2 ფაილი (fronte+retro); Patente/Passaporto → 1
     const personFiles =
       tipo === TEST_DATA.documentTypes.cartaIdentita ? [d.personFile, d.personFileBack] : [d.personFile];
+    const ente = enteRilascio ?? this.resolveEnteRilascio(tipo);
     const persons = memberNames.map((cardName) => ({
       cardName,
       tipoDocumento: tipo,
@@ -258,12 +261,27 @@ export class WalletFlowHelper {
       numeroDocumento: d.numeroDocumento,
       dataRilascio: d.dataRilascio,
       dataScadenza: d.dataScadenza,
-      enteRilascio: d.enteRilascio,
+      enteRilascio: ente,
       luogoRilascio: d.luogoRilascio,
     }));
     await this.wallet.fillDocumenti({ companyFile: d.companyFile, persons });
     await this.wallet.clickAvanti();
-    console.log(`✅ Documenti (${memberNames.length} პიროვნება)`);
+    console.log(`✅ Documenti (${memberNames.length} პიროვნება, ${tipo} → ${ente})`);
+  }
+
+  /** documentType → სწორი Ente rilascio (KI-175 mapping). Passaporto default → Questura (იტალიაში გაცემული); Consolato — opts.enteRilascio-ით. */
+  private resolveEnteRilascio(tipo: string): string {
+    const { documentTypes: dt, enteRilascio: map } = TEST_DATA;
+    switch (tipo) {
+      case dt.cartaIdentita:
+        return map.cartaIdentita;
+      case dt.patente:
+        return map.patente;
+      case dt.passaporto:
+        return map.passaportoItalia;
+      default:
+        return map.permessoSoggiorno;
+    }
   }
 
   /** Firma step — ხელმოწერა (scroll → Firma 1/N → ორმაგი OTP) → Video → LIVENESS assert */

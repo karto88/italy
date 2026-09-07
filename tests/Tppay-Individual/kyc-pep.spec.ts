@@ -12,7 +12,7 @@ test.describe('KYC Onboarding — Individual · PEP', () => {
     await flow.completeOnboarding({ pep: TEST_DATA.pep.none, sign: true });
   });
 
-  test('PEP: Persona politica esposta - is a PEP', async ({ flow }) => {
+  test('PEP Persona politica esposta - is a PEP', async ({ flow }) => {
     await flow.completeOnboarding({ pep: TEST_DATA.pep.self, sign: true });
   });
 

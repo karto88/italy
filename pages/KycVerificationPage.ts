@@ -12,9 +12,6 @@ export class KycVerificationPage extends BasePage {
   }
 
   // --- Locators ---
-  private get startButton() {
-    return this.page.getByRole('button', { name: 'Inizia il processo KYC' });
-  }
   private get emailInput() {
     return this.page.getByRole('textbox', { name: 'Email *' });
   }
@@ -30,12 +27,6 @@ export class KycVerificationPage extends BasePage {
 
   private checkbox(text: string) {
     return this.page.locator('label').filter({ hasText: text }).getByRole('checkbox');
-  }
-
-  /** "Inizia il processo KYC" — ვერიფიკაციის დაწყება */
-  async start() {
-    await this.startButton.waitFor({ state: 'visible' });
-    await this.startButton.click();
   }
 
   /** იმეილის შეყვანა */

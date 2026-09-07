@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 /**
@@ -219,8 +219,8 @@ export class WalletKybPage extends BasePage {
   ) {
     for (const m of members) {
       const base = `4.members.${m.index}`;
-      // Relationship checkbox (id suffix = relationship ტექსტი)
-      await this.page.locator(`[id="${base}.amlPepRelationship-${m.relationship}"]`).check({ force: true });
+      // Relationship — radiogroup (radio option-ის accessible name = relationship ტექსტი)
+      await this.page.getByRole('radio', { name: m.relationship, exact: true }).check({ force: true });
 
       // No → არაფერი; სხვა → Dettagli PEP
       if (m.relationship !== 'No') {
@@ -364,8 +364,15 @@ export class WalletKybPage extends BasePage {
       const ds = dates.nth(1);
       await ds.click();
       await ds.pressSequentially(p.dataScadenza, { delay: 50 });
-      await card.getByRole('combobox', { name: 'Ente rilascio' }).click();
-      await this.page.getByRole('option', { name: p.enteRilascio, exact: true }).click();
+      // Ente rilascio — auto-fill + disabled, თუ documentType-ს 1 ვარიანტი აქვს (KI-175);
+      // Passaporto-ზე (2 ვარიანტი) აქტიურია და ხელით ვირჩევთ.
+      const enteField = card.getByRole('combobox', { name: 'Ente rilascio' });
+      if (await enteField.isEnabled()) {
+        await enteField.click();
+        await this.page.getByRole('option', { name: p.enteRilascio, exact: true }).click();
+      } else {
+        await expect(enteField).toHaveValue(p.enteRilascio);
+      }
       await card.getByRole('textbox', { name: 'Luogo di rilascio' }).fill(p.luogoRilascio);
     }
   }

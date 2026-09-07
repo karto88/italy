@@ -113,16 +113,16 @@ export class KycFlowHelper {
     });
     await this.kyc.acceptTerms();
     await this.kyc.clickContinue();
-    await this.kyc.clickVerify();
+    await this.kyc.startKycProcess();
     console.log('✅ Registration submitted');
   }
 
   /**
    * ეტაპი 2 — email ვერიფიკაცია.
-   * Inizia → email → Invia OTP → Gmail-იდან კოდის წაკითხვა → 3 თანხმობა → Continua.
+   * email → Invia OTP → Gmail-იდან კოდის წაკითხვა → 3 თანხმობა → Continua.
+   * (Registration-ის "Inizia il processo KYC" პირდაპირ ამ "Verifica Email" გვერდზე გადმოგდის — ცალკე start აღარ სჭირდება.)
    */
   async verifyEmail(email: string = uniqueEmail('d.kartozia', 'keepz.me')) {
-    await this.verification.start();
     await this.verification.enterEmail(email);
     console.log('📧 KYC email:', email);
 

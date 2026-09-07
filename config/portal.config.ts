@@ -30,6 +30,18 @@ export const TEST_DATA = {
     cartaIdentita: 'Carta d’Identità',
     patente: 'Patente',
     passaporto: 'Passaporto',
+    permessoSoggiorno: 'Permesso di soggiorno',
+  },
+
+  // "Ente rilascio" (გამცემი ორგანო) — documentType-ზე დამოკიდებული, KI-175.
+  // Carta d’Identità/Patente/Permesso di soggiorno → 1 ვარიანტი (auto-fill).
+  // Passaporto → 2 ვარიანტი: Questura (იტალიაში გაცემული) ან Consolato/Ambasciata (იტალიელი მოქალაქე საზღვარგარეთ).
+  enteRilascio: {
+    cartaIdentita: 'Comune',
+    patente: 'Motorizzazione Civile',
+    passaportoItalia: 'Questura',
+    passaportoEstero: 'Consolato / Ambasciata italiana',
+    permessoSoggiorno: 'Questura',
   },
 
   // KYC — ფიზიკური პირი
@@ -95,9 +107,25 @@ export const TEST_DATA = {
     emailBase: 'keepz1000', // Mailinator base inbox
   },
 
+  // Forma Giuridica dropdown — ყველა ვარიანტი (Organization step, dev fieldOptions-იდან)
+  formaGiuridicaOptions: [
+    'SRL',
+    'SRLS',
+    'SPA',
+    'SNC',
+    'SAS',
+    'SS (Società semplice)',
+    'SAPA',
+    'SC (Società cooperativa)',
+    'Consorzio',
+    'Società consortile',
+    'GEIE',
+    'Altro',
+  ],
+
   // Tppay (Wallet) — KYB wizard Organization step (static ველები; P.IVA/REA უნიკალური ტესტში)
   walletKyb: {
-    formaGiuridica: 'SRL', // ვარიანტები: SS (Società semplice) / SNC / SAS / SRL / SRLS / SPA
+    formaGiuridica: 'SRL', // ვარიანტები: იხ. TEST_DATA.formaGiuridicaOptions
     codiceSAE: '430',
     codiceATECO: '702209',
     provinciaIscrizione: '74646433',
@@ -157,7 +185,7 @@ export const TEST_DATA = {
       // ── დამთავრებული incarico (endDate, ongoing:false) ──
       // PEP თავად (Persona politica esposta)
       self: {
-        relationship: 'Persona politica esposta',
+        relationship: 'Persona politicamente esposta',
         type: 'Ministro', // amlPepType dropdown-იდან
         country: 'Italia',
         startDate: '01012019',
@@ -184,7 +212,7 @@ export const TEST_DATA = {
       },
       // ── მიმდინარე incarico (ancora in corso, ongoing:true → endDate არ საჭიროებს) ──
       selfOngoing: {
-        relationship: 'Persona politica esposta',
+        relationship: 'Persona politicamente esposta',
         type: 'Ministro',
         country: 'Italia',
         startDate: '01012019',
@@ -225,7 +253,7 @@ export const TEST_DATA = {
       numeroDocumento: '4353434',
       dataRilascio: '12052025', // 12/05/2025
       dataScadenza: '12052027', // 12/05/2027
-      enteRilascio: 'Police Headquarter', // Municipality | MCTC | Italian Representation Abroad | Ministry | Police Headquarter
+      enteRilascio: 'Comune', // default — tipoDocumento='Carta d’Identità' შესაბამისი (KI-175 mapping); resolveEnteRilascio()-ით override-დება
       luogoRilascio: 'Roma', // Luogo di rilascio
     },
   },
@@ -276,13 +304,14 @@ export const TEST_DATA = {
   },
 
   // KYC ვერიფიკაცია — დოკუმენტის გვერდი (Carta d'Identità სატესტო ქეისი)
+  // issuingAuthority — documentType-ზე დამოკიდებული (KI-175 mapping, იხ. enteRilascio ზემოთ); Carta d’Identità → Comune
   kycDocument: {
-    documentType: 'Carta d’Identità', // ასევე: 'Patente', 'Passaporto'
+    documentType: 'Carta d’Identità', // ასევე: 'Patente', 'Passaporto', 'Permesso di soggiorno'
     documentNumber: '4353434',
     issueDate: '11042025', // ddmmyyyy → 11/04/2025
     expiryDate: '11052027', // ddmmyyyy → 11/05/2027
     issuePlace: 'Roma',
-    issuingAuthority: 'Police Headquarter', // ასევე: MCTC, Italian Representation Abroad, Ministry
+    issuingAuthority: 'Comune', // Carta d’Identità-ს შესაბამისი; დანარჩენი ტიპებისთვის იხ. enteRilascio
   },
 
   // KYC ვერიფიკაცია — AML კითხვარი (Questionario Antiriciclaggio)
