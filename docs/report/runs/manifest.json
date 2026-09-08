@@ -1,5 +1,14 @@
 [
   {
+    "file": "report-2026-09-08T14-41-40-660Z.html",
+    "date": "2026-09-08T14:41:40.660Z",
+    "label": "9/8/2026, 6:41:40 PM",
+    "total": 1,
+    "passed": 0,
+    "failed": 1,
+    "skipped": 0
+  },
+  {
     "file": "report-2026-09-08T14-36-28-206Z.html",
     "date": "2026-09-08T14:36:28.206Z",
     "label": "9/8/2026, 6:36:28 PM",
@@ -78,15 +87,6 @@
     "total": 1,
     "passed": 0,
     "failed": 1,
-    "skipped": 0
-  },
-  {
-    "file": "report-2026-09-04T11-31-52-358Z.html",
-    "date": "2026-09-04T11:31:52.358Z",
-    "label": "9/4/2026, 3:31:52 PM",
-    "total": 0,
-    "passed": 0,
-    "failed": 0,
     "skipped": 0
   }
 ]
