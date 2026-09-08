@@ -42,24 +42,31 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/3/2026, 4:10:15 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/8/2026, 11:12:14 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><div class="suite"><span class="suite-name">KYC Onboarding — Individual · PEP</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-documents.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet) · Documenti (document type)</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">Individual IS NO PEP</span>
-            <span class="dur">27.6s</span>
-          </summary><pre class="log">📱 Phone: 34004283 | 👤 Valentina Rossi
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted</pre><pre class="err">TimeoutError: locator.waitFor: Timeout 15000ms exceeded.
+            <span class="name">Documenti — Carta dIdentita - Comune</span>
+            <span class="dur">93.4s</span>
+          </summary><pre class="log">📧 email: d.kartozia+280@keepz.me
+📧 email OTP: 467290
+✍️ signature OTP: 459590
+✅ Wallet selected, KYB started
+✅ Organization
+✅ Legal address
+✅ Persone (1 პიროვნება)
+✅ PEP (1 პიროვნება)
+✅ AML
+✅ Documenti (1 პიროვნება, Carta d’Identità → Comune)</pre><pre class="err">TimeoutError: locator.click: Timeout 15000ms exceeded.
 Call log:
-[2m  - waiting for getByRole('button', { name: 'Inizia il processo KYC' }) to be visible[22m
+[2m  - waiting for getByRole('button', { name: 'Firma', exact: true })[22m
 </pre></details></div></div>
   <script>
     (function () {
