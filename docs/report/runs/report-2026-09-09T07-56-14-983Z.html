@@ -42,24 +42,32 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/8/2026, 6:25:52 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/9/2026, 11:56:14 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/business-documents.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet) · Documenti (document type)</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-documents.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet) · Documenti (document type)</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
             <span class="name">Documenti — Carta dIdentita - Comune</span>
-            <span class="dur">71.4s</span>
-          </summary><pre class="log">📧 email: d.kartozia+284@keepz.me
-📧 email OTP: 246657</pre><pre class="err">TimeoutError: locator.click: Timeout 15000ms exceeded.
-Call log:
-[2m  - waiting for getByRole('button', { name: 'Continua' })[22m
-</pre></details></div></div>
+            <span class="dur">188.4s</span>
+          </summary><pre class="log">📧 email: d.kartozia+293@keepz.me
+📧 email OTP: 379305
+✍️ signature OTP: 320079
+✅ Wallet selected, KYB started
+✅ Organization
+✅ Legal address
+✅ Persone (1 პიროვნება)
+✅ PEP (1 პიროვნება)
+✅ AML
+✅ Documenti (1 პიროვნება, Carta d’Identità → Comune)
+✅ Firma (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
