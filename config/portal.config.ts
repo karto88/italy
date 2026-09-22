@@ -98,8 +98,8 @@ export const TEST_DATA = {
   },
 
   // Tppay Business (KYB) რეგისტრაცია
+  // companyName აღარაა აქ — randomData.uniqueCompanyName()-ით გენერირდება ყოველ ტესტზე ცალკე
   business: {
-    companyName: 'Test Company SRL',
     signerName: 'Mario', // შეიძლება random-ით
     signerSurname: 'Rossi',
     companyTaxCode: '12345678903', // ⚠️ format validation რეალურია — დაზუსტდეს
@@ -127,7 +127,7 @@ export const TEST_DATA = {
   walletKyb: {
     formaGiuridica: 'SRL', // ვარიანტები: იხ. TEST_DATA.formaGiuridicaOptions
     codiceSAE: '430',
-    codiceATECO: '702209',
+    codiceATECO: '702009',
     provinciaIscrizione: '74646433',
     dataIscrizione: '08032025', // 08/03/2025
     // legal address ქვე-ბიჯი
@@ -152,8 +152,7 @@ export const TEST_DATA = {
       paeseResidenza: 'Italia',
       provinciaResidenza: 'Agrigento',
       cittaResidenza: 'Agrigento',
-      // AML / Cittadinanza
-      paeseFiscaleAML: 'Italia',
+      // Cittadinanza
       cittadinanza: 'Italia', // ≠ Italia → residency doc (Carica documenti) სავალდებულო
     },
     // TE (Titolare Effettivo) — მე-2 პიროვნება (TC0.14+, multi-person)
@@ -173,7 +172,6 @@ export const TEST_DATA = {
       paeseResidenza: 'Italia',
       provinciaResidenza: 'Agrigento',
       cittaResidenza: 'Agrigento',
-      paeseFiscaleAML: 'Italia',
       cittadinanza: 'Italia',
       // TE = ბიზნეს ოუნერი → მხოლოდ Titolare effettivo
       roles: { titolare: true, firmatario: false },

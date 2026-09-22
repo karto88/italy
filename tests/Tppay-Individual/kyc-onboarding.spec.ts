@@ -7,14 +7,14 @@ import { test } from '../../utils/kycFixture';
  */
 test.describe('KYC Onboarding — Individual', () => {
   test('onboarding with ID card -Individual', async ({ flow }) => {
-    await flow.completeOnboarding({ document: { documentType: 'Carta d’Identità' } });
+    await flow.completeOnboarding({ document: { documentType: 'Carta d’Identità' }, sign: true });
   });
 
   test('onboarding with driver license - Individual', async ({ flow }) => {
-    await flow.completeOnboarding({ document: { documentType: 'Patente' } });
+    await flow.completeOnboarding({ document: { documentType: 'Patente' }, sign: true });
   });
 
   test('onboarding with passport - Individual', async ({ flow }) => {
-    await flow.completeOnboarding({ document: { documentType: 'Passaporto' } });
+    await flow.completeOnboarding({ document: { documentType: 'Passaporto' }, sign: true });
   });
 });

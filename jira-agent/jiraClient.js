@@ -58,17 +58,18 @@ async function searchIssues(jql, fields = ['summary', 'status', 'labels', 'updat
   return result.issues || [];
 }
 
-/** ბაგის შექმნა */
-async function createBug({ summary, description, labels = [] }) {
-  const result = await api('POST', '/issue', {
-    fields: {
-      project: { key: PROJECT_KEY },
-      issuetype: { name: 'Bug' },
-      summary,
-      description: adf(description),
-      labels,
-    },
-  });
+/** ბაგის შექმნა. epicKey — თუ მითითებულია, ამატებს parent epic-ს (default: არცერთი → "Everything Else") */
+async function createBug({ summary, description, labels = [], epicKey = null }) {
+  const fields = {
+    project: { key: PROJECT_KEY },
+    issuetype: { name: 'Bug' },
+    summary,
+    description: adf(description),
+    labels,
+  };
+  if (epicKey) fields.parent = { key: epicKey };
+
+  const result = await api('POST', '/issue', { fields });
   return result; // { id, key, self }
 }
 

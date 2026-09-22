@@ -27,13 +27,13 @@ export class KycPage extends BasePage {
   private get termsCheckbox() {
     return this.page
       .locator('label')
-      .filter({ hasText: 'I accept the Terms and' })
+      .filter({ hasText: 'general terms and conditions of use' })
       .getByRole('checkbox');
   }
   private get privacyCheckbox() {
     return this.page
       .locator('label')
-      .filter({ hasText: 'I have read and understood' })
+      .filter({ hasText: 'privacy notice of Keepz Pagamenti Italia' })
       .getByRole('checkbox');
   }
   private get continueButton() {

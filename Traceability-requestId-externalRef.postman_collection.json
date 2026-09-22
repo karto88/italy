@@ -1,0 +1,284 @@
+{
+  "info": {
+    "name": "Keepz v2 — 11 Traceability (requestId echo + externalRef reconciliation, §6)",
+    "description": "დამოუკიდებელი collection — არ საჭიროებს merge-ს. Auth: {{partnerToken}} (გარდა 01-ისა, რომელიც auth endpoint-ია და საკუთარ credentials-ს იყენებს). ვამოწმებთ: (1) requestId ყოველ endpoint-ზე ზუსტად უცვლელად ბრუნდება, (2) externalRef check-confirmation-ში ემთხვევა start-operation-ზე გაგზავნილს. ბიზნეს-ლოგიკის დასრულება (IDENTIFIED/VERIFIED/CONFIRMED) აქ არ გვჭირდება — ამიტომ app-side simulation ნაბიჯები არ არის საჭირო.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{partnerToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "01 auth — requestId echo",
+      "request": {
+        "auth": { "type": "noauth" },
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"grant_type\": \"client_credentials\",\n  \"client_id\": \"{{clientId}}\",\n  \"client_secret\": \"{{clientSecret}}\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/auth", "host": ["{{v2Base}}"], "path": ["operations", "external", "auth"] },
+        "description": "§7.1. საკუთარი credentials — bearer token არ სჭირდება. აქ არაფერს ვინახავთ environment-ში, რომ არსებულ partnerToken-ს არ გადავეხედო — მხოლოდ requestId echo-ს ვამოწმებთ."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 start-operation — requestId echo",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"TOPUP_WALLET\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-traceability\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"TEST-OP-TRACE-01\"\n  }\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+        "description": "§7.2. operationId + externalRef ვინახავთ, დანარჩენი ნაბიჯებისთვის (app-side app-ში მიღება არ გვჭირდება — GENERATED სტატუსზევე ვამოწმებთ requestId-ს)."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "pm.environment.set('traceOperationId', jsonData.operationId);",
+              "pm.environment.set('traceExternalRef', sentBody.externalRef);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 check-operation — requestId echo",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{traceOperationId}}\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/check-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-operation"] },
+        "description": "§7.3. ოპერაცია ჯერ GENERATED-ია (app-ში არავინ შეასრულა QR scan) — ეს ნორმალურია, მხოლოდ requestId echo გვაინტერესებს."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "pm.test('stage is GENERATED (app-ში ჯერ არავინ შესულა)', () => {",
+              "  pm.expect(jsonData.stage).to.eql('GENERATED');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 verify-operation — requestId echo (მოსალოდნელი: error, GENERATED-ზეა)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{traceOperationId}}\",\n  \"idOperator\": \"TEST-OP-TRACE-01\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/verify-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "verify-operation"] },
+        "description": "§7.4. ოპერაცია ჯერ GENERATED-ია, არა IDENTIFIED — ამიტომ INVALID_STAGE_TRANSITION-ის მსგავსი error მოსალოდნელია. §7.11-ის მიხედვით, error-ის სტრუქტურაშიც requestId ბრუნდება — სწორედ ეს გვაინტერესებს, არა ბიზნეს-წარმატება."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId present and echoed back, even on error (§7.11 error shape)', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "console.log('verify-operation response (expected error, stage=GENERATED):', pm.response.status, JSON.stringify(jsonData));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 check-confirmation — requestId echo + externalRef reconciliation",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{traceOperationId}}\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/check-confirmation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-confirmation"] },
+        "description": "§7.5. ესაა ის endpoint, სადაც externalRef რეალურად ბრუნდება response-ში (§7.5-ის ცხრილის მიხედვით, არა მხოლოდ COMPLETED-ზე — CONFIRMED-ის ან transactionId-ის მსგავსად 'Presente da COMPLETED' აქ არაა მითითებული)."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "pm.test('externalRef matches what was sent on start-operation (§6 reconciliation)', () => {",
+              "  pm.expect(jsonData.externalRef).to.eql(pm.environment.get('traceExternalRef'));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 cancel-operation — requestId echo (cleanup)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{traceOperationId}}\",\n  \"reason\": \"traceability test cleanup\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/operations/external/cancel-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "cancel-operation"] },
+        "description": "§7.6. GENERATED-ზე გაუქმება ყოველთვის დაშვებულია — ამასთანავე ასუფთავებს test-ოპერაციასაც."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "pm.test('stage is CANCELLED', () => pm.expect(jsonData.stage).to.eql('CANCELLED'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 existence-wallet — requestId echo",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"fiscalCode\": \"{{fiscalCode}}\"\n}"
+        },
+        "url": { "raw": "{{v2Base}}/existence/wallet", "host": ["{{v2Base}}"], "path": ["existence", "wallet"] },
+        "description": "§7.7."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 prePopulateKyc — requestId echo",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"individuals\": []\n}"
+        },
+        "url": { "raw": "{{v2Base}}/prePopulateKyc", "host": ["{{v2Base}}"], "path": ["prePopulateKyc"] },
+        "description": "§7.8. ცარიელი individuals — მხოლოდ requestId echo გვაინტერესებს, არა ბიზნეს-წარმატება (შეიძლება ცარიელი array-ზეც error დაბრუნდეს, მაგრამ requestId მაინც უნდა ჩანდეს)."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged (200 or error alike)', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "console.log('prePopulateKyc response:', pm.response.status, JSON.stringify(jsonData));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "09 prePopulateKyb — requestId echo",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"merchants\": []\n}"
+        },
+        "url": { "raw": "{{v2Base}}/prePopulateKyb", "host": ["{{v2Base}}"], "path": ["prePopulateKyb"] },
+        "description": "§7.9. ცარიელი merchants — მხოლოდ requestId echo გვაინტერესებს."
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const jsonData = pm.response.json();",
+              "const sentBody = JSON.parse(pm.request.body.raw);",
+              "pm.test('requestId echoed back unchanged (200 or error alike)', () => {",
+              "  pm.expect(jsonData.requestId).to.eql(sentBody.requestId);",
+              "});",
+              "console.log('prePopulateKyb response:', pm.response.status, JSON.stringify(jsonData));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

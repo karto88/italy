@@ -81,7 +81,7 @@ export class KycPersonalDataPage extends BasePage {
     await this.selectFromCombo('Comune di residenza', data.municipalityOfResidence);
 
     // 11. ქუჩა
-    await this.textbox('Via di residenza').fill(data.street);
+    await this.textbox('Indirizzo di residenza').fill(data.street);
     // 12. ქუჩის ნომერი (ცალკე ველი — obbligatorio)
     await this.textbox('Numero civico di residenza').fill(data.streetNumber);
 
@@ -106,7 +106,7 @@ export class KycPersonalDataPage extends BasePage {
     }
 
     // 16. საგადასახადო ქვეყანა (AML)
-    await this.selectFromCombo('Paese fiscale AML', data.fiscalCountryAML);
+    await this.selectFromCombo('Residenza Fiscale', data.fiscalCountryAML);
 
     // 17. PEP ბლოკი (Rapporti con PEP + declared-ის შემთხვევაში დამატებითი ველები)
     await this.setPep(pep);

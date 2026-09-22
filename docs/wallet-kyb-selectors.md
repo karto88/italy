@@ -42,7 +42,7 @@ Wizard სტეპები (progress bar): **Azienda → Sede → Persone → 
 | P.IVA | `getByRole('textbox', { name: 'P.IVA' })` | 11 ციფრი (უნიკალური) |
 | Forma Giuridica | `combobox 'Forma Giuridica'` → option | `AA` |
 | Codice SAE | `textbox 'Codice SAE'` | `430` |
-| Codice ATECO | `textbox 'Codice ATECO'` | `702209` |
+| Codice ATECO | `textbox 'Codice ATECO'` | `702009` |
 | REA | `getByRole('textbox', { name: 'REA', exact: true })` | `MI`+ციფრები (უნიკ.) |
 | Numero REA | `textbox 'Numero REA'` | უნიკ. |
 | Provincia di Iscrizione | `textbox 'Provincia di Iscrizione'` | `74646433` |

@@ -4,7 +4,7 @@ import { OtpPage } from '../pages/OtpPage';
 import { AccountTypePage } from '../pages/AccountTypePage';
 import { BusinessRegistrationPage } from '../pages/BusinessRegistrationPage';
 import { EmailHelper } from './EmailHelper';
-import { uniqueEmail, uniqueTaxCode, nextPhone } from './randomData';
+import { uniqueEmail, uniqueTaxCode, uniqueCompanyName, nextPhone } from './randomData';
 import { TEST_DATA } from '../config/portal.config';
 
 /**
@@ -65,7 +65,7 @@ export class BusinessFlowHelper {
     this.email = email;
     console.log('📧 email:', email);
     await this.business.fillRegistration({
-      companyName: TEST_DATA.business.companyName,
+      companyName: uniqueCompanyName(),
       signerName: TEST_DATA.business.signerName,
       signerSurname: TEST_DATA.business.signerSurname,
       companyTaxCode: uniqueTaxCode(),
@@ -103,15 +103,29 @@ export class BusinessFlowHelper {
     const sp = popup ?? page;
     await sp.waitForLoadState();
 
-    await sp.getByRole('button', { name: 'Inizia' }).click();
-    for (let i = 0; i < 8; i++) {
-      await sp.mouse.wheel(0, 1200);
+    // Yousign-ის გვერდი ხანდახან ნელა იტვირთება (3rd-party) — default 15s ხშირად არ ჰყოფნის.
+    await sp.getByRole('button', { name: 'Inizia' }).click({ timeout: 30000 });
+    // PDF viewer-ს ზოგჯერ დრო სჭირდება ჩასატვირთად — სანამ "Caricamento del documento in corso…"
+    // ჩანს, scroll ფუჭადაა, "Continua" საერთოდ არ ჩნდება (KI: flaky timeout).
+    await sp
+      .getByText('Caricamento del documento in corso')
+      .waitFor({ state: 'hidden', timeout: 30000 })
+      .catch(() => {});
+
+    // "Scorri fino alla fine per firmare" — Continua disabled-ია, სანამ 4-გვერდიან PDF-ს
+    // ბოლომდე არ ჩამოსქროლავ. mouse.wheel კურსორის პოზიციაზეა დამოკიდებული — ჯერ
+    // PDF viewer-ზე ვდგამ mouse-ს, მერე ვასქროლებ Continua-ს enabled-მდე (KI: flaky timeout).
+    const continuaBtn = sp.getByRole('button', { name: 'Continua' });
+    await sp.locator('main').hover().catch(() => {});
+    for (let i = 0; i < 40; i++) {
+      if (await continuaBtn.isEnabled().catch(() => false)) break;
+      await sp.mouse.wheel(0, 1500);
       await sp.waitForTimeout(300);
     }
 
     // Continua → signature OTP (email: FIRMA ELETTRONICA)
     const sentAt = Date.now();
-    await sp.getByRole('button', { name: 'Continua' }).click();
+    await continuaBtn.click({ timeout: 15000 });
     const emailHelper = new EmailHelper(
       process.env.GMAIL_USER || TEST_DATA.kyc.email,
       process.env.GMAIL_APP_PASSWORD || ''

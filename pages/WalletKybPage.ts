@@ -24,15 +24,46 @@ export class WalletKybPage extends BasePage {
     }
   }
 
-  private checkbox(text: string) {
-    return this.page.locator('label').filter({ hasText: text }).getByRole('checkbox');
-  }
-
-  /** 3 თანხმობის checkbox */
+  /**
+   * ყველა (4) თანხმობის checkbox მონიშვნა.
+   * checkbox-ები disabled-ია — თითოეულს თავისი "Open document" ღილაკი აქვს, რომელიც
+   * ორი ტიპის მოდალს ხსნის (KI: იგივე ნიმუში, რაც KycVerificationPage-ზე):
+   *  - PDF viewer — "Scroll to the bottom to continue" → Confirm გააქტიურდება
+   *    სქროლის ბოლომდე მისვლისას → Confirm-ზე დაჭერა ინიშნავს checkbox-ს.
+   *  - "This document opens in a new tab" (ბოლო, FEA T&C) — "Open in new tab" ღილაკი
+   *    ხსნის დოკუმენტს ახალ ტაბში და ავტომატურად ინიშნავს checkbox-ს.
+   */
   async acceptTerms() {
-    await this.checkbox('Ho preso visione dell’').check();
-    await this.checkbox('Ho preso visione del Foglio').check();
-    await this.checkbox('Accetto Termini e Condizioni').check();
+    const openDocButtons = this.page.getByRole('button', { name: 'Open document' });
+    await openDocButtons.first().waitFor({ state: 'visible' });
+    const count = await openDocButtons.count();
+
+    for (let i = 0; i < count; i++) {
+      await openDocButtons.nth(i).click();
+
+      const openInNewTabBtn = this.page.getByRole('button', { name: 'Open in new tab' });
+      if (await openInNewTabBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
+        const newPagePromise = this.page.context().waitForEvent('page');
+        await openInNewTabBtn.click();
+        const newPage = await newPagePromise;
+        await newPage.close();
+        continue;
+      }
+
+      // mouse.wheel კურსორის პოზიციაზეა დამოკიდებული და არასანდოა (modal-ის მდებარეობა
+      // "Open document" ღილაკის მიხედვით იცვლება) — ამის ნაცვლად JS-ით ვასქროლებთ
+      // ყველა scrollable ელემენტს პირდაპირ ბოლომდე.
+      const confirmBtn = this.page.getByRole('button', { name: 'Confirm', exact: true });
+      for (let s = 0; s < 40 && !(await confirmBtn.isEnabled().catch(() => false)); s++) {
+        await this.page.evaluate(() => {
+          document.querySelectorAll('*').forEach((el) => {
+            if (el.scrollHeight > el.clientHeight + 20) el.scrollTop = el.scrollHeight;
+          });
+        });
+        await this.page.waitForTimeout(250);
+      }
+      await confirmBtn.click({ timeout: 30000 });
+    }
   }
 
   /** "Inizia il processo KYB" — KYB wizard-ის დაწყება */
@@ -99,22 +130,22 @@ export class WalletKybPage extends BasePage {
     houseNumber: string;
     zipcode: string;
     country: string;
-    provincia: string; // ⚠️ აღარ გამოიყენება — Sede-ზე Provincia ველი ამოვარდა
+    provincia: string;
     citta: string;
     pec: string;
     phone: string;
   }) {
-    // ⚠️ ფორმა შეიცვალა: ველები role/name-ითაა (Via/Numero/CAP/Paese/Provincia/Citta).
-    // default-ზე ორი ბლოკია (legale + operativa). operativa checkbox-ის მონიშვნა
-    // ჩახურავს operativa-ს და legal ბლოკში ტოვებს Provincia+Citta comboboxes-ს (cascade).
-    // ამიტომ ჯერ checkbox → მერე ერთ (legal) ბლოკს ვავსებთ.
+    // ⚠️ ფორმა შეიცვალა: ველები role/name-ითაა (Indirizzo/Numero/CAP/Paese/Citta).
+    // "L'indirizzo della sede operativa corrisponde alla sede legale" checkbox ახლა
+    // default-ად მონიშნულია (ერთი ბლოკია, აღარაა legale/operativa ცალ-ცალკე) — .check() idempotent-ია.
+    // Provincia ველი Paese-ს არჩევის შემდეგ ჩნდება (ჯერ არ არის render-ილი გვერდის შესვლისას).
     await this.page
       .locator('label')
       .filter({ hasText: 'L’indirizzo della sede operativa' })
       .getByRole('checkbox')
       .check();
 
-    await this.textbox('Via').first().fill(data.street);
+    await this.textbox('Indirizzo').first().fill(data.street);
     await this.textbox('Numero').first().fill(data.houseNumber);
     await this.textbox('CAP').first().fill(data.zipcode);
 
@@ -123,6 +154,7 @@ export class WalletKybPage extends BasePage {
     await this.page.getByRole('option', { name: data.country, exact: true }).first().click();
 
     // Provincia → Citta cascade (comboboxes)
+    await this.page.waitForTimeout(600); // Provincia render Paese-ს არჩევის შემდეგ
     await this.selectFromCombo('Provincia', data.provincia);
     await this.page.waitForTimeout(600); // Citta options cascade
     await this.selectFromCombo('Citta', data.citta);
@@ -150,7 +182,6 @@ export class WalletKybPage extends BasePage {
     paeseResidenza: string;
     provinciaResidenza: string;
     cittaResidenza: string;
-    paeseFiscaleAML: string;
     cittadinanza: string;
     cittadinanzaDoc?: string; // Cittadinanza ≠ Italia → residency doc ატვირთვა
     roles?: { titolare?: boolean; firmatario?: boolean }; // default: ორივე (1 პიროვნება)
@@ -188,8 +219,8 @@ export class WalletKybPage extends BasePage {
     // --- Ruolo (member 0) — default ორივე (1 პიროვნება); ES≠TE-ზე მხოლოდ Firmatario ---
     await this.setMemberRoles(0, data.roles ?? { titolare: true, firmatario: true });
 
-    // --- AML / Cittadinanza (3.members.0.citizenship — ≠ Italia → residency doc / non-EU ლოგიკა) ---
-    await this.selectAutocompleteById(`${p}.amlFiscalCountry`, data.paeseFiscaleAML);
+    // --- Cittadinanza (3.members.0.citizenship — ≠ Italia → residency doc / non-EU ლოგიკა) ---
+    // ⚠️ "Paese fiscale AML" ველი ფორმიდან მთლიანად ამოვარდა (Cittadinanza უკვე ბოლო ველია)
     await this.selectAutocompleteById(`${p}.citizenship`, data.cittadinanza);
     if (data.cittadinanzaDoc) {
       const fc = this.page.waitForEvent('filechooser');
@@ -213,6 +244,7 @@ export class WalletKybPage extends BasePage {
       startDate?: string; // amlPepStartDate (ddmmyyyy)
       endDate?: string; // amlPepEndDate (ddmmyyyy) — მხოლოდ თუ ongoing=false
       ongoing?: boolean; // "L’incarico è ancora in corso" → true = ისევ თანამდებობაზე (endDate არ საჭიროებს)
+      fiscalResidence?: string; // Residenza Fiscale — Persone-დან PEP-ზე გადმოტანილი ველი (default: Italia)
       usaTaxpayer?: boolean; // Sono contribuente USA
       usaDoc?: string; // usaTaxpayer=true → W9 doc
     }[]
@@ -221,6 +253,11 @@ export class WalletKybPage extends BasePage {
       const base = `4.members.${m.index}`;
       // Relationship — radiogroup (radio option-ის accessible name = relationship ტექსტი)
       await this.page.getByRole('radio', { name: m.relationship, exact: true }).check({ force: true });
+
+      // Residenza Fiscale — ⚠️ Persone-დან PEP-ზე გადმოვიდა, სავალდებულოა თითო წევრზე
+      const frCombo = this.page.getByRole('combobox', { name: 'Residenza Fiscale' }).nth(m.index);
+      await frCombo.click();
+      await this.page.getByRole('option', { name: m.fiscalResidence ?? 'Italia', exact: true }).first().click();
 
       // No → არაფერი; სხვა → Dettagli PEP
       if (m.relationship !== 'No') {
@@ -424,7 +461,6 @@ export class WalletKybPage extends BasePage {
       paeseResidenza: string;
       provinciaResidenza: string;
       cittaResidenza: string;
-      paeseFiscaleAML: string;
       cittadinanza: string;
       roles?: { titolare?: boolean; firmatario?: boolean };
     }
@@ -472,8 +508,7 @@ export class WalletKybPage extends BasePage {
     // Ruolo — default: TE = მხოლოდ Titolare effettivo (ბიზნეს ოუნერი)
     await this.setMemberRoles(index, data.roles ?? { titolare: true, firmatario: false });
 
-    // Paese fiscale AML / Cittadinanza
-    await this.selectAutocompleteById(`${p}.amlFiscalCountry`, data.paeseFiscaleAML);
+    // Cittadinanza — "Paese fiscale AML" ველი ფორმიდან ამოვარდა
     await this.selectAutocompleteById(`${p}.citizenship`, data.cittadinanza);
   }
 
@@ -500,8 +535,16 @@ export class WalletKybPage extends BasePage {
    * Firma → Continua alla firma → SMS OTP → Firma (ორმაგი ხელმოწერა).
    */
   async signContract(sms = '12345678') {
+    // კონტრაქტის დოკუმენტი ბექენდზე გენერირდება (async job) — progressbar-მა შეიძლება
+    // 30წმ-ზე მეტიც გასტოვოს. სანამ ჩანს, ქვემოთ scroll ფუჭადაა, "Firma 1/N" საერთოდ
+    // არ ჩნდება enabled-ად (KI: flaky timeout — root cause: slow contract generation).
+    await this.page
+      .locator('[role="progressbar"]')
+      .waitFor({ state: 'hidden', timeout: 90000 })
+      .catch(() => {});
+
     const firma1 = this.page.getByRole('button', { name: 'Firma 1 /' });
-    for (let i = 0; i < 30 && !(await firma1.isEnabled().catch(() => false)); i++) {
+    for (let i = 0; i < 60 && !(await firma1.isEnabled().catch(() => false)); i++) {
       // ყველა scrollable კონტეინერი (nested-იც) ბოლომდე
       await this.page.evaluate(() => {
         document.querySelectorAll('*').forEach((el) => {
@@ -511,7 +554,7 @@ export class WalletKybPage extends BasePage {
       });
       await this.page.waitForTimeout(400);
     }
-    await firma1.click();
+    await firma1.click({ timeout: 15000 });
     await this.enterSmsOtp(sms);
     await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
     await this.page.getByRole('button', { name: 'Continua alla firma' }).click();

@@ -204,7 +204,6 @@ export class WalletFlowHelper {
       paeseResidenza: r.paeseResidenza,
       provinciaResidenza: r.provinciaResidenza,
       cittaResidenza: r.cittaResidenza,
-      paeseFiscaleAML: r.paeseFiscaleAML,
       cittadinanza: r.cittadinanza,
     });
 

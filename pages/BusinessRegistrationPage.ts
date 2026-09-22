@@ -36,10 +36,16 @@ export class BusinessRegistrationPage extends BasePage {
     return this.page.getByRole('textbox', { name: 'Confirm password' });
   }
   private get termsCheckbox() {
-    return this.page.locator('label').filter({ hasText: 'I accept the Terms and' }).getByRole('checkbox');
+    return this.page
+      .locator('label')
+      .filter({ hasText: 'general terms and conditions of use' })
+      .getByRole('checkbox');
   }
   private get privacyCheckbox() {
-    return this.page.locator('label').filter({ hasText: 'I have read and understood' }).getByRole('checkbox');
+    return this.page
+      .locator('label')
+      .filter({ hasText: 'privacy notice of Keepz Pagamenti Italia' })
+      .getByRole('checkbox');
   }
 
   private get verifyButton() {

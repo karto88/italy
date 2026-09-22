@@ -20,7 +20,7 @@ async function main() {
 
   const bug = await jira.createBug({
     summary,
-    description: description + `\n\n(Created manually — Jira Agent CLI)`,
+    description,
     labels: ['manual-bug'],
   });
 

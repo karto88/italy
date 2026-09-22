@@ -25,10 +25,6 @@ export class KycVerificationPage extends BasePage {
     return this.page.getByRole('button', { name: 'Continua' });
   }
 
-  private checkbox(text: string) {
-    return this.page.locator('label').filter({ hasText: text }).getByRole('checkbox');
-  }
-
   /** იმეილის შეყვანა */
   async enterEmail(email: string) {
     await this.emailInput.waitFor({ state: 'visible' });
@@ -46,11 +42,45 @@ export class KycVerificationPage extends BasePage {
     await this.emailOtpInput.pressSequentially(code, { delay: 50 });
   }
 
-  /** სამივე თანხმობის checkbox მონიშვნა */
+  /**
+   * ყველა (4) თანხმობის checkbox მონიშვნა.
+   * checkbox-ები disabled-ია — თითოეულს თავისი "Open document" ღილაკი აქვს, რომელიც
+   * ორი ტიპის მოდალს ხსნის:
+   *  - PDF viewer (3 დოკუმენტი) — "Scroll to the bottom to continue" → Confirm გააქტიურდება
+   *    სქროლის ბოლომდე მისვლისას → Confirm-ზე დაჭერა ინიშნავს checkbox-ს.
+   *  - "This document opens in a new tab" (ბოლო, FEA T&C) — "Open in new tab" ღილაკი
+   *    ხსნის დოკუმენტს ახალ ტაბში და ავტომატურად ინიშნავს checkbox-ს.
+   */
   async acceptTerms() {
-    await this.checkbox('Ho preso visione dell’').check();
-    await this.checkbox('Ho preso visione del Foglio').check();
-    await this.checkbox('Accetto Termini e Condizioni').check();
+    const openDocButtons = this.page.getByRole('button', { name: 'Open document' });
+    await openDocButtons.first().waitFor({ state: 'visible' });
+    const count = await openDocButtons.count();
+
+    for (let i = 0; i < count; i++) {
+      await openDocButtons.nth(i).click();
+
+      const openInNewTabBtn = this.page.getByRole('button', { name: 'Open in new tab' });
+      if (await openInNewTabBtn.isVisible({ timeout: 3000 }).catch(() => false)) {
+        const newPagePromise = this.page.context().waitForEvent('page');
+        await openInNewTabBtn.click();
+        const newPage = await newPagePromise;
+        await newPage.close();
+        continue;
+      }
+
+      // PDF viewer მოდალი — JS-ით ვასქროლებთ ყველა scrollable ელემენტს ბოლომდე
+      // (mouse.wheel კურსორის პოზიციაზეა დამოკიდებული და არასანდოა).
+      const confirmBtn = this.page.getByRole('button', { name: 'Confirm', exact: true });
+      for (let s = 0; s < 40 && !(await confirmBtn.isEnabled().catch(() => false)); s++) {
+        await this.page.evaluate(() => {
+          document.querySelectorAll('*').forEach((el) => {
+            if (el.scrollHeight > el.clientHeight + 20) el.scrollTop = el.scrollHeight;
+          });
+        });
+        await this.page.waitForTimeout(250);
+      }
+      await confirmBtn.click({ timeout: 30000 });
+    }
   }
 
   /** "Continua" */

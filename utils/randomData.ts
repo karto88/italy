@@ -13,8 +13,23 @@ const LAST_NAMES = [
   'Costa', 'Giordano', 'Mancini', 'Rizzo', 'Lombardi', 'Moretti',
 ];
 
+const COMPANY_WORDS = [
+  'Alfa', 'Meridiana', 'Nord Est', 'Vesuvio', 'Adriatica', 'Tirreno',
+  'Lombarda', 'Toscana', 'Etna', 'Dolomiti', 'Appennino', 'Riviera',
+  'Aurora', 'Fenice', 'Orion', 'Stella', 'Vela', 'Ponte',
+];
+
 function pick(arr: string[]): string {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+ * უნიკალური კომპანიის სახელი — random იტალიური სიტყვა + timestamp suffix + SRL.
+ * მაგ. "Vesuvio 483920 SRL" — ყოველ გაშვებაზე განსხვავებული (Yousign/PDF-ებში
+ * ერთი და იგივე სახელი რომ არ დუბლირდეს სხვადასხვა ტესტ-კომპანიაზე).
+ */
+export function uniqueCompanyName(): string {
+  return `${pick(COMPANY_WORDS)} ${String(Date.now()).slice(-6)} SRL`;
 }
 
 /** random სახელი/გვარი */

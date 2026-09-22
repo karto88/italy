@@ -1,0 +1,451 @@
+{
+  "info": {
+    "name": "Keepz v2 — 10 Product Purchase (PURCHASE_PRODUCT, RETAIL)",
+    "description": "დამოუკიდებელი collection — არ საჭიროებს merge-ს არსად. Auth: {{partnerToken}} — შენი 'auth — obtain a partner token' request-ი ავსებს ავტომატურად (dev environment description-ის მიხედვით). product.sku/label/merchantId — placeholder მონაცემებია, Keepz-ს კატალოგი არა აქვს, არსად არ მოწმდება (§7.2).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{partnerToken}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "10 Product Purchase (§7.2, PURCHASE_PRODUCT, RETAIL) — happy path",
+      "item": [
+        {
+          "name": "01 PARTNER start-operation (§7.2)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"admRegistrationCode\": \"PVR-TEST-1\",\n    \"idOperator\": \"OP-1\",\n    \"idTerminal\": \"TILL-2\"\n  },\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+            "description": "happy path — PURCHASE_PRODUCT/RETAIL. §7.2. Decision Table #1."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('resultCode is 200', () => pm.expect(jsonData.resultCode).to.eql(200));",
+                  "pm.test('required keys present', () => {",
+                  "  pm.expect(jsonData).to.have.property('operationId');",
+                  "  pm.expect(jsonData).to.have.property('stage');",
+                  "  pm.expect(jsonData).to.have.property('qrCodeUrl');",
+                  "  pm.expect(jsonData).to.have.property('expiresAt');",
+                  "});",
+                  "pm.test('stage is GENERATED (not AWAITING_USER_LOGIN — 2.2.0 breaking change)', () => {",
+                  "  pm.expect(jsonData.stage).to.eql('GENERATED');",
+                  "});",
+                  "pm.environment.set('operationId', jsonData.operationId);",
+                  "pm.environment.set('productExternalRef', JSON.parse(pm.request.body.raw).externalRef);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 PARTNER check-operation → GENERATED (§7.3)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/check-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage is GENERATED', () => pm.expect(jsonData.stage).to.eql('GENERATED'));",
+                  "pm.test('no personal data yet (only from IDENTIFIED)', () => {",
+                  "  pm.expect(jsonData.name).to.be.undefined;",
+                  "  pm.expect(jsonData.fiscalCode).to.be.undefined;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 APP establish-connection [COPY FROM YOUR 3.3]",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{v2Base}}/_PLACEHOLDER_COPY_FROM_3.3", "host": ["{{v2Base}}"], "path": ["_PLACEHOLDER_COPY_FROM_3.3"] },
+            "description": "⚠️ ეს APP-მხარის simulation-ია (არა protocol endpoint) — შენს არსებულ '3.3 APP establish-connection' request-ს პირდაპირ დააკოპირებ აქ, საკუთარი შიდა logic-ით. ჩემთვის ეს endpoint უცნობია."
+          },
+          "event": []
+        },
+        {
+          "name": "04 PARTNER check-operation → still GENERATED (§7.3)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/check-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage still GENERATED before QR scan', () => pm.expect(jsonData.stage).to.eql('GENERATED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 APP approve-document-sharing [COPY FROM YOUR 3.5]",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{v2Base}}/_PLACEHOLDER_COPY_FROM_3.5", "host": ["{{v2Base}}"], "path": ["_PLACEHOLDER_COPY_FROM_3.5"] },
+            "description": "⚠️ APP-მხარის simulation — დააკოპირე '3.5 APP approve-document-sharing' აქ."
+          },
+          "event": []
+        },
+        {
+          "name": "06 PARTNER check-operation → IDENTIFIED (the key step)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/check-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage is IDENTIFIED', () => pm.expect(jsonData.stage).to.eql('IDENTIFIED'));",
+                  "pm.test('personal data + document present', () => {",
+                  "  pm.expect(jsonData).to.have.property('name');",
+                  "  pm.expect(jsonData).to.have.property('dateOfBirth');",
+                  "  pm.expect(jsonData).to.have.property('fiscalCode');",
+                  "  pm.expect(jsonData).to.have.property('documents');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 PARTNER verify-operation (§7.4)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\",\n  \"idOperator\": \"OP-1\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/verify-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "verify-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage is VERIFIED', () => pm.expect(jsonData.stage).to.eql('VERIFIED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 PARTNER verify-operation again — idempotent (§7.4)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\",\n  \"idOperator\": \"OP-1\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/verify-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "verify-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200 (idempotent, not an error)', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage is still VERIFIED (same state, not a new error)', () => pm.expect(jsonData.stage).to.eql('VERIFIED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 APP confirm — money moves [COPY FROM YOUR 3.9]",
+          "request": {
+            "method": "POST",
+            "url": { "raw": "{{v2Base}}/_PLACEHOLDER_COPY_FROM_3.9", "host": ["{{v2Base}}"], "path": ["_PLACEHOLDER_COPY_FROM_3.9"] },
+            "description": "⚠️ APP-მხარის simulation — დააკოპირე '3.9 APP confirm — money moves' აქ."
+          },
+          "event": []
+        },
+        {
+          "name": "10 PARTNER check-confirmation → COMPLETED (§7.5)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"operationId\": \"{{operationId}}\"\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/check-confirmation", "host": ["{{v2Base}}"], "path": ["operations", "external", "check-confirmation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('operationStage is COMPLETED', () => pm.expect(jsonData.operationStage).to.eql('COMPLETED'));",
+                  "pm.test('transactionId + completedAt present on COMPLETED', () => {",
+                  "  pm.expect(jsonData).to.have.property('transactionId');",
+                  "  pm.expect(jsonData).to.have.property('completedAt');",
+                  "});",
+                  "pm.test('externalRef echoed back matches what we sent', () => {",
+                  "  pm.expect(jsonData.externalRef).to.eql(pm.environment.get('productExternalRef'));",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "10b Product Purchase — start-operation negative cases (Decision Table)",
+      "item": [
+        {
+          "name": "01 channel=ONLINE → INVALID_CHANNEL_CONTEXT (row #2)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"ONLINE\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-online\",\n  \"onlineContext\": { \"fiscalCode\": \"{{fiscalCode}}\" },\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+            "description": "PURCHASE_PRODUCT Retail-ისთვისაა განსაზღვრული (§7.2 ⚠️ მთავარი წესი) — ONLINE-ზე უნდა უარიყოს."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200 (should be rejected)', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('error shape per §7.11', () => {",
+                  "  pm.expect(jsonData).to.have.property('message');",
+                  "  pm.expect(jsonData).to.have.property('statusCode');",
+                  "  pm.expect(jsonData).to.have.property('exceptionGroup');",
+                  "});",
+                  "// TODO: პირველი რეალური გაშვების შემდეგ ჩაწერე ზუსტი statusCode/exceptionGroup მნიშვნელობა",
+                  "pm.test('message references INVALID_CHANNEL_CONTEXT', () => {",
+                  "  pm.expect(jsonData.message).to.match(/INVALID_CHANNEL_CONTEXT/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 missing retailContext → MISSING_CONDITIONAL_FIELD (row #3)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-noretail\",\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('message references MISSING_CONDITIONAL_FIELD', () => {",
+                  "  pm.expect(jsonData.message).to.match(/MISSING_CONDITIONAL_FIELD/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 missing product object → MISSING_CONDITIONAL_FIELD (row #4)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-noproduct\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"OP-1\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('message references MISSING_CONDITIONAL_FIELD', () => {",
+                  "  pm.expect(jsonData.message).to.match(/MISSING_CONDITIONAL_FIELD/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 product.sku missing → MISSING_CONDITIONAL_FIELD (row #5)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 4.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-nosku\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"OP-1\"\n  },\n  \"product\": {\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('message references MISSING_CONDITIONAL_FIELD', () => {",
+                  "  pm.expect(jsonData.message).to.match(/MISSING_CONDITIONAL_FIELD/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 amount=1.99 (below min) → AMOUNT_BELOW_MINIMUM (BVA)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 1.99,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-lowamount\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"OP-1\"\n  },\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+            "description": "BVA — 1.99 არის min-ს (2.00) ქვემოთ ერთი ცენტით."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('message references AMOUNT_BELOW_MINIMUM', () => {",
+                  "  pm.expect(jsonData.message).to.match(/AMOUNT_BELOW_MINIMUM/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 amount=2.00 (exact min) → should SUCCEED (BVA boundary)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 2.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{$timestamp}}-product-minamount\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"OP-1\"\n  },\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+            "description": "BVA — ზუსტად საზღვარზე (2.00) უნდა გაიაროს, არ იყოს off-by-one ბაგი."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status code is 200 (boundary must pass)', () => pm.response.to.have.status(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('stage is GENERATED', () => pm.expect(jsonData.stage).to.eql('GENERATED'));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 duplicate externalRef, different amount → EXTERNAL_REF_CONFLICT",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"requestId\": \"{{$guid}}\",\n  \"clientId\": \"{{clientId}}\",\n  \"channel\": \"RETAIL\",\n  \"operationType\": \"PURCHASE_PRODUCT\",\n  \"amount\": 9.00,\n  \"currency\": \"EUR\",\n  \"externalRef\": \"{{productExternalRef}}\",\n  \"retailContext\": {\n    \"idShop\": \"{{idShop}}\",\n    \"idOperator\": \"OP-1\"\n  },\n  \"product\": {\n    \"sku\": \"SKU-001\",\n    \"label\": \"Test Product\",\n    \"merchantId\": \"TEST-MERCHANT-01\"\n  }\n}"
+            },
+            "url": { "raw": "{{v2Base}}/operations/external/start-operation", "host": ["{{v2Base}}"], "path": ["operations", "external", "start-operation"] },
+            "description": "⚠️ წინასწარ გაუშვი 01 (happy path folder-იდან) ან სხვა request, რომ {{productExternalRef}} შეივსოს, შემდეგ ეს — იგივე externalRef, სხვა amount."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('is NOT 200', () => pm.expect(pm.response.code).to.not.eql(200));",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('message references EXTERNAL_REF_CONFLICT', () => {",
+                  "  pm.expect(jsonData.message).to.match(/EXTERNAL_REF_CONFLICT/i);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

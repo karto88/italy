@@ -162,9 +162,13 @@ export class KycFlowHelper {
     console.log(`✅ Personal data (PEP: ${pep.relationship})`);
 
     // document — default მონაცემები + override (მაგ. documentType: 'Patente')
-    await this.document.fillPage({ ...TEST_DATA.kycDocument, ...document });
+    // ⚠️ documentType override-ისას issuingAuthority-იც უნდა შეესაბამებოდეს (KI-175 mapping) —
+    // თუ ცალკე არ არის მითითებული, ავტომატურად resolve-დება resolveEnteRilascio()-ით.
+    const documentType = document.documentType ?? TEST_DATA.kycDocument.documentType;
+    const issuingAuthority = document.issuingAuthority ?? this.resolveEnteRilascio(documentType);
+    await this.document.fillPage({ ...TEST_DATA.kycDocument, ...document, issuingAuthority });
     await this.document.clickAvanti();
-    console.log(`✅ Document (${document.documentType ?? TEST_DATA.kycDocument.documentType})`);
+    console.log(`✅ Document (${documentType} → ${issuingAuthority})`);
 
     await this.financial.fillPage(TEST_DATA.kycFinancial);
     await this.financial.clickAvanti();
@@ -232,6 +236,21 @@ export class KycFlowHelper {
       `Tppay status უნდა იყოს LIVENESS_PENDING, არის: ${this.tppayStatus}`
     ).toMatch(/LIVENESS_PENDING|LIVENESS|PENDING|REVIEW/i);
     console.log('🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)');
+  }
+
+  /** documentType → სწორი Ente rilascio (KI-175 mapping). Passaporto default → Questura (იტალიაში გაცემული). */
+  private resolveEnteRilascio(tipo: string): string {
+    const { documentTypes: dt, enteRilascio: map } = TEST_DATA;
+    switch (tipo) {
+      case dt.cartaIdentita:
+        return map.cartaIdentita;
+      case dt.patente:
+        return map.patente;
+      case dt.passaporto:
+        return map.passaportoItalia;
+      default:
+        return map.permessoSoggiorno;
+    }
   }
 
   /** SMS OTP ველის შევსება (Inserisci il codice SMS *) */
