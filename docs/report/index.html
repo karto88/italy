@@ -42,23 +42,31 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/25/2026, 5:14:39 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/25/2026, 5:16:53 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Individual/mailinator-kyc.spec.ts</div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Individual/mailinator-kyc.spec.ts</div><div class="suite-group"><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
             <span class="name">KYC onboarding — mailinator test account</span>
-            <span class="dur">74.9s</span>
-          </summary><pre class="log">📱 Phone: 34004370 | 👤 Luca Conti
+            <span class="dur">102.4s</span>
+          </summary><pre class="log">📱 Phone: 34004371 | 👤 Sara Russo
 ✅ Login OK (phone + SMS OTP)
 ✅ Registration submitted
-📧 KYC email: keepztest01@mailinator.com</pre><pre class="err">Error: Mailinator: verification code not found in time (inbox: keepztest01)</pre></details></div></div>
+📧 KYC email: keepztest01@mailinator.com
+✅ Email verified
+✅ Personal data (PEP: No)
+✅ Document (Carta d’Identità → Comune)
+✅ AML questionnaire
+✅ Summary data verified (შევსებული მონაცემები სწორია)
+✅ Signature complete (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
