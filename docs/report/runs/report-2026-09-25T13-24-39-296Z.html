@@ -42,20 +42,21 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/24/2026, 5:00:12 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/25/2026, 5:24:39 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/registration.spec.ts</div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Business/mailinator-kyb.spec.ts</div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">registration only — stop at account type choice</span>
-            <span class="dur">265.7s</span>
-          </summary><pre class="log">📱 Phone: 34004364</pre></details></div></div>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">KYB onboarding — mailinator test account</span>
+            <span class="dur">70.5s</span>
+          </summary><pre class="log">📧 mailinator email: keepztest1@mailinator.com
+📧 email: keepztest1@mailinator.com</pre><pre class="err">Error: Mailinator: verification code not found in time (inbox: keepztest1)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
