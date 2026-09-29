@@ -42,22 +42,24 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">9/29/2026, 10:44:52 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">9/29/2026, 11:21:57 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Business/mailinator-kyb.spec.ts</div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Tppay-Individual/mailinator-kyc.spec.ts</div><div class="suite-group"><details class="test-item" data-status="fail">
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">KYB onboarding — mailinator test account</span>
-            <span class="dur">84.5s</span>
-          </summary><pre class="log">📧 mailinator email: keepztest4@mailinator.com
-📧 email: keepztest4@mailinator.com
-📧 email OTP: 708515</pre><pre class="err">Error: Mailinator: verification code not found in time (inbox: keepztest4)</pre></details></div></div>
+            <span class="st" style="color:#f85149">❌ interrupted</span>
+            <span class="name">KYC onboarding — mailinator test account</span>
+            <span class="dur">22.6s</span>
+          </summary><pre class="log">📧 mailinator email: keepztest5@mailinator.com
+📱 Phone: 34004387 | 👤 Andrea Lombardi
+✅ Login OK (phone + SMS OTP)
+✅ Registration submitted
+📧 KYC email: keepztest5@mailinator.com</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
