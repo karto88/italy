@@ -10,6 +10,7 @@ node_modules/
 /playwright/.auth/
 .email-counter
 .phone-counter
+.mailinator-counter
 
 # Claude Code local settings
 .claude/settings.local.json

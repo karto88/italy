@@ -8,6 +8,7 @@ import { KycPersonalDataPage } from '../pages/KycPersonalDataPage';
 import { KycDocumentPage } from '../pages/KycDocumentPage';
 import { KycFinancialPage } from '../pages/KycFinancialPage';
 import { EmailHelper } from './EmailHelper';
+import { MailinatorHelper } from './MailinatorHelper';
 import { randomName, nextPhone, uniqueEmail } from './randomData';
 import { TEST_DATA } from '../config/portal.config';
 
@@ -131,17 +132,18 @@ export class KycFlowHelper {
     const sentAt = Date.now();
     await this.verification.sendEmailOtp();
 
-    // OTP base inbox-ში მოდის (d.kartozia@keepz.me) — +N plus-addressing
-    const emailHelper = new EmailHelper(
-      process.env.GMAIL_USER || 'd.kartozia@keepz.me',
-      process.env.GMAIL_APP_PASSWORD || ''
-    );
-    const code = await emailHelper.getVerificationCode(60, 'noreply@keepz.it', sentAt - 10000);
+    // mailinator.com email → public inbox (HTTP, auth არ სჭირდება); სხვა შემთხვევაში Gmail (+N plus-addressing)
+    const code = email.toLowerCase().endsWith('@mailinator.com')
+      ? await new MailinatorHelper(email).getVerificationCode(60, sentAt - 10000)
+      : await new EmailHelper(
+          process.env.GMAIL_USER || 'd.kartozia@keepz.me',
+          process.env.GMAIL_APP_PASSWORD || ''
+        ).getVerificationCode(60, 'noreply@keepz.it', sentAt - 10000);
 
     await this.verification.enterEmailOtp(code);
     await this.verification.acceptTerms();
     await this.verification.clickContinua();
-    console.log('✅ Email verified (Gmail OTP)');
+    console.log('✅ Email verified');
   }
 
   /**

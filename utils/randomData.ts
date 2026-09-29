@@ -99,3 +99,23 @@ export function uniqueEmail(local = 'd.kartozia', domain = 'keepz.me'): string {
   fs.writeFileSync(counterFile, String(n));
   return `${local}+${n}@${domain}`;
 }
+
+/**
+ * უნიკალური mailinator.com მეილი (მაგ. keepztest3@mailinator.com) — ყოველ run-ზე ახალი inbox,
+ * იგივე ლოგიკით რაც uniqueEmail-ს (persistent counter ფაილი) — ძველი inbox-ის ხელახლა
+ * გამოყენებას (stale OTP / already-registered account) ვცილდებით.
+ */
+export function uniqueMailinatorEmail(prefix = 'keepztest'): string {
+  const fs = require('fs');
+  const path = require('path');
+  const counterFile = path.join(__dirname, '..', '.mailinator-counter');
+  let n = 1;
+  try {
+    n = parseInt(fs.readFileSync(counterFile, 'utf8').trim(), 10) + 1;
+  } catch {
+    n = 1;
+  }
+  if (!Number.isFinite(n) || n < 1) n = 1;
+  fs.writeFileSync(counterFile, String(n));
+  return `${prefix}${n}@mailinator.com`;
+}

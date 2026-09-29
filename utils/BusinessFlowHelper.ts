@@ -4,6 +4,7 @@ import { OtpPage } from '../pages/OtpPage';
 import { AccountTypePage } from '../pages/AccountTypePage';
 import { BusinessRegistrationPage } from '../pages/BusinessRegistrationPage';
 import { EmailHelper } from './EmailHelper';
+import { MailinatorHelper } from './MailinatorHelper';
 import { uniqueEmail, uniqueTaxCode, uniqueCompanyName, nextPhone } from './randomData';
 import { TEST_DATA } from '../config/portal.config';
 
@@ -49,9 +50,10 @@ export class BusinessFlowHelper {
 
   /**
    * საერთო ბიზნეს რეგისტრაცია: login → OTP → Business → ფორმა →
-   * email verify (Gmail OTP) → Continue. (Wallet/POS არჩევამდე.)
+   * email verify → Continue. (Wallet/POS არჩევამდე.)
+   * @param email თუ არ მიეთითება — უნიკალური Gmail (d.kartozia+N@keepz.me); @mailinator.com → public inbox OTP
    */
-  async registerBusiness(phone: string = nextPhone()) {
+  async registerBusiness(phone: string = nextPhone(), email: string = uniqueEmail('d.kartozia', 'keepz.me')) {
     await this.login.open();
     await this.login.login(phone);
     await this.otp.waitForScreen();
@@ -60,8 +62,6 @@ export class BusinessFlowHelper {
     await this.accountType.chooseBusiness();
     await this.business.clickContinue();
 
-    // უნიკალური email (d.kartozia+N@keepz.me) + tax code
-    const email = uniqueEmail('d.kartozia', 'keepz.me');
     this.email = email;
     console.log('📧 email:', email);
     await this.business.fillRegistration({
@@ -74,19 +74,27 @@ export class BusinessFlowHelper {
     });
     await this.business.acceptTerms();
 
-    // Verify → email OTP Gmail-იდან → OK → Continue
+    // Verify → email OTP → OK → Continue
     const sentAt = Date.now();
     await this.business.clickVerify();
-    const emailHelper = new EmailHelper(
-      process.env.GMAIL_USER || TEST_DATA.kyc.email,
-      process.env.GMAIL_APP_PASSWORD || ''
-    );
-    const code = await emailHelper.getVerificationCode(60, 'noreply@keepz.it', sentAt - 10000);
+    const code = await this.getEmailCode(sentAt - 10000);
     console.log('📧 email OTP:', code);
 
     await this.otp.enterCode(code);
     await this.business.confirmOtpSuccess();
     await this.business.clickContinue();
+  }
+
+  /** email verification code-ის წაკითხვა — mailinator.com → public inbox (HTTP), სხვა → Gmail IMAP */
+  private async getEmailCode(afterMs: number, fromEmail = 'noreply@keepz.it'): Promise<string> {
+    if ((this.email || '').toLowerCase().endsWith('@mailinator.com')) {
+      return new MailinatorHelper(this.email!).getVerificationCode(60, afterMs);
+    }
+    const emailHelper = new EmailHelper(
+      process.env.GMAIL_USER || TEST_DATA.kyc.email,
+      process.env.GMAIL_APP_PASSWORD || ''
+    );
+    return emailHelper.getVerificationCode(60, fromEmail, afterMs);
   }
 
   /**
@@ -126,11 +134,7 @@ export class BusinessFlowHelper {
     // Continua → signature OTP (email: FIRMA ELETTRONICA)
     const sentAt = Date.now();
     await continuaBtn.click({ timeout: 15000 });
-    const emailHelper = new EmailHelper(
-      process.env.GMAIL_USER || TEST_DATA.kyc.email,
-      process.env.GMAIL_APP_PASSWORD || ''
-    );
-    const sigOtp = await emailHelper.getVerificationCode(60, '', sentAt - 10000);
+    const sigOtp = await this.getEmailCode(sentAt - 10000, '');
     console.log('✍️ signature OTP:', sigOtp);
 
     await sp.getByRole('textbox', { name: /Inserisci il codice/i }).fill(sigOtp);

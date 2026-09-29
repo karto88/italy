@@ -46,6 +46,7 @@ export class WalletFlowHelper {
   async completeOnboarding(
     opts: {
       phone?: string;
+      email?: string; // default: უნიკალური Gmail (d.kartozia+N@keepz.me); @mailinator.com → public inbox OTP
       extraMembers?: (typeof TEST_DATA.walletKyb.te)[];
       esRoles?: { titolare?: boolean; firmatario?: boolean }; // member 0-ის role (default ორივე)
       usaTaxpayers?: number[]; // US taxpayer (W9) member index-ები — PEP ბიჯზე
@@ -55,7 +56,7 @@ export class WalletFlowHelper {
       pep?: PepVariant; // member 0-ის PEP (default: No); დანარჩენები ყოველთვის No
     } = {}
   ) {
-    await this.business.registerBusiness(opts.phone);
+    await this.business.registerBusiness(opts.phone, opts.email);
     await this.business.signAgreement();
     await this.selectWalletAndStartKyb();
     await this.fillOrganization(opts.formaGiuridica);
