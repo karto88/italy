@@ -42,100 +42,14 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/1/2026, 6:01:35 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/22/2026, 5:30:59 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 6</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 3</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 3</button>
+    <button type="button" class="card active" data-filter="all">Total: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Tppay-Individual/kyc-onboarding.spec.ts</div><div class="suite"><span class="suite-name">KYC Onboarding — Individual</span><span class="suite-counts"><span class="c-pass">✅ 3</span> <span class="c-total">/ 3</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">onboarding with ID card -Individual</span>
-            <span class="dur">70.7s</span>
-          </summary><pre class="log">📱 Phone: 34004397 | 👤 Riccardo Ricci
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+352@keepz.me
-✅ Email verified
-✅ Personal data (PEP: No)
-✅ Document (Carta d’Identità → Comune)
-✅ AML questionnaire
-✅ Summary data verified (შევსებული მონაცემები სწორია)
-✅ Signature complete (ორმაგი ხელმოწერა)
-🎥 Tppay status: LIVENESS_PENDING
-🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">onboarding with driver license - Individual</span>
-            <span class="dur">43.6s</span>
-          </summary><pre class="log">📱 Phone: 34004398 | 👤 Alessandro Mancini
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+353@keepz.me
-✅ Email verified
-✅ Personal data (PEP: No)
-✅ Document (Patente → Motorizzazione Civile)
-✅ AML questionnaire
-✅ Summary data verified (შევსებული მონაცემები სწორია)
-✅ Signature complete (ორმაგი ხელმოწერა)
-🎥 Tppay status: LIVENESS_PENDING
-🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">onboarding with passport - Individual</span>
-            <span class="dur">40.6s</span>
-          </summary><pre class="log">📱 Phone: 34004399 | 👤 Giulia Esposito
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+354@keepz.me
-✅ Email verified
-✅ Personal data (PEP: No)
-✅ Document (Passaporto → Questura)
-✅ AML questionnaire
-✅ Summary data verified (შევსებული მონაცემები სწორია)
-✅ Signature complete (ორმაგი ხელმოწერა)
-🎥 Tppay status: LIVENESS_PENDING
-🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div><div class="file-group"><div class="file">tests/Tppay-Individual/kyc-pep.spec.ts</div><div class="suite"><span class="suite-name">KYC Onboarding — Individual · PEP</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 3</span> <span class="c-total">/ 3</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">Individual IS NO PEP</span>
-            <span class="dur">74.9s</span>
-          </summary><pre class="log">📱 Phone: 34004400 | 👤 Giorgio Mancini
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+355@keepz.me</pre><pre class="err">Error: Email verification code not found in time</pre></details><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">PEP Persona politica esposta - is a PEP</span>
-            <span class="dur">52.5s</span>
-          </summary><pre class="log">📱 Phone: 34004401 | 👤 Elena Rizzo
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+356@keepz.me
-✅ Email verified</pre><pre class="err">TimeoutError: locator.check: Timeout 15000ms exceeded.
-Call log:
-[2m  - waiting for getByRole('radio', { name: 'Persona politica esposta', exact: true })[22m
-</pre></details><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">PEP - Familiare di una persona politica esposta</span>
-            <span class="dur">39.7s</span>
-          </summary><pre class="log">📱 Phone: 34004402 | 👤 Davide Conti
-✅ Login OK (phone + SMS OTP)
-✅ Registration submitted
-📧 KYC email: d.kartozia+357@keepz.me
-✅ Email verified</pre><pre class="err">TimeoutError: locator.check: Timeout 15000ms exceeded.
-Call log:
-[2m  - waiting for getByRole('checkbox', { name: /Sei una Persona Politicamente Esposta/i })[22m
-</pre></details></div></div>
+  
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
