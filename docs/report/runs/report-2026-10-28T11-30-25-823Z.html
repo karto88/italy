@@ -42,20 +42,32 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/22/2026, 5:36:22 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 3:30:25 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Payments/merchant-internal-transfer.spec.ts</div><div class="suite"><span class="suite-name">transfer PERSONAL - TECHNICAL</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Update-merchant-balance/update-merchant-balance.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">PERSONAL → TECHNICAL — OTP required</span>
-            <span class="dur">39.9s</span>
-          </summary><pre class="log">✅ PERSONAL → TECHNICAL 1 (OTP) — P 78.6 / T 16</pre></details></div></div>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">wrong OTP — front restarts the transfer (KI-472)</span>
+            <span class="dur">11.1s</span>
+          </summary><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
+
+Locator:  getByRole('button', { name: 'Send a new code (by email)' })
+Expected: hidden
+Received: visible
+Timeout:  5000ms
+
+Call log:
+[2m  - Expect "toBeHidden" with timeout 5000ms[22m
+[2m  - waiting for getByRole('button', { name: 'Send a new code (by email)' })[22m
+[2m    14 × locator resolved to &lt;button tabindex="0" type="button" class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-jcvu2z"&gt;…&lt;/button&gt;[22m
+[2m       - unexpected value "visible"[22m
+</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
