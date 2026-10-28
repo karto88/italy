@@ -42,142 +42,35 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 3:20:36 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 3:23:57 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 15</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 13</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 2</button>
+    <button type="button" class="card active" data-filter="all">Total: 3</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 3</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Update-merchant-balance/update-merchant-balance.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — positive</span><span class="suite-counts"><span class="c-pass">✅ 4</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 5</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Update-merchant-balance/update-merchant-balance.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — positive</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Business → Operating €1.00 — OTP by email</span>
-            <span class="dur">35.5s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €98.5 · Operating €35.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Operating → Business €1.00 — no OTP</span>
-            <span class="dur">10.6s</span>
-          </summary><pre class="log">💶 Business €98.5 · Operating €35.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Business → Operating €0.55 — OTP by email</span>
-            <span class="dur">27.2s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €98.95 · Operating €34.65 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Operating → Business €0.55 — no OTP</span>
-            <span class="dur">12.7s</span>
-          </summary><pre class="log">💶 Business €98.95 · Operating €34.65 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
             <span class="name">Whole balance — fills the full available amount</span>
-            <span class="dur">4.9s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6</pre><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
-
-Locator: getByText('€34.10', { exact: true })
-Expected: visible
-Error: strict mode violation: getByText('€34.10', { exact: true }) resolved to 5 elements:
-    1) &lt;p class="MuiTypography-root MuiTypography-body1 css-8jmm3s"&gt;€34.10&lt;/p&gt; aka getByText('€').nth(3)
-    2) &lt;p class="MuiTypography-root MuiTypography-body1 css-jyr72s"&gt;€34.10&lt;/p&gt; aka getByText('€').nth(4)
-    3) &lt;p class="MuiTypography-root MuiTypography-body1 css-1dm5pv3"&gt;€34.10&lt;/p&gt; aka getByText('€').nth(5)
-    4) &lt;p class="MuiTypography-root MuiTypography-body1 css-1dm5pv3"&gt;€34.10&lt;/p&gt; aka getByText('€34.10').nth(3)
-    5) &lt;p class="MuiTypography-root MuiTypography-body1 css-1euf2x5"&gt;€34.10&lt;/p&gt; aka getByRole('paragraph').filter({ hasText: '€34.10' })
-
-Call log:
-[2m  - Expect "toBeVisible" with timeout 5000ms[22m
-[2m  - waiting for getByText('€34.10', { exact: true })[22m
-</pre></details></div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 9</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">empty amount — error, nothing moves</span>
-            <span class="dur">5.3s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">amount 0 — error, nothing moves</span>
-            <span class="dur">5.2s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">3 decimals — error, nothing moves</span>
-            <span class="dur">5.2s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev"></span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">letters — not accepted in amount</span>
-            <span class="dur">3.5s</span>
-          </summary></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Business → Operating more than available — not enough funds</span>
-            <span class="dur">6.0s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Operating → Business more than available — not enough funds</span>
             <span class="dur">5.0s</span>
           </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
+💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details></div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 2</span> <span class="c-total">/ 2</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
             <span class="name">Business → Operating — Back on OTP step, nothing moves</span>
-            <span class="dur">8.0s</span>
+            <span class="dur">7.8s</span>
           </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
 💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
             <span class="name">Operating → Business — Back on confirm step, nothing moves</span>
-            <span class="dur">5.3s</span>
+            <span class="dur">5.6s</span>
           </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">wrong OTP — error, nothing moves</span>
-            <span class="dur">7.8s</span>
-          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
-💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">wrong OTP — resend not available, start a new transfer (KI-472)</span>
-            <span class="dur">11.4s</span>
-          </summary><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeDisabled[2m([22m[2m)[22m failed
-
-Locator:  getByRole('button', { name: 'Send a new code (by email)' })
-Expected: disabled
-Received: enabled
-Timeout:  5000ms
-
-Call log:
-[2m  - Expect "toBeDisabled" with timeout 5000ms[22m
-[2m  - waiting for getByRole('button', { name: 'Send a new code (by email)' })[22m
-[2m    14 × locator resolved to &lt;button tabindex="0" type="button" class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-jcvu2z"&gt;…&lt;/button&gt;[22m
-[2m       - unexpected value "enabled"[22m
-</pre></details></div></div>
+💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');

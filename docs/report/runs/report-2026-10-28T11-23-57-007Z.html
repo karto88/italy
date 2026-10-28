@@ -42,14 +42,35 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/22/2026, 5:30:59 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 3:23:57 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 0</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 3</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 3</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  
+  <div class="file-group"><div class="file">tests/Update-merchant-balance/update-merchant-balance.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — positive</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">Whole balance — fills the full available amount</span>
+            <span class="dur">5.0s</span>
+          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
+💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details></div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 2</span> <span class="c-total">/ 2</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">Business → Operating — Back on OTP step, nothing moves</span>
+            <span class="dur">7.8s</span>
+          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
+💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">Operating → Business — Back on confirm step, nothing moves</span>
+            <span class="dur">5.6s</span>
+          </summary><pre class="log">💶 Business €99.5 · Operating €34.1 · total €133.6
+💶 Business €99.5 · Operating €34.1 · total €133.6</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
