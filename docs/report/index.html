@@ -42,14 +42,30 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/27/2026, 5:54:46 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 2:56:17 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  
+  <div class="file-group"><div class="file">tests/Login/login.spec.ts</div><div class="suite-group"><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Login</span>
+            <span class="dur">61.4s</span>
+          </summary><pre class="err">Error: [2mexpect([22m[31mpage[39m[2m).[22mtoHaveURL[2m([22m[32mexpected[39m[2m)[22m failed
+
+Expected pattern: [32m/dashboard/[39m
+Received string:  [31m"https://dev.portal.keepz.it/otp"[39m
+Timeout: 5000ms
+
+Call log:
+[2m  - Expect "toHaveURL" with timeout 5000ms[22m
+[2m    14 × locator resolved to &lt;html lang="en"&gt;…&lt;/html&gt;[22m
+[2m       - unexpected value "https://dev.portal.keepz.it/otp"[22m
+</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
