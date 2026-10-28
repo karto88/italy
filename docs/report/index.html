@@ -42,80 +42,97 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 3:49:57 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 4:00:47 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 10</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 9</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 8</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 2</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Update-merchant-balance/negative/negative.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 9</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Update-merchant-balance/negative/negative.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 8</span> <span class="c-fail">❌ 2</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">Personal → Technical transfer — empty amount</span>
+            <span class="dur">0ms</span>
+          </summary><pre class="err">Error: page.goto: net::ERR_ABORTED at https://dev.portal.keepz.it/login
+Call log:
+[2m  - navigating to "https://dev.portal.keepz.it/login", waiting until "load"[22m
+</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">empty amount — error, nothing moves</span>
+            <span class="name">Personal → Technical transfer — amount 0</span>
+            <span class="dur">4.6s</span>
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+🧾 expected error: "Enter an amount greater than €0.00."
+🧾 actual error:   "Enter an amount greater than €0.00." ✅ matches
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">Personal → Technical transfer — amount 0.001 (3 decimals)</span>
             <span class="dur">4.9s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">amount 0 — error, nothing moves</span>
-            <span class="dur">4.1s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">3 decimals — error, nothing moves</span>
-            <span class="dur">4.2s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+🧾 expected error: "Use at most two decimals."
+🧾 actual error:   "Use at most two decimals." ✅ matches
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev"></span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">letters — not accepted in amount</span>
-            <span class="dur">2.5s</span>
+            <span class="name">Personal → Technical transfer — letters in amount</span>
+            <span class="dur">2.2s</span>
           </summary></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Business → Operating more than available — not enough funds</span>
+            <span class="name">Personal → Technical transfer — amount more than balance</span>
             <span class="dur">4.1s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+🧾 expected error: "Not enough funds in the business account: you can transfer up to €100.70."
+🧾 actual error:   "Not enough funds in the business account: you can transfer up to €100.70." ✅ matches
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Operating → Business more than available — not enough funds</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
+            <span class="name">Technical → Personal transfer — amount more than balance</span>
+            <span class="dur">3.9s</span>
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+🧾 expected error: "Not enough funds in the operating account: you can transfer up to €32.90."
+🧾 actual error:   "Not enough funds in the operating account: you can transfer up to €32.90." ✅ matches
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Business → Operating — Back on OTP step, nothing moves</span>
-            <span class="dur">7.0s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
+            <span class="name">Personal → Technical transfer — Back on OTP step</span>
+            <span class="dur">6.6s</span>
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Operating → Business — Back on confirm step, nothing moves</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="pass">
+            <span class="name">Technical → Personal transfer — Back on confirm step</span>
+            <span class="dur">4.2s</span>
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">wrong OTP — error, nothing moves</span>
-            <span class="dur">7.6s</span>
-          </summary><pre class="log">💶 Business €100.7 · Operating €32.9 · total €133.6
-💶 Business €100.7 · Operating €32.9 · total €133.6</pre></details><details class="test-item" data-status="fail" open>
+            <span class="name">Personal → Technical transfer — wrong OTP</span>
+            <span class="dur">7.8s</span>
+          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
+💶 after : Personal €100.70 · Technical €32.90 · total €133.60
+✅ balances unchanged</pre></details><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">wrong OTP — front restarts the transfer (KI-472)</span>
+            <span class="name">Personal → Technical transfer — wrong OTP, transfer starts again (KI-472)</span>
             <span class="dur">10.6s</span>
           </summary><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
 
