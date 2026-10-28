@@ -42,112 +42,32 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 4:02:22 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">10/28/2026, 4:15:08 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 10</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 9</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
+    <button type="button" class="card active" data-filter="all">Total: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Update-merchant-balance/negative/negative.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 9</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+  <div class="file-group"><div class="file">tests/Tppay-Business/business-documents.spec.ts</div><div class="suite"><span class="suite-name">KYB Onboarding — Business · Tppay (Wallet) · Documenti (document type)</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — empty amount</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-🧾 expected error: "Enter an amount greater than €0.00."
-🧾 actual error:   "Enter an amount greater than €0.00." ✅ matches
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — amount 0</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-🧾 expected error: "Enter an amount greater than €0.00."
-🧾 actual error:   "Enter an amount greater than €0.00." ✅ matches
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — amount 0.001 (3 decimals)</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-🧾 expected error: "Use at most two decimals."
-🧾 actual error:   "Use at most two decimals." ✅ matches
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev"></span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — letters in amount</span>
-            <span class="dur">2.8s</span>
-          </summary></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — amount more than balance</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-🧾 expected error: "Not enough funds in the business account: you can transfer up to €100.70."
-🧾 actual error:   "Not enough funds in the business account: you can transfer up to €100.70." ✅ matches
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Technical → Personal transfer — amount more than balance</span>
-            <span class="dur">5.3s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-🧾 expected error: "Not enough funds in the operating account: you can transfer up to €32.90."
-🧾 actual error:   "Not enough funds in the operating account: you can transfer up to €32.90." ✅ matches
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — Back on OTP step</span>
-            <span class="dur">7.0s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Technical → Personal transfer — Back on confirm step</span>
-            <span class="dur">4.6s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="pass">
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#3fb950">✅ passed</span>
-            <span class="name">Personal → Technical transfer — wrong OTP</span>
-            <span class="dur">7.2s</span>
-          </summary><pre class="log">💶 before: Personal €100.70 · Technical €32.90 · total €133.60
-💶 after : Personal €100.70 · Technical €32.90 · total €133.60
-✅ balances unchanged</pre></details><details class="test-item" data-status="fail" open>
-          <summary class="test">
-            <span class="chev">▶</span>
-            <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">Personal → Technical transfer — wrong OTP, transfer starts again (KI-472)</span>
-            <span class="dur">11.3s</span>
-          </summary><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
-
-Locator:  getByRole('button', { name: 'Send a new code (by email)' })
-Expected: hidden
-Received: visible
-Timeout:  5000ms
-
-Call log:
-[2m  - Expect "toBeHidden" with timeout 5000ms[22m
-[2m  - waiting for getByRole('button', { name: 'Send a new code (by email)' })[22m
-[2m    14 × locator resolved to &lt;button tabindex="0" type="button" class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-jcvu2z"&gt;…&lt;/button&gt;[22m
-[2m       - unexpected value "visible"[22m
-</pre></details></div></div>
+            <span class="name">Documenti — Carta dIdentita - Comune</span>
+            <span class="dur">123.3s</span>
+          </summary><pre class="log">📧 email: d.kartozia+9008@keepz.me
+📧 email OTP: 246558
+✍️ signature OTP: 000114
+✅ Wallet selected, KYB started
+✅ Organization
+✅ Legal address
+✅ Persone (1 პიროვნება)
+✅ PEP (1 პიროვნება)
+✅ AML
+✅ Documenti (1 პიროვნება, Carta d’Identità → Comune)
+✅ Firma (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Business passed Tppay verification → liveness (LIVENESS_PENDING)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
