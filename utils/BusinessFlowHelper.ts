@@ -94,7 +94,8 @@ export class BusinessFlowHelper {
       process.env.GMAIL_USER || TEST_DATA.kyc.email,
       process.env.GMAIL_APP_PASSWORD || ''
     );
-    return emailHelper.getVerificationCode(60, fromEmail, afterMs);
+    // toEmail მხოლოდ keepz-ის მეილზე; Yousign OTP SMS-ით მოდის (NEW_SMS → test@keepz.me), მასზე ფილტრი არ ვრცელდება
+    return emailHelper.getVerificationCode(60, fromEmail, afterMs, fromEmail ? this.email ?? undefined : undefined);
   }
 
   /**

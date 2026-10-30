@@ -26,6 +26,7 @@ export class WalletFlowHelper {
   constructor(private page: Page) {
     this.business = new BusinessFlowHelper(page);
     this.wallet = new WalletKybPage(page);
+
   }
 
   get tppayStatus() {
@@ -152,7 +153,7 @@ export class WalletFlowHelper {
   }
 
   /** Organization step — P.IVA (11 ციფრი) / REA / Numero REA უნიკალური */
-  private async fillOrganization(formaGiuridica?: string) {
+  private async fillOrganization(formaGiuridica?: string, companyCf?: string) {
     // 🔎 DISCOVERY: Organization გვერდზე გაჩერება (ახალი ID-ების მოსაწოდებლად)
     if (process.env.HOLD_ORG) await this.page.pause();
 
@@ -164,6 +165,8 @@ export class WalletFlowHelper {
       rea: 'MI-' + String(Date.now()).slice(-6), // ახალი ფორმატი: MI-987654
       dataIscrizione: TEST_DATA.walletKyb.dataIscrizione,
     });
+    if (companyCf) await this.wallet.setCompanyFiscalCode(companyCf);
+    this.lastCompanyCf = await this.wallet.companyFiscalCode();
     await this.wallet.clickAvanti();
     console.log('✅ Organization');
   }
@@ -187,9 +190,10 @@ export class WalletFlowHelper {
   /** Persone step — Rappresentante legale (+ optional დამატებითი TE-ები) */
   private async fillPersone(
     extraMembers: (typeof TEST_DATA.walletKyb.te)[] = [],
-    esRoles: { titolare?: boolean; firmatario?: boolean } = { titolare: true, firmatario: true }
+    esRoles: { titolare?: boolean; firmatario?: boolean } = { titolare: true, firmatario: true },
+    person: Partial<typeof TEST_DATA.walletKyb.rappresentante> = {}
   ) {
-    const r = TEST_DATA.walletKyb.rappresentante;
+    const r = { ...TEST_DATA.walletKyb.rappresentante, ...person };
     await this.wallet.fillPersone({
       roles: esRoles,
       birthDate: r.birthDate,
@@ -289,8 +293,124 @@ export class WalletFlowHelper {
     await this.wallet.clickFirma();
     await this.wallet.signContract();
     console.log('✅ Firma (ორმაგი ხელმოწერა)');
+    // STOP_BEFORE_LIVENESS=1 → Video/liveness-მდე გაჩერება, ბრაუზერი ღიად (KI-173 — ხელით გაუქმება / CF შეცვლა)
+    if (process.env.STOP_BEFORE_LIVENESS) {
+      console.log('⏸️ stopped before liveness');
+      await this.page.pause();
+    }
     await this.wallet.startVideoVerification();
     await this.assertLiveness();
+  }
+
+  /**
+   * KI-173 — Ricomincia ქეისი: KYB Video-მდე → Ricomincia → KYB თავიდან Video-მდე, ერთი ველის შეცვლით.
+   *   change 'personCf'  → Persone: Rappresentante სხვა დაბადება/სქესი → სხვა პირადი CF
+   *   change 'companyCf' → Azienda: კომპანიის Codice Fiscale სხვა მნიშვნელობით
+   * ლოგში: 📤 გაგზავნილი verification page-ები, 🚨 API ერორები სრული body-ით. ბოლოს liveness-მდე ჩერდება.
+   */
+  async ricomincia(change: 'personCf' | 'companyCf', opts: { beforeSign?: boolean } = {}): Promise<'passed' | 'blocked'> {
+    this.watchApi();
+    await this.business.registerBusiness();
+    await this.business.signAgreement();
+    await this.selectWalletAndStartKyb();
+
+    console.log(`━━ ROUND 1${opts.beforeSign ? ' (Firma-მდე, ხელმოწერის გარეშე)' : ''}`);
+    await this.fillKybUntilVideo(undefined, opts.beforeSign);
+    await this.clickRicomincia();
+
+    console.log(`━━ ROUND 2 (change: ${change})`);
+    const result = await this.raceProcessStarted(this.fillKybUntilVideo(change));
+    console.log(result === 'passed' ? '✅ round 2 reached Video' : "⛔ round 2 — 3116 Processo già avviato per l'utente");
+    if (process.env.HOLD) await this.page.pause();
+    return result;
+  }
+
+  /**
+   * User existence check (KI-173) — Firma-მდე (ხელმოწერის გარეშე) → Ricomincia → თავიდან, ერთი კოდის შეცვლით.
+   * expected: 'blocked' → TPPay 3116 უნდა დააბრუნოს; 'passed' → Video-მდე უნდა მივიდეს.
+   */
+  async userExistenceCheck(change: 'personCf' | 'companyCf', expected: 'passed' | 'blocked') {
+    const result = await this.ricomincia(change, { beforeSign: true });
+    expect(result, `Ricomincia → ${change}: მოსალოდნელი ${expected}, მიიღო ${result}`).toBe(expected);
+  }
+
+  /**
+   * მეორე რაუნდის შევსება ↔ 3116 ("Processo già avviato per l'utente") — რომელიც პირველი მოხდება.
+   * 'blocked' — TPPay-მ 3116 დააბრუნა; 'passed' — Video-მდე მივიდა.
+   */
+  private async raceProcessStarted(fill: Promise<void>): Promise<'passed' | 'blocked'> {
+    const blocked = this.page
+      .waitForResponse(
+        async (res) =>
+          /\/profile\/verification\/page\//.test(res.url()) &&
+          res.status() >= 400 &&
+          (await res.text().catch(() => '')).includes('"statusCode":3116'),
+        { timeout: 0 }
+      )
+      .then(() => 'blocked' as const);
+    const done = fill.then(() => 'passed' as const);
+    // დამარცხებული promise-ის rejection (page დახურვა) არ უნდა ჩავარდეს unhandled-ად
+    blocked.catch(() => {});
+    done.catch(() => {});
+    return Promise.race([done, blocked]);
+  }
+
+  private lastCompanyCf = '';
+
+  /** Azienda → … → Firma (Video-მდე); change — მეორე რაუნდზე შესაცვლელი ველი */
+  private async fillKybUntilVideo(change?: 'personCf' | 'companyCf', stopBeforeSign = false) {
+    await this.fillOrganization(undefined, change === 'companyCf' ? uniqueTaxCode() : undefined);
+    console.log(`🏢 company CF (sent): ${this.lastCompanyCf}`);
+    await this.fillLegalAddress();
+    await this.fillPersone(undefined, undefined, change === 'personCf' ? { birthDate: '20031990', sesso: 'M' } : {});
+    const personCf = await this.page.evaluate(() =>
+      [...document.querySelectorAll('input')].map((i) => i.value).find((v) => /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/.test(v))
+    );
+    console.log(`🪪 Rappresentante CF: ${personCf}`);
+    await this.fillPep();
+    await this.fillAml();
+    await this.fillDocumenti([`${TEST_DATA.business.signerName} ${TEST_DATA.business.signerSurname}`]);
+    if (stopBeforeSign) {
+      console.log('✋ Firma გვერდი — ხელმოწერის გარეშე');
+      return;
+    }
+    await this.wallet.clickFirma();
+    await this.wallet.signContract();
+    console.log('✅ Firma (ორმაგი ხელმოწერა) → Video');
+  }
+
+  /** Video: "Ricomincia" → "Sei sicuro?" მოდალი → Ricomincia (მოდალის ღილაკი — ბოლო Ricomincia გვერდზე) */
+  private async clickRicomincia() {
+    await this.page.getByRole('button', { name: 'Ricomincia' }).click();
+    await this.page.getByText('Sei sicuro?').waitFor({ state: 'visible' });
+    await this.page.getByRole('button', { name: 'Ricomincia' }).last().click();
+    await this.page.getByText('Sei sicuro?').waitFor({ state: 'hidden' });
+    const start = this.page.getByRole('button', { name: 'Inizia il processo KYB' });
+    if (await start.isVisible({ timeout: 3000 }).catch(() => false)) await start.click();
+    console.log('🔁 Ricomincia');
+  }
+
+  /** verification page-ების request body (📤) + API ერორები (🚨) ლოგში */
+  private watchApi() {
+    this.page.on('request', (req) => {
+      if (req.method() === 'POST' && /\/profile\/verification\/page\//.test(req.url())) {
+        const page = req.url().match(/page\/(\d+)/)?.[1];
+        // multipart — ფაილების binary ნაწილს ვჭრით, ვტოვებთ JSON/ტექსტურ ველებს
+        const body = (req.postDataBuffer()?.toString('utf8') ?? '')
+          .split(/-{2,}\S+/)
+          .filter((part) => !/Content-Type: (image|application\/pdf|application\/octet)/i.test(part))
+          .map((part) => part.replace(/Content-Disposition:[^\r\n]*|Content-Type:[^\r\n]*/gi, '').trim())
+          .filter(Boolean)
+          .join(' | ');
+        console.log(`📤 page ${page}: ${body.slice(0, 4000)}`);
+      }
+    });
+    this.page.on('response', async (res) => {
+      if (res.status() >= 400 && /\/api\//.test(res.url())) {
+        const body = await res.text().catch(() => '');
+        console.log(`🚨 ${res.status()} ${res.request().method()} ${res.url()}\n   ${body.slice(0, 500)}`);
+      }
+    });
   }
 
   /** LIVENESS status-ის დაცდა/ასერტი (profile/details → verificationInfo.tppay.status) */

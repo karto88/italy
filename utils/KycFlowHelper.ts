@@ -191,31 +191,7 @@ export class KycFlowHelper {
     expect(s).toContain('Italia'); // Nazionalità/Cittadinanza შევსებული
     console.log('✅ Summary data verified (შევსებული მონაცემები სწორია)');
 
-    // summary Firma → Yousign დოკუმენტი
-    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
-
-    // Yousign ხელმოწერა — ორმაგი, სტატიკური SMS OTP (12345678)
-    const SMS = '12345678';
-    // 1-ლი ხელმოწერა — დოკუმენტი ბოლომდე ჩავასქროლოთ სანამ "Firma 1 / N" გააქტიურდება
-    const firma1 = this.page.getByRole('button', { name: 'Firma 1 /' });
-    for (let i = 0; i < 30 && !(await firma1.isEnabled().catch(() => false)); i++) {
-      // ყველა scrollable კონტეინერი (nested-იც) ბოლომდე
-      await this.page.evaluate(() => {
-        document.querySelectorAll('*').forEach((el) => {
-          if (el.scrollHeight > el.clientHeight + 20) el.scrollTop = el.scrollHeight;
-        });
-        window.scrollTo(0, document.body.scrollHeight);
-      });
-      await this.page.waitForTimeout(400);
-    }
-    await firma1.click();
-    await this.enterSmsOtp(SMS);
-    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
-    // 2-ე ხელმოწერა
-    await this.page.getByRole('button', { name: 'Continua alla firma' }).click();
-    await this.enterSmsOtp(SMS);
-    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
-    console.log('✅ Signature complete (ორმაგი ხელმოწერა)');
+    await this.signContract();
 
     // Avvia verifica video → liveness (status: CONTRACT_SIGNED → LIVENESS_PENDING)
     await this.page.getByRole('button', { name: 'Avvia verifica video' }).click();
@@ -238,6 +214,125 @@ export class KycFlowHelper {
       `Tppay status უნდა იყოს LIVENESS_PENDING, არის: ${this.tppayStatus}`
     ).toMatch(/LIVENESS_PENDING|LIVENESS|PENDING|REVIEW/i);
     console.log('🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)');
+  }
+
+  /** summary Firma → Yousign ორმაგი ხელმოწერა (სტატიკური SMS OTP) → Video გვერდი */
+  private async signContract() {
+    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
+    // Yousign ხელმოწერა — ორმაგი, სტატიკური SMS OTP (12345678)
+    const SMS = '12345678';
+    // 1-ლი ხელმოწერა — დოკუმენტი ბოლომდე ჩავასქროლოთ სანამ "Firma 1 / N" გააქტიურდება
+    const firma1 = this.page.getByRole('button', { name: 'Firma 1 /' });
+    for (let i = 0; i < 30 && !(await firma1.isEnabled().catch(() => false)); i++) {
+      // ყველა scrollable კონტეინერი (nested-იც) ბოლომდე
+      await this.page.evaluate(() => {
+        document.querySelectorAll('*').forEach((el) => {
+          if (el.scrollHeight > el.clientHeight + 20) el.scrollTop = el.scrollHeight;
+        });
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+      await this.page.waitForTimeout(400);
+    }
+    await firma1.click();
+    await this.enterSmsOtp(SMS);
+    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
+    // 2-ე ხელმოწერა
+    await this.page.getByRole('button', { name: 'Continua alla firma' }).click();
+    await this.enterSmsOtp(SMS);
+    await this.page.getByRole('button', { name: 'Firma', exact: true }).click();
+    console.log('✅ Signature complete (ორმაგი ხელმოწერა)');
+  }
+
+  /**
+   * KI-173 — Ricomincia ქეისი (Individual): KYC Video-მდე → Ricomincia → KYC თავიდან Video-მდე.
+   *   change 'personCf' → Personal data: სხვა დაბადება/სქესი → სხვა CF
+   *   change 'none'     → იგივე მონაცემები (საკონტროლო)
+   * ლოგში: 🪪 CF ორივე რაუნდში, 🚨 API ერორები სრული body-ით. ბოლოს liveness-მდე ჩერდება.
+   */
+  async ricomincia(change: 'personCf' | 'none', opts: { beforeSign?: boolean } = {}): Promise<'passed' | 'blocked'> {
+    this.page.on('response', async (res) => {
+      if (res.status() >= 400 && /\/api\//.test(res.url())) {
+        const body = await res.text().catch(() => '');
+        console.log(`🚨 ${res.status()} ${res.request().method()} ${res.url()}\n   ${body.slice(0, 500)}`);
+      }
+    });
+    await this.registerIndividual();
+    await this.verifyEmail();
+
+    console.log(`━━ ROUND 1${opts.beforeSign ? ' (Firma-მდე, ხელმოწერის გარეშე)' : ''}`);
+    await this.fillKycUntilVideo({}, opts.beforeSign);
+
+    await this.page.getByRole('button', { name: 'Ricomincia' }).click();
+    await this.page.getByText('Sei sicuro?').waitFor({ state: 'visible' });
+    await this.page.getByRole('button', { name: 'Ricomincia' }).last().click();
+    await this.page.getByText('Sei sicuro?').waitFor({ state: 'hidden' });
+    console.log('🔁 Ricomincia');
+
+    console.log(`━━ ROUND 2 (change: ${change})`);
+    this.summary = null;
+    const result = await this.raceProcessStarted(
+      this.fillKycUntilVideo(change === 'personCf' ? { birthDate: '10071992', gender: 'F' } : {})
+    );
+    console.log(result === 'passed' ? '✅ round 2 reached Video' : "⛔ round 2 — 3116 Processo già avviato per l'utente");
+    if (process.env.HOLD) await this.page.pause();
+    return result;
+  }
+
+  /**
+   * User existence check (KI-173) — Firma-მდე (ხელმოწერის გარეშე) → Ricomincia → თავიდან.
+   * expected: 'blocked' → TPPay 3116 უნდა დააბრუნოს; 'passed' → Video-მდე უნდა მივიდეს.
+   */
+  async userExistenceCheck(change: 'personCf' | 'none', expected: 'passed' | 'blocked') {
+    const result = await this.ricomincia(change, { beforeSign: true });
+    expect(result, `Ricomincia → ${change}: მოსალოდნელი ${expected}, მიიღო ${result}`).toBe(expected);
+  }
+
+  /**
+   * მეორე რაუნდის შევსება ↔ 3116 ("Processo già avviato per l'utente") — რომელიც პირველი მოხდება.
+   * 'blocked' — TPPay-მ 3116 დააბრუნა; 'passed' — Video-მდე მივიდა.
+   */
+  private async raceProcessStarted(fill: Promise<void>): Promise<'passed' | 'blocked'> {
+    const blocked = this.page
+      .waitForResponse(
+        async (res) =>
+          /\/profile\/verification\/page\//.test(res.url()) &&
+          res.status() >= 400 &&
+          (await res.text().catch(() => '')).includes('"statusCode":3116'),
+        { timeout: 0 }
+      )
+      .then(() => 'blocked' as const);
+    const done = fill.then(() => 'passed' as const);
+    // დამარცხებული promise-ის rejection (page დახურვა) არ უნდა ჩავარდეს unhandled-ად
+    blocked.catch(() => {});
+    done.catch(() => {});
+    return Promise.race([done, blocked]);
+  }
+
+  /** Personal data → Document → AML → Firma (Video-მდე); personal — override */
+  private async fillKycUntilVideo(personal: Partial<typeof TEST_DATA.kycPersonal> = {}, stopBeforeSign = false) {
+    await this.personal.fillPage({ ...TEST_DATA.kycPersonal, ...personal }, TEST_DATA.pep.none);
+    const cf = await this.page.evaluate(() =>
+      [...document.querySelectorAll('input')].map((i) => i.value).find((v) => /^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/.test(v))
+    );
+    console.log(`🪪 CF: ${cf}`);
+    await this.personal.clickAvanti();
+    console.log('✅ Personal data');
+
+    const documentType = TEST_DATA.kycDocument.documentType;
+    await this.document.fillPage({ ...TEST_DATA.kycDocument, issuingAuthority: this.resolveEnteRilascio(documentType) });
+    await this.document.clickAvanti();
+    console.log('✅ Document');
+
+    await this.financial.fillPage(TEST_DATA.kycFinancial);
+    await this.financial.clickAvanti();
+    console.log('✅ AML questionnaire');
+    if (stopBeforeSign) {
+      console.log('✋ Firma გვერდი — ხელმოწერის გარეშე');
+      return;
+    }
+
+    await this.signContract();
+    console.log('✅ Firma → Video');
   }
 
   /** documentType → სწორი Ente rilascio (KI-175 mapping). Passaporto default → Questura (იტალიაში გაცემული). */

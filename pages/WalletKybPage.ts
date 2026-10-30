@@ -104,6 +104,20 @@ export class WalletKybPage extends BasePage {
     await d.pressSequentially(data.dataIscrizione, { delay: 50 });
   }
 
+  /** Azienda — კომპანიის Codice Fiscale (ველის მნიშვნელობა) */
+  async companyFiscalCode() {
+    return this.page.getByRole('textbox', { name: /Codice Fiscale/i }).first().inputValue();
+  }
+
+  /** Azienda — კომპანიის Codice Fiscale-ის შეცვლა (pre-filled რეგისტრაციიდან), KI-173 */
+  async setCompanyFiscalCode(value: string) {
+    const cf = this.page.getByRole('textbox', { name: /Codice Fiscale/i }).first();
+    const before = await cf.inputValue();
+    await expect(cf, 'Azienda: Codice Fiscale ველი რედაქტირებადი არ არის').toBeEditable();
+    await cf.fill(value);
+    console.log(`🔀 company Codice Fiscale: ${before} → ${value}`);
+  }
+
   /**
    * Azienda-ს გავლა შემდგარია თუ არა — Sede გვერდის ნიშანი ("Sede Legale e Contatti").
    * REA province-code ვალიდაცია Avanti-ზე ხდება: valid → Sede; invalid → Azienda-ზე რჩება.
@@ -190,6 +204,9 @@ export class WalletKybPage extends BasePage {
     const p = '3.members.0';
     const bd = this.page.locator(`input[id="${p}.dateOfBirth"]`).first();
     await bd.click();
+    // Ricomincia-ს მერე ველი შეიძლება შევსებული იყოს — ჯერ ვასუფთავებთ
+    await bd.press('ControlOrMeta+a');
+    await bd.press('Backspace');
     await bd.pressSequentially(data.birthDate, { delay: 50 });
 
     await this.selectAutocompleteById(`${p}.gender`, data.sesso);

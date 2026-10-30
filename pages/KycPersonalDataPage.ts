@@ -22,6 +22,20 @@ export class KycPersonalDataPage extends BasePage {
     await this.page.getByRole('option', { name: optionName, exact: true }).click();
   }
 
+  /**
+   * Comune — Provincia-ს (ხელახალი) არჩევა cascade-ით ასუფთავებს Comune-ს (Ricomincia-ს მერე, KI-173),
+   * ამიტომ ვამოწმებთ, რომ მნიშვნელობა დარჩა, თუ არა — თავიდან ვირჩევთ.
+   */
+  private async selectComune(comboName: string, optionName: string) {
+    const combo = this.page.getByRole('combobox', { name: comboName });
+    for (let i = 0; i < 3; i++) {
+      await this.page.waitForTimeout(600);
+      await this.selectFromCombo(comboName, optionName);
+      await this.page.waitForTimeout(600);
+      if ((await combo.inputValue()) === optionName) return;
+    }
+  }
+
   private textbox(name: string) {
     return this.page.getByRole('textbox', { name });
   }
@@ -57,6 +71,9 @@ export class KycPersonalDataPage extends BasePage {
     // 3. დაბადების თარიღი (dev ID)
     const dob = this.page.locator('input[id="1.birth.date"]');
     await dob.click();
+    // Ricomincia-ს მერე ველი შეიძლება შევსებული იყოს — ჯერ ვასუფთავებთ
+    await dob.press('ControlOrMeta+a');
+    await dob.press('Backspace');
     await dob.pressSequentially(data.birthDate, { delay: 50 });
 
     // 4. მოქალაქეობა/ნაციონალობა დაბადებისას (Nazionalità)
@@ -66,7 +83,7 @@ export class KycPersonalDataPage extends BasePage {
     //      უცხო Nazionalità → "Provincia di nascita" ქრება, "Comune di nascita" = ტექსტ-ველი
     if (data.nationality === 'Italia') {
       await this.selectFromCombo('Provincia di nascita', data.provinceOfBirth);
-      await this.selectFromCombo('Comune di nascita', data.municipalityOfBirth);
+      await this.selectComune('Comune di nascita', data.municipalityOfBirth);
     } else {
       await this.page.waitForTimeout(600); // ველების გადარენდერება
       await this.page.locator('input[name="1.birth.cityNameText"]').fill(data.municipalityOfBirth);
@@ -78,7 +95,7 @@ export class KycPersonalDataPage extends BasePage {
     // 8-10. საცხოვრებელი: ქვეყანა/პროვინცია/კომუნა
     await this.selectFromCombo('Paese di residenza', data.countryOfResidence);
     await this.selectFromCombo('Provincia di residenza', data.provinceOfResidence);
-    await this.selectFromCombo('Comune di residenza', data.municipalityOfResidence);
+    await this.selectComune('Comune di residenza', data.municipalityOfResidence);
 
     // 11. ქუჩა
     await this.textbox('Indirizzo di residenza').fill(data.street);

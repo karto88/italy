@@ -6,6 +6,14 @@ import { simpleParser } from 'mailparser';
  * მეილი: from noreply@keepz.it, subject "Thanks for adding your email!"
  *        body: "...email verification code:515585"
  */
+/** promise → reject, თუ ms-ში არ დასრულდა */
+function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) => setTimeout(() => reject(new Error(`IMAP timeout ${ms}ms`)), ms)),
+  ]);
+}
+
 export class EmailHelper {
   private config: any;
 
@@ -19,6 +27,7 @@ export class EmailHelper {
         tls: true,
         tlsOptions: { rejectUnauthorized: false },
         authTimeout: 10000,
+        connTimeout: 15000,
       },
     };
   }
@@ -31,20 +40,22 @@ export class EmailHelper {
   async getVerificationCode(
     timeoutSeconds = 30,
     fromEmail = 'noreply@keepz.it',
-    afterMs = Date.now() - 60000
+    afterMs = Date.now() - 60000,
+    toEmail?: string // მხოლოდ ამ მისამართზე მოსული მეილი (plus-addressing — სხვა 6-ციფრიანი მეილები რომ არ აირიოს)
   ): Promise<string> {
     const startTime = Date.now();
 
     while (Date.now() - startTime < timeoutSeconds * 1000) {
       try {
-        const connection = await imaps.connect(this.config);
-        await connection.openBox('INBOX');
+        // connect/search ზოგჯერ უსასრულოდ ეკიდება (Gmail IMAP) — თითო ცდა 20წმ-ით შემოვფარგლოთ
+        const connection: any = await withTimeout(imaps.connect(this.config), 20000);
+        await withTimeout(connection.openBox('INBOX'), 20000);
 
         const oneMinuteAgo = new Date(Date.now() - 60000);
         const searchCriteria = [['SINCE', oneMinuteAgo]];
         const fetchOptions = { bodies: [''], markSeen: true };
 
-        const messages = await connection.search(searchCriteria, fetchOptions);
+        const messages: any[] = await withTimeout(connection.search(searchCriteria, fetchOptions), 20000);
 
         // უახლესიდან უძველესისკენ
         for (const msg of messages.reverse()) {
@@ -58,6 +69,8 @@ export class EmailHelper {
 
           if (fromEmail && !from.toLowerCase().includes(fromEmail.toLowerCase())) continue;
           if (date < afterMs) continue; // მხოლოდ send-ის შემდეგ მოსული (ძველი OTP-ს ავცდეთ)
+          const to = [parsed.to].flat().map((t: any) => t?.text || '').join(' ').toLowerCase();
+          if (toEmail && !to.includes(toEmail.toLowerCase())) continue;
 
           // "verification code:515585" | "FIRMA ELETTRONICA: 908357" | fallback 6-digit
           let match =

@@ -51,6 +51,16 @@ export class LoginPage extends BasePage {
     }
   }
 
+  /** არსებული იუზერი: ტელეფონი → /password → პაროლი → Continue → /otp */
+  async loginWithPassword(phone: string, password: string) {
+    await this.phoneInput.fill(phone);
+    await this.loginButton.click();
+    await this.page.waitForURL(/password/i);
+    await this.page.getByRole('textbox', { name: /Password/ }).fill(password);
+    await this.page.getByRole('button', { name: 'Continue' }).click();
+    await this.page.waitForURL(/otp/i);
+  }
+
   /** გადასვლა რეგისტრაციაზე */
   async goToRegister() {
     await this.registerLink.click();

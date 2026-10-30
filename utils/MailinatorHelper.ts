@@ -16,7 +16,10 @@ export class MailinatorHelper {
    */
   async getVerificationCode(timeoutSeconds = 60, afterMs = Date.now() - 60000): Promise<string> {
     const startTime = Date.now();
-    let pollMs = 3000; // Cloudflare (mailinator public API) rate-limits tight polling — back off on errors
+    // mailinator public API: ~10 სწრაფი request-ის შემდეგ 429 (Too Many Requests) / 500 —
+    // ამიტომ იშვიათად ვამოწმებთ, 429-ზე კი 30წმ ველოდებით. OTP ჩვეულებრივ ~5წმ-ში მოდის.
+    let pollMs = 5000;
+    await new Promise((r) => setTimeout(r, 5000));
 
     while (Date.now() - startTime < timeoutSeconds * 1000) {
       try {
@@ -24,12 +27,21 @@ export class MailinatorHelper {
           `https://www.mailinator.com/api/v2/domains/public/inboxes/${this.inbox}`,
           { headers: HEADERS }
         );
+        if (listRes.status === 429) {
+          console.log('⏳ mailinator 429 (rate limit) — waiting 30s');
+          await new Promise((r) => setTimeout(r, 30000));
+          continue;
+        }
         const list = await listRes.json();
         const msgs = (list.msgs || [])
           .filter((m: any) => (m.time ?? 0) >= afterMs)
           .sort((a: any, b: any) => (b.time ?? 0) - (a.time ?? 0));
 
         for (const m of msgs) {
+          // TPPay: კოდი subject-შია — "361404 codice conferma operazione"
+          const subjectMatch = (m.subject || '').match(/\b(\d{6})\s+codice conferma/i);
+          if (subjectMatch) return subjectMatch[1];
+
           const msgRes = await fetch(
             `https://www.mailinator.com/api/v2/domains/public/messages/${m.id}`,
             { headers: HEADERS }
@@ -45,9 +57,9 @@ export class MailinatorHelper {
 
           if (match) return match[1];
         }
-        pollMs = 3000; // success — reset backoff
+        pollMs = 5000; // success — reset backoff
       } catch {
-        pollMs = Math.min(pollMs * 1.5, 10000); // rate-limited/network hiccup — slow down
+        pollMs = Math.min(pollMs * 1.5, 15000); // 500 / network hiccup — slow down
       }
       await new Promise((r) => setTimeout(r, pollMs));
     }

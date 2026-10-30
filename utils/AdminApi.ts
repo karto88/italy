@@ -68,6 +68,64 @@ export class AdminApi {
     return { Authorization: `Bearer ${this.token}` };
   }
 
+  /** gaming კომპანიების სია — GET /api/v1/gaming-company?pageSize=1000&pageNumber=1 */
+  async getGamingCompanies(): Promise<any[]> {
+    const response = await this.request.get(`${this.baseUrl}/api/v1/gaming-company?pageSize=1000&pageNumber=1`, {
+      headers: await this.authHeaders(),
+    });
+    const value = (await response.json())?.value;
+    return value?.content ?? value ?? [];
+  }
+
+  /**
+   * მერჩანტის განახლება — PUT /api/v1/merchant/update (multipart, part `merchantData` = JSON blob).
+   * აბრუნებს status + body, რომ ერორის ქეისებიც შემოწმდეს.
+   */
+  async updateMerchant(merchantData: Record<string, any>) {
+    const response = await this.request.put(`${this.baseUrl}/api/v1/merchant/update`, {
+      headers: await this.authHeaders(),
+      multipart: {
+        merchantData: {
+          name: 'blob',
+          mimeType: 'application/json',
+          buffer: Buffer.from(JSON.stringify(merchantData)),
+        },
+      },
+    });
+    const body = await response.json().catch(() => ({}));
+    return { status: response.status(), body };
+  }
+
+  /** gaming company — GET /api/v1/gaming-company/{id} */
+  async getGamingCompany(id: number) {
+    const response = await this.request.get(`${this.baseUrl}/api/v1/gaming-company/${id}`, {
+      headers: await this.authHeaders(),
+    });
+    return (await response.json())?.value;
+  }
+
+  /**
+   * gaming company-ს სტატუსის შეცვლა — PUT /api/v1/gaming-company/{id}
+   * (არსებული ველები უცვლელად იგზავნება, იცვლება მხოლოდ status)
+   */
+  async setGamingCompanyStatus(id: number, status: 'ACTIVE' | 'TEMPORARILY_UNAVAILABLE' | 'INACTIVE') {
+    const c = await this.getGamingCompany(id);
+    const response = await this.request.put(`${this.baseUrl}/api/v1/gaming-company/${id}`, {
+      headers: await this.authHeaders(),
+      data: {
+        displayName: c.displayName,
+        exalogicCompanyBaseUrl: c.exalogicCompanyBaseUrl ?? '',
+        name: c.name,
+        photo: c.photo,
+        provider: c.provider,
+        providerId: c.providerId,
+        status,
+      },
+    });
+    const body = await response.json().catch(() => ({}));
+    return { status: response.status(), body };
+  }
+
   /** მერჩანტების წამოღება (POST body-ით, paginated) */
   async getAllMerchants(overrides: Record<string, any> = {}): Promise<any[]> {
     const body = {

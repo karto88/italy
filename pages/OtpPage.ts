@@ -44,6 +44,11 @@ export class OtpPage extends BasePage {
     }
   }
 
+  /** კოდის გამოგზავნა მეილზე (SMS-ის ნაცვლად) */
+  async resendViaEmail() {
+    await this.page.getByRole('button', { name: 'Resend via email' }).click();
+  }
+
   /** კოდის თავიდან გამოგზავნა */
   async resend() {
     await this.resendButton.click();

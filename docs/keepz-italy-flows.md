@@ -1,10 +1,11 @@
-# Keepz Italy — ფლოუების მიმოხილვა (Cash-in / Cash-out Operations)
+# Keepz Italy — ფლოუების მიმოხილვა (Cash · Gaming · SEPA · QR)
 
 წყარო: `Keepz Italy Flows(1).pdf` (Desktop/it doc/). ეს დოკუმენტი აღწერს TP Pay-ს ყველა ოპერაციულ ფლოუს ბიზნეს-დონეზე (ვინ ვისზე ფულს აგზავნის, სად სჭირდება OTP/SCA).
 
 **საბაზისო ანგარიშების ტიპები:**
 - **TP Pay Wallet: Personal** — ინდივიდის/მერჩანტის/gaming company-ის ძირითადი ანგარიში (ბალანსი რეალურად ინახება აქ)
 - **TP Pay Wallet: Technical** — მერჩანტის ტექნიკური ანგარიში, **ყოველთვის ნულოვანი ბალანსი** — ცნაცილი "pass-through" ანგარიშია ქეშის ოპერაციებში
+  - ⚠️ რეალურად (DEV, 10/2026) Technical **ნულოვანი არ არის** და cash-in-ისთვის წინასწარ უნდა შეივსოს — იხ. „რეალური ქცევა" ბოლოში.
 
 ---
 
@@ -136,6 +137,67 @@ Individual 1 უგზავნის ფულს ისეთ IBAN-ს, რო
 
 ---
 
+## 5. რეალური ქცევა (DEV, ოქტომბერი 2026) — Jira + API
+
+> წყარო: KI-118, KI-251, KI-279, KI-398, KI-430, KI-432 + Integration guide v2 + რეალური API პასუხები.
+> აქ მხოლოდ ის წერია, რაც ზემოთ (PDF-ში) არ არის ან მისგან განსხვავდება.
+
+### 5.1 მერჩანტის ორი ანგარიში (KI-432)
+| ანგარიში | TPPay | რისთვის |
+|---|---|---|
+| **Personal** (B, `CO_CORP_01`, „Conto Dispositivo") | `account=PERSONAL` | ძირითადი ფული; **QR გადახდები აქ შემოდის** (დადასტურდა: Personal +5.00) |
+| **Technical** (C, `CO_MOEL_01`, „Conto Oper Limitata") | `account=TECHNICAL` | cash ფლოუები |
+
+- Personal → Technical: **OTP-ით** (SMS ან email — `resend-otp`); Technical → Personal: **OTP-ის გარეშე**. საკომისიო ორივეზე 0.00.
+
+### 5.2 ⚠️ სად განსხვავდება PDF-ისგან
+1. **Cash to Wallet (1):** PDF — Merchant Personal → Technical ავტომატურად. რეალურად Technical = 0-ზე cash-in **ჩავარდა**: `2512` „The merchant technical account holds 0.00 … top up the technical account" — მერჩანტმა ჯერ ხელით უნდა გადაიტანოს Personal → Technical.
+2. **Wallet to Cash (2):** PDF — ფული → Merchant **Personal**. რეალურად `SCT-P8-ONU-RECE-CWIT` მერჩანტის **Technical**-ის სიაშია; Giacomo (KI-118): „for a CWIT: the merchant's account C".
+
+### 5.3 `operationType` კოდები
+| კოდი | ფლოუ | ტექსტი (TPPay) | Fee |
+|---|---|---|---|
+| `SCT-P8-ONU-SEND-CTUP` / `…-RECE-CTUP` | (1) Cash → Wallet | Addebito conto Gestore / Accredito conto Cliente per Ricarica con contante | 0.00 |
+| `SCT-P8-ONU-SEND-CWIT` / `…-RECE-CWIT` | (2), (4) Cash withdrawal | Addebito conto Cliente per Prelievo contante | **2.00** |
+| `SCT-P8-ONU-SEND-WTUP` | (7) Wallet → Gaming | Addebito conto Cliente per Ricarica online del conto gioco | 0.00 |
+| `SCT-P8-ONU-RECE-WWIT` | (4), (8) Gaming → Wallet | Accredito conto Cliente per Prelievo da conto gioco | 0.00 |
+| `SCT-P8-ONU-SEND` / `…-RECE` | Internal SEPA, KI-432 | Bonifico eseguito su Vostro ordine / Accredito bonifico (ONUS) | 0.00 |
+| `SCT-P8-DEP-SEND` | External SEPA | Bonifico eseguito su Vostro ordine (DEPO) | **1.00** |
+| `SCT-P8-DEP-REJE` | External SEPA — უარყოფა | Ri-accredito … esito negativo (თანხა + fee ბრუნდება) | — |
+| `FEE-…` | საკომისიო | ცალკე სტრიქონი (`fee: true`), მშობელთან `operationReference`-ით | — |
+
+- ONUS (შიდა) მოძრაობები მაშინვე **BOOKED**-ია. External SEPA staging-ზე ~30 წთ-ში უარყოფილია (REJE); სიაში BOOKED / „Completed", დეტალი `ERRR` — KI-452.
+
+### 5.4 Gaming — კომპანიის მინიჭება მერჩანტზე (KI-398)
+- ადმინი: `PUT newadmin…/api/v1/merchant/update` → `gamingAccess: { serveAll: true }` ან `{ serveAll: false, gamingCompanyIds: [...] }`.
+- კომპანიის სტატუსი: `ACTIVE` / `TEMPORARILY_UNAVAILABLE` / `INACTIVE` (`null` = ACTIVE) — `PUT …/gaming-company/{id}`.
+- მერჩანტის picker (`GET walletportal…/api/tppay-admin/gaming-companies`): მხოლოდ **მინიჭებული ACTIVE** კომპანიები.
+- Serve all → Serve selected: ძველი არჩევანი **არ რჩება** — თავიდან უნდა მონიშნო.
+- ონლაინ top-up (7): `/confirm-transaction?requestId={onlineOperationId}` → `operationId`; OTP resend-ზე **ეს `operationId`** უნდა წავიდეს (KI-453).
+
+### 5.5 Refund (KI-118)
+- **Refund-ი ფულს უბრუნებს მას, ვინც გადაიხადა** → მხოლოდ **გამავალი (D)** მოძრაობა; შემოსულზე `CRDT_404_AP_0004` მოსალოდნელია.
+- `completeDraftRefundOperation` → `createRefundOperation` (POST, `amount` სავალდებულოა) → `…/operations/{id}/auth`; ერთ სესიაში.
+- refund ≤ თავდაპირველზე; თავდაპირველი fee **არ ბრუნდება**. ✅ CWIT მუშაობს; ⏳ CTUP — დაბლოკილი.
+
+### 5.6 ქვითარი (KI-430)
+- მხოლოდ **გადამხდელისთვის** (D). შემოსულზე ღილაკი არ უნდა ჩანდეს.
+- ⚠️ `SEND-WTUP`-ზე (გამავალი gaming) `404 / 2516` — შესამოწმებელია.
+
+### 5.7 Endpoint-ები
+| რა | Endpoint |
+|---|---|
+| Login (portal) | `exists` → `pre-login` → `validate-and-send-otp` → `web-resend-otp/fallback` → `web-login` (`walletportal.dev.keepz.it/api/v1/auth/…`) |
+| ბალანსი / მოძრაობები | `GET gateway.dev.keepz.it/payment-service/api/tppay/account/balance` · `…/movements?window=7\|30\|90&account=PERSONAL\|TECHNICAL` |
+| დეტალი / ქვითარი | `…/movements/detail?reference=` · `…/movements/receipt?reference=` |
+| Personal ↔ Technical | `POST …/account/internal-transfer/personal-to-technical` · `…/technical-to-personal` · `…/{id}/verify-otp` · `…/{id}/resend-otp` |
+
+სრული API ლოგიკა (v3 guide, error კოდები, რენდერის წესები, QA ჩეკლისტი) → [account-statement-api.md](account-statement-api.md).
+
+ტოკენი: `npm run merchant:token` (სხვა იუზერი: `MERCHANT_MOBILE=… MERCHANT_MAILINATOR_INBOX=… npm run merchant:token`).
+
+---
+
 ## შენიშვნა განახლებებზე
 
-ეს დოკუმენტი აღწერს ფლოუებს PDF-ის მდგომარეობით (ატვირთვის თარიღი: 2026-09-11). თუ ბიზნეს-ლოგიკაში რამე შეიცვლება (ახალი ოპერაციის ტიპი, OTP/SCA წესების ცვლილება, VoP შედეგების ცვლილება და ა.შ.) — **მითხარი კონკრეტულად რა შეიცვალა, და ეს ფაილი განვაახლებ.**
+ეს დოკუმენტი აღწერს ფლოუებს PDF-ის მდგომარეობით (ატვირთვის თარიღი: 2026-09-11), სექცია 5 — რეალური ქცევით (2026-10-27). თუ ბიზნეს-ლოგიკაში რამე შეიცვლება (ახალი ოპერაციის ტიპი, OTP/SCA წესების ცვლილება, VoP შედეგების ცვლილება და ა.შ.) — **მითხარი კონკრეტულად რა შეიცვალა, და ეს ფაილი განვაახლებ.**
