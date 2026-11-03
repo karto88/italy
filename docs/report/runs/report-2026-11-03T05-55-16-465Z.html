@@ -42,32 +42,69 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 3:30:25 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">11/3/2026, 9:55:16 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
     <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  <div class="file-group"><div class="file">tests/Update-merchant-balance/update-merchant-balance.spec.ts</div><div class="suite"><span class="suite-name">Update merchant balance — negative</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+  <div class="file-group"><div class="file">tests/Partner-preload/positive/preloaded-onboarding.spec.ts</div><div class="suite"><span class="suite-name">Pre-loaded onboarding — portal</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
           <summary class="test">
             <span class="chev">▶</span>
             <span class="st" style="color:#f85149">❌ failed</span>
-            <span class="name">wrong OTP — front restarts the transfer (KI-472)</span>
-            <span class="dur">11.1s</span>
-          </summary><pre class="err">Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeHidden[2m([22m[2m)[22m failed
+            <span class="name">new user — partner link — KYC pre-filled with partner data — onboarding to liveness</span>
+            <span class="dur">56.6s</span>
+          </summary><pre class="log">existence/wallet CSTLSN95M04H501Q → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/?ref=ZanfDx3aZroo72rvNZO20HPMKMrBq_NWnVM5LWDhqKE","onboardingExpiresAt":"2026-11-06T05:55:24.317895645Z"}
+👤 Alessandro Costa | CSTLSN95M04H501Q | +39 3400451934 | keepzit29@mailinator.com
+▶ link opened → OTP screen
+▶ OTP 111111
+  ── Registration
+  ✅ Name: sent "Alessandro" → shown "Alessandro"
+  ✅ Surname: sent "Costa" → shown "Costa"
+▶ password + consents
+▶ registered → Inizia il processo KYC
+  ❌ Email: sent "keepzit29@mailinator.com" → shown ""
+▶ email OTP 640765
+▶ TPPay consents → KYC
+  ── KYC personal data
+  ✅ Nome: sent "Alessandro" → shown "Alessandro"
+  ✅ Cognome: sent "Costa" → shown "Costa"
+  ✅ Sesso: sent "M" → shown "M"
+  ✅ Data di nascita: sent "04-08-1995" → shown "04-08-1995"
+  ✅ Nazionalità: sent "Italia" → shown "Italia"
+  ✅ Provincia di nascita: sent "Roma" → shown "Roma"
+  ✅ Comune di nascita: sent "Roma" → shown "Roma"
+  ✅ Codice Fiscale: sent "CSTLSN95M04H501Q" → shown "CSTLSN95M04H501Q"
+  ✅ Paese di residenza: sent "Italia" → shown "Italia"
+  ✅ Provincia di residenza: sent "Roma" → shown "Roma"
+  ✅ Comune di residenza: sent "Roma" → shown "Roma"
+  ✅ Indirizzo: sent "Via Roma" → shown "Via Roma"
+  ✅ Numero civico: sent "1" → shown "1"
+  ✅ CAP: sent "00100" → shown "00100"
+  ✅ Cittadinanza: sent "Italia" → shown "Italia"
+▶ Residenza Fiscale + PEP: No
+▶ document page
+  ── KYC document
+  ✅ Tipo documento: sent "Carta d’Identità" → shown "Carta d’Identità"
+  ✅ Numero: sent "CA5324120" → shown "CA5324120"
+  ✅ Data di rilascio: sent "15-01-2022" → shown "15-01-2022"
+  ✅ Data di scadenza: sent "15-01-2032" → shown "15-01-2032"
+  ✅ Luogo di rilascio: sent "Roma" → shown "Roma"
+  ✅ Ente di rilascio: sent "Comune" → shown "Comune"
+▶ AML questionnaire
+▶ AML done → Firma
+✅ Summary data verified (შევსებული მონაცემები სწორია)
+✅ Signature complete (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 Individual passed Tppay verification → liveness (LIVENESS_PENDING)
+▶ signed → liveness
+🏆 pre-loaded onboarding complete — Alessandro Costa (CSTLSN95M04H501Q)</pre><pre class="err">Error: Verifica Email — Email
 
-Locator:  getByRole('button', { name: 'Send a new code (by email)' })
-Expected: hidden
-Received: visible
-Timeout:  5000ms
+[2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
 
-Call log:
-[2m  - Expect "toBeHidden" with timeout 5000ms[22m
-[2m  - waiting for getByRole('button', { name: 'Send a new code (by email)' })[22m
-[2m    14 × locator resolved to &lt;button tabindex="0" type="button" class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeSmall MuiButton-textSizeSmall MuiButton-colorPrimary css-jcvu2z"&gt;…&lt;/button&gt;[22m
-[2m       - unexpected value "visible"[22m
-</pre></details></div></div>
+Expected: [32m"keepzit29@mailinator.com"[39m
+Received: [31m""[39m</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
