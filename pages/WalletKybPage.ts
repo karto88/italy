@@ -247,6 +247,31 @@ export class WalletKybPage extends BasePage {
   }
 
   /**
+   * Persone — მხოლოდ Residenza + domicilio = residenza + Cittadinanza (member 0).
+   * pre-loaded KYB: დანარჩენი (სახელი, დაბადება, CF, კონტაქტი, როლები) partner-იდან შევსებულია.
+   */
+  async fillResidenceAndCitizenship(data: {
+    indirizzo: string;
+    numero: string;
+    cap: string;
+    paeseResidenza: string;
+    provinciaResidenza: string;
+    cittaResidenza: string;
+    cittadinanza: string;
+  }) {
+    const p = '3.members.0';
+    await this.page.locator(`input[id="${p}.streetOfResidence"]`).fill(data.indirizzo);
+    await this.page.locator(`input[id="${p}.houseNumberOfResidence"]`).fill(data.numero);
+    await this.page.locator(`input[id="${p}.zipcodeOfResidence"]`).fill(data.cap);
+    await this.selectAutocompleteById(`${p}.countryOfResidence`, data.paeseResidenza);
+    await this.selectAutocompleteById(`${p}.provinceOfResidence`, data.provinciaResidenza);
+    await this.page.waitForTimeout(600);
+    await this.selectAutocompleteById(`${p}.cityOfResidence`, data.cittaResidenza);
+    await this.page.locator('label').filter({ hasText: 'Il domicilio corrisponde alla' }).click();
+    await this.selectAutocompleteById(`${p}.citizenship`, data.cittadinanza);
+  }
+
+  /**
    * PEP step — "Verifica PEP".
    * happy-path: Status PEP = 'No', "Sono contribuente USA" მოუნიშნავი.
    * ვარიაციები (ქეისებისთვის): PEP-yes → Tipo di Incarico + Nazione + Status Incarico;

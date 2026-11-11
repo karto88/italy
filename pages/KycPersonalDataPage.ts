@@ -130,6 +130,15 @@ export class KycPersonalDataPage extends BasePage {
   }
 
   /**
+   * pre-loaded გვერდი (KI-456) — partner-ის მონაცემები უკვე შევსებულია,
+   * ვავსებთ მხოლოდ იმას, რასაც partner არ აგზავნის: Residenza Fiscale + PEP.
+   */
+  async fillMissingAfterPreload(fiscalCountryAML: string, pep: { relationship: string } = { relationship: 'No' }) {
+    await this.selectFromCombo('Residenza Fiscale', fiscalCountryAML);
+    await this.setPep(pep);
+  }
+
+  /**
    * PEP ბლოკი — "Rapporti con PEP" არჩევა + declared (≠ No)-ზე დამატებითი ველები.
    */
   private async setPep(pep: {

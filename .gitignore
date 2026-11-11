@@ -11,6 +11,8 @@ node_modules/
 .email-counter
 .phone-counter
 .mailinator-counter
+.preload-phone-counter
+.keepzit-counter
 
 # Claude Code local settings
 .claude/settings.local.json
