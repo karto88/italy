@@ -42,14 +42,72 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 3:41:31 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">11/19/2026, 10:37:54 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 1</button>
     <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
-    <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 1</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  
+  <div class="file-group"><div class="file">tests/Partner-preload-kyb/positive/preloaded-onboarding-kyb.spec.ts</div><div class="suite"><span class="suite-name">Pre-loaded onboarding KYB — portal</span><span class="suite-counts"><span class="c-pass">✅ 0</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">new merchant — partner link — KYB pre-filled with partner data — onboarding to liveness</span>
+            <span class="dur">122.3s</span>
+          </summary><pre class="log">existence/wallet 84363059090 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=imSV25zZa6onq0q99KO-kqu-GVj_Ac_6pDrNVq5UOOo","onboardingExpiresAt":"2026-11-20T06:38:03.242149295Z"}
+🏢 Nord Est 282655 SRL | VAT 35070282655 | CF 84363059090 | keepzit1737@mailinator.com | rep Federica Ricci RCCFRC81S67H501B | +39 3400452074
+▶ link opened → OTP screen
+▶ OTP 111111
+  ── Registration
+  ✅ Company name: sent "Nord Est 282655 SRL" → shown "Nord Est 282655 SRL"
+  ✅ Signer's name: sent "Federica" → shown "Federica"
+  ✅ Signer's surname: sent "Ricci" → shown "Ricci"
+  ✅ Company tax code: sent "84363059090" → shown "84363059090"
+  ✅ Email: sent "keepzit1737@mailinator.com" → shown "keepzit1737@mailinator.com"
+▶ email OTP 723620
+  ✅ Continue with pre-filled Company tax code "84363059090" → enabled
+▶ registered → Signing agreement
+✍️ signature OTP: 736959
+▶ agreement signed
+▶ KYB started
+  ── Azienda
+  ✅ Codice Fiscale: sent "84363059090" → shown "84363059090"
+  ✅ P.IVA: sent "35070282655" → shown "35070282655"
+  ✅ Ragione sociale: sent "Nord Est 282655 SRL" → shown "Nord Est 282655 SRL"
+  ✅ Forma Giuridica: sent "SRL" → shown "SRL"
+  ✅ Codice SAE: sent "430" → shown "430"
+  ✅ Codice ATECO: sent "702009" → shown "702009"
+  ✅ REA: sent "MI-282655" → shown "MI-282655"
+  ✅ Data Iscrizione: sent "08-03-2025" → shown "08-03-2025"
+  ✅ Azienda Avanti with pre-filled Codice Fiscale "84363059090" → ok
+▶ Azienda → Avanti
+  ── Sede
+  ✅ Indirizzo: sent "Via Roma" → shown "Via Roma"
+  ✅ Numero: sent "10" → shown "10"
+  ✅ CAP: sent "00100" → shown "00100"
+  ✅ Paese: sent "Italia" → shown "Italia"
+  ✅ Provincia: sent "Roma" → shown "Roma"
+  ✅ Città: sent "Roma" → shown "Roma"
+  ✅ PEC: sent "keepzit1737@mailinator.com" → shown "keepzit1737@mailinator.com"
+  ✅ Telefono: sent "3070282655" → shown "3070282655"
+▶ Sede → Avanti
+  ── Persone
+  ✅ Nome: sent "Federica" → shown "Federica"
+  ✅ Cognome: sent "Ricci" → shown "Ricci"
+  ✅ Data di nascita: sent "27-11-1981" → shown "27-11-1981"
+  ✅ Sesso: sent "F" → shown "F"
+  ✅ Email: sent "keepztest3089@mailinator.com" → shown "keepztest3089@mailinator.com"
+  ✅ Cellulare: sent "3400452074" → shown "3400452074"
+  ✅ Paese di nascita: sent "Italia" → shown "Italia"
+  ✅ Provincia di nascita: sent "Roma" → shown "Roma"
+  ✅ Città di nascita: sent "Roma" → shown "Roma"
+  ✅ Codice Fiscale: sent "RCCFRC81S67H501B" → shown "RCCFRC81S67H501B"
+▶ Persone — residenza + cittadinanza
+▶ Persone → Avanti</pre><pre class="err">Error: locator.check: Target page, context or browser has been closed
+Call log:
+[2m  - waiting for getByRole('radio', { name: 'No', exact: true })[22m
+</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
