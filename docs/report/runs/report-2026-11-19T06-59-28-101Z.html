@@ -42,14 +42,75 @@
 </head>
 <body>
   <h1>🎭 Playwright Test Report</h1>
-  <div class="meta">10/28/2026, 3:41:31 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="meta">11/19/2026, 10:59:28 AM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
   <div class="summary">
-    <button type="button" class="card active" data-filter="all">Total: 0</button>
-    <button type="button" class="card pass" data-filter="pass">✅ Passed: 0</button>
+    <button type="button" class="card active" data-filter="all">Total: 1</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 1</button>
     <button type="button" class="card fail" data-filter="fail">❌ Failed: 0</button>
     <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
   </div>
-  
+  <div class="file-group"><div class="file">tests/Partner-preload-kyb/positive/preloaded-onboarding-kyb.spec.ts</div><div class="suite"><span class="suite-name">Pre-loaded onboarding KYB — portal</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">new merchant — partner link — KYB pre-filled with partner data — onboarding to liveness</span>
+            <span class="dur">146.7s</span>
+          </summary><pre class="log">existence/wallet 85809458905 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=2LHIan3dZ_bXlD7Nr7nPb21Vc4WoFOzMhSbyPP-6T8M","onboardingExpiresAt":"2026-11-20T06:59:32.491246102Z"}
+🏢 Tirreno 570930 SRL | VAT 35071570930 | CF 85809458905 | keepzit1738@mailinator.com | rep Lorenzo Colombo CLMLNZ87R11H501P | +39 3400452075
+▶ link opened → OTP screen
+▶ OTP 111111
+  ── Registration
+  ✅ Company name: sent "Tirreno 570930 SRL" → shown "Tirreno 570930 SRL"
+  ✅ Signer's name: sent "Lorenzo" → shown "Lorenzo"
+  ✅ Signer's surname: sent "Colombo" → shown "Colombo"
+  ✅ Company tax code: sent "85809458905" → shown "85809458905"
+  ✅ Email: sent "keepzit1738@mailinator.com" → shown "keepzit1738@mailinator.com"
+▶ email OTP 100513
+  ✅ Continue with pre-filled Company tax code "85809458905" → enabled
+▶ registered → Signing agreement
+✍️ signature OTP: 245458
+▶ agreement signed
+▶ KYB started
+  ── Azienda
+  ✅ Codice Fiscale: sent "85809458905" → shown "85809458905"
+  ✅ P.IVA: sent "35071570930" → shown "35071570930"
+  ✅ Ragione sociale: sent "Tirreno 570930 SRL" → shown "Tirreno 570930 SRL"
+  ✅ Forma Giuridica: sent "SRL" → shown "SRL"
+  ✅ Codice SAE: sent "430" → shown "430"
+  ✅ Codice ATECO: sent "702009" → shown "702009"
+  ✅ REA: sent "MI-570930" → shown "MI-570930"
+  ✅ Data Iscrizione: sent "08-03-2025" → shown "08-03-2025"
+  ✅ Azienda Avanti with pre-filled Codice Fiscale "85809458905" → ok
+▶ Azienda → Avanti
+  ── Sede
+  ✅ Indirizzo: sent "Via Roma" → shown "Via Roma"
+  ✅ Numero: sent "10" → shown "10"
+  ✅ CAP: sent "00100" → shown "00100"
+  ✅ Paese: sent "Italia" → shown "Italia"
+  ✅ Provincia: sent "Roma" → shown "Roma"
+  ✅ Città: sent "Roma" → shown "Roma"
+  ✅ PEC: sent "keepzit1738@mailinator.com" → shown "keepzit1738@mailinator.com"
+  ✅ Telefono: sent "3071570930" → shown "3071570930"
+▶ Sede → Avanti
+  ── Persone
+  ✅ Nome: sent "Lorenzo" → shown "Lorenzo"
+  ✅ Cognome: sent "Colombo" → shown "Colombo"
+  ✅ Data di nascita: sent "11-10-1987" → shown "11-10-1987"
+  ✅ Sesso: sent "M" → shown "M"
+  ✅ Email: sent "keepztest3090@mailinator.com" → shown "keepztest3090@mailinator.com"
+  ✅ Cellulare: sent "3400452075" → shown "3400452075"
+  ✅ Paese di nascita: sent "Italia" → shown "Italia"
+  ✅ Provincia di nascita: sent "Roma" → shown "Roma"
+  ✅ Città di nascita: sent "Roma" → shown "Roma"
+  ✅ Codice Fiscale: sent "CLMLNZ87R11H501P" → shown "CLMLNZ87R11H501P"
+▶ Persone — residenza + cittadinanza
+▶ Persone → Avanti
+▶ PEP → Avanti
+▶ AML → Avanti
+▶ Documenti → Avanti
+▶ Firma (ორმაგი ხელმოწერა)
+🎥 Tppay status: LIVENESS_PENDING
+🏆 pre-loaded KYB onboarding complete — Tirreno 570930 SRL (VAT 35071570930)</pre></details></div></div>
   <script>
     (function () {
       const cards = document.querySelectorAll('.card');
