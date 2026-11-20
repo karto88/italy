@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Test Report</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#0d1117; color:#e6edf3; margin:0; padding:32px; }
+    h1 { font-size:20px; margin:0 0 4px; }
+    .meta { color:#7d8590; font-size:13px; margin-bottom:20px; }
+    .summary { display:flex; gap:12px; margin-bottom:24px; }
+    .card { background:#161b22; border:1px solid #30363d; border-radius:8px; padding:12px 18px;
+            font-family:inherit; font-size:14px; font-weight:600; color:#e6edf3; cursor:pointer;
+            transition:border-color .15s, box-shadow .15s; }
+    .card:hover { border-color:#484f58; }
+    .card.active { border-color:#58a6ff; box-shadow:0 0 0 1px #58a6ff; }
+    .card.pass { color:#3fb950; } .card.fail { color:#f85149; } .card.skip { color:#7d8590; }
+    .file { color:#7d8590; font-size:13px; margin:18px 0 6px; font-weight:600; }
+    .suite { display:flex; align-items:center; justify-content:space-between; gap:12px;
+             background:#12171e; border:1px solid #30363d; border-radius:6px;
+             padding:9px 16px; margin:12px 0 8px; }
+    .suite-name { font-weight:700; font-size:14px; color:#e6edf3; }
+    .suite-counts { font-size:13px; font-weight:600; }
+    .c-pass { color:#3fb950; } .c-fail { color:#f85149; } .c-skip { color:#7d8590; } .c-total { color:#7d8590; }
+    .test-item { margin-bottom:6px; }
+    .test { display:flex; align-items:center; gap:16px; background:#161b22; border:1px solid #30363d;
+            border-radius:6px; padding:12px 16px; cursor:pointer; list-style:none; user-select:none; }
+    .test::-webkit-details-marker { display:none; }
+    .test:hover { border-color:#484f58; }
+    .chev { color:#7d8590; font-size:11px; width:12px; transition:transform .15s; }
+    details[open] > .test .chev { transform:rotate(90deg); }
+    .st { min-width:110px; font-weight:600; font-size:13px; }
+    .name { flex:1; }
+    .dur { color:#7d8590; font-size:13px; }
+    .err { background:#161b22; border:1px solid #f85149; border-left:3px solid #f85149; border-radius:6px;
+           padding:12px 16px; margin:-2px 0 10px; color:#ffa198; font-size:12px; white-space:pre-wrap;
+           overflow-x:auto; font-family:monospace; }
+    .log { background:#0b0f14; border:1px solid #30363d; border-left:3px solid #3fb950; border-radius:6px;
+           padding:12px 16px; margin:-2px 0 10px; color:#adbac7; font-size:12px; white-space:pre-wrap;
+           overflow-x:auto; font-family:monospace; line-height:1.5; }
+  </style>
+</head>
+<body>
+  <h1>🎭 Playwright Test Report</h1>
+  <div class="meta">11/20/2026, 3:37:44 PM · <a href="runs.html" style="color:#58a6ff;text-decoration:none;">📚 History</a></div>
+  <div class="summary">
+    <button type="button" class="card active" data-filter="all">Total: 243</button>
+    <button type="button" class="card pass" data-filter="pass">✅ Passed: 239</button>
+    <button type="button" class="card fail" data-filter="fail">❌ Failed: 4</button>
+    <button type="button" class="card skip" data-filter="skip">⏭️ Skipped: 0</button>
+  </div>
+  <div class="file-group"><div class="file">tests/Exalogic-API/01-auth.spec.ts</div><div class="suite"><span class="suite-name">1 Auth (§7.1)</span><span class="suite-counts"><span class="c-pass">✅ 1</span> <span class="c-total">/ 1</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">auth — obtain a partner token</span>
+            <span class="dur">85ms</span>
+          </summary><pre class="log">✅ auth — token Bearer, expires_in 3600</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/03-wallet-cash-in.spec.ts</div><div class="suite"><span class="suite-name">3 Wallet — Cash In (§7.2, TOPUP_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 12</span> <span class="c-total">/ 12</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">44.6s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)
+  APP GET account-details → 200 {"value":{"balance":34.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 88.91 | C 308.93 | A 34.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.1 PARTNER start-operation (§7.2)</span>
+            <span class="dur">106ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"07c4cbad-ece2-44e6-a4a8-06345bb6c788","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"95831b32-b86d-4cc7-823f-913271afb4e4","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:43:29.616823392+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.2 PARTNER check-operation → GENERATED (§7.3)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"b85693d3-0e98-41ae-b497-06c1d523ba7c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.3 APP establish-connection</span>
+            <span class="dur">446ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"95831b32-b86d-4cc7-823f-913271afb4e4","operationType":"CASH_IN","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage":"AWAIT</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.4 PARTNER check-operation → still GENERATED</span>
+            <span class="dur">62ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"419ec70d-1d9c-4901-9a22-8a9fc5097884","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.5 APP approve-document-sharing</span>
+            <span class="dur">483ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.6 PARTNER check-operation → IDENTIFIED (the key step)</span>
+            <span class="dur">3.7s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"fab8a22e-39c0-4c06-bb5b-4fecce8b4504","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.7 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">277ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"be69c955-2caa-4544-8301-1b5abf1a2249","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.8 PARTNER verify-operation again — idempotent</span>
+            <span class="dur">78ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"914e57d9-8007-48d5-b822-1ccd3442eccc","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.9 APP confirm — money moves</span>
+            <span class="dur">3.9s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.10 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">80ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"65b958df-9b19-4628-91f9-1e2b17e67196","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"5dc10c71-5f7e-4e91-8c41-fe3d9c9ab429","externalRef":"1795174709517-topup_wallet","completedAt":"2026-1</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">3.99 balances after — money moved as the protocol says</span>
+            <span class="dur">7.8s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":38.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 88.91 (0, expected 0) | C 304.93 (-4, expected -4) | A 38.7 (4, expected 4 or 2 with fee 2)</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/04-wallet-cash-out.spec.ts</div><div class="suite"><span class="suite-name">4 Wallet — Cash Out (§7.2, WITHDRAW_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 13</span> <span class="c-total">/ 13</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">4.0s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":38.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 88.91 | C 304.93 | A 38.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.1 PARTNER start-operation (§7.2)</span>
+            <span class="dur">121ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"d03da95e-77e1-44a8-9fb7-c6b4fa4eeb04","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"84c1d2a2-8979-407a-8eac-49cde193babf","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:43:50.823284496+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.2 PARTNER check-operation → GENERATED (§7.3)</span>
+            <span class="dur">76ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"635b93e8-be24-4255-a9ca-d85457344805","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.3 APP establish-connection</span>
+            <span class="dur">448ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"84c1d2a2-8979-407a-8eac-49cde193babf","operationType":"CASH_OUT","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage":"AWAI</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.4 PARTNER check-operation → still GENERATED</span>
+            <span class="dur">78ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"134b54bd-7ced-4ca0-b8cd-147d57bb7db5","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.5 APP approve-document-sharing</span>
+            <span class="dur">541ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.6 PARTNER check-operation → IDENTIFIED (the key step)</span>
+            <span class="dur">3.9s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"ee5a748d-e6a9-425d-8c14-244632fe5ad3","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.7 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">314ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"bf495255-15a1-4cb8-9eb3-11fdfb8091c2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.8 PARTNER verify-operation again — idempotent</span>
+            <span class="dur">85ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"165c1538-ac10-4c05-abc4-256e0231be97","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.9 APP confirm WITHOUT otp — sends the code to the customer</span>
+            <span class="dur">2.0s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.10 APP confirm WITH otp — money moves</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.11 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">75ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"f094d1dc-f194-4914-8c87-a5dea89c3c8e","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"6ad8092e-2d32-4c2b-abbd-6f26c01783d6","externalRef":"1795174730722-withdraw_wallet","completedAt":"202</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">4.99 balances after — money moved as the protocol says</span>
+            <span class="dur">8.1s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 88.91 (0, expected 0) | C 308.93 (4, expected 4) | A 32.7 (-6, expected -4 or -6 with fee 2)</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/05-gaming-cash-in.spec.ts</div><div class="suite"><span class="suite-name">5 Gaming account — Cash In (§7.2, TOPUP_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 12</span> <span class="c-fail">❌ 1</span> <span class="c-total">/ 13</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">13.5s</span>
+          </summary><pre class="log">👤 customer logged in (+3934004388)
+  APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 88.91 | C 308.93 | A 32.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.1 PARTNER start-operation (§7.2)</span>
+            <span class="dur">119ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"e5c79e3b-e671-4399-983f-d7bd41bdb3cb","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"0f900eca-dc8b-492b-83a0-cb28f8556b80","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:44:27.952803035+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.2 PARTNER check-operation → GENERATED (§7.3)</span>
+            <span class="dur">107ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"080d1fd1-4b40-48ff-a9e9-f9d16a529c73","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.3 APP establish-connection</span>
+            <span class="dur">437ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"0f900eca-dc8b-492b-83a0-cb28f8556b80","operationType":"CASH_IN","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.4 PARTNER check-operation → still GENERATED</span>
+            <span class="dur">68ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"2c275377-36ed-4c67-8f79-a5bf9f5ff959","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.5 APP approve-document-sharing</span>
+            <span class="dur">546ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.6 PARTNER check-operation → IDENTIFIED (the key step)</span>
+            <span class="dur">2.9s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"7ddba0c3-ae4b-4a60-b596-fdbcaa38af4e","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.7 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">283ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"36d50698-4f82-49d6-af14-ca69e935ab6d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.8 PARTNER verify-operation again — idempotent</span>
+            <span class="dur">88ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6c624211-8873-4b3f-93ba-303710cdfb64","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.9 APP confirm WITHOUT otp — sends the code to the customer</span>
+            <span class="dur">5.3s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.10 APP confirm WITH otp — money moves</span>
+            <span class="dur">24.3s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">5.11 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">89ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"abdbe4a6-a585-426f-a7c1-f4b9d1f5c724","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"fb20c0ec-eeb3-49bd-bc06-02f3d1b3c9fa","externalRef":"1795174767846-topup_gaming_account","completedAt"</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">5.99 balances after — money moved as the protocol says</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":34.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 90.91 (2, expected 4) | C 304.93 (-4, expected -4) | A 34.7 (2, expected 0 or -2 with fee 2)</pre><pre class="err">Error: TOPUP_GAMING_ACCOUNT: gaming company (E)
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: 4
+Received: 2</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/06-gaming-cash-out.spec.ts</div><div class="suite"><span class="suite-name">6 Gaming account — Cash Out (§7.2, WITHDRAW_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 13</span> <span class="c-total">/ 13</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">28.6s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)
+  APP GET account-details → 200 {"value":{"balance":34.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 90.91 | C 304.93 | A 34.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.1 PARTNER start-operation — WITHDRAW_GAMING_ACCOUNT (200, or 400 OPERATION_TYPE_NOT_AVAILABLE on Exalogic)</span>
+            <span class="dur">102ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"ae86de61-a1a7-4ac8-9011-8c6c49542441","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"2c5bd819-d762-40b4-b31f-5d96734641ef","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:45:39.644937649+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.2 PARTNER check-operation → GENERATED (§7.3)</span>
+            <span class="dur">63ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"7cf379df-e0f6-4d30-9230-0450f232b235","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.3 APP establish-connection</span>
+            <span class="dur">439ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"2c5bd819-d762-40b4-b31f-5d96734641ef","operationType":"CASH_OUT","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.4 PARTNER check-operation → still GENERATED</span>
+            <span class="dur">59ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"9d41c6c8-b741-4bc6-942f-9c5fa4dbb2a2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.5 APP approve-document-sharing</span>
+            <span class="dur">534ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.6 PARTNER check-operation → IDENTIFIED (the key step)</span>
+            <span class="dur">5.0s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"a26c079d-40bf-4b1f-8e6b-8a60bd793d95","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.7 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">281ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"5007836e-626f-4a70-81c6-504a643232f6","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.8 PARTNER verify-operation again — idempotent</span>
+            <span class="dur">63ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"090d1208-aec5-4a23-ae0e-b9ad8c80fd43","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.9 APP confirm WITHOUT otp — sends the code to the customer</span>
+            <span class="dur">4.8s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.10 APP confirm WITH otp — money moves</span>
+            <span class="dur">23.4s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.11 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">64ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"3b949b7a-12f6-49f9-afb3-498a9a517224","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"5894731a-a3c7-4fae-89a4-a2f5bd32bbfb","externalRef":"1795174839546-withdraw_gaming_account","completed</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">6.99 balances after — money moved as the protocol says</span>
+            <span class="dur">7.8s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 86.91 (-4, expected -4) | C 308.93 (4, expected 4) | A 32.7 (-2, expected 0 or -2 with fee 2)</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/07-errors-and-validation.spec.ts</div><div class="suite"><span class="suite-name">7 Errors and validation (§7.11)</span><span class="suite-counts"><span class="c-pass">✅ 13</span> <span class="c-fail">❌ 3</span> <span class="c-total">/ 16</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">clientId ≠ token → 403 CLIENT_MISMATCH</span>
+            <span class="dur">77ms</span>
+          </summary><pre class="log">check-operation → 403 {"message":"clientId in the body differs from the one carried by the token","statusCode":403,"code":"CLIENT_MISMATCH","requestId":"9750498e-e656-4e02-8ccb-1fa4b1c80595","clientId":"someone-else"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">MISSING_CONDITIONAL_FIELD — 400 — start-operation (no retailContext)</span>
+            <span class="dur">56ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"retailContext is mandatory when channel = RETAIL","statusCode":400,"code":"MISSING_CONDITIONAL_FIELD","requestId":"835e1989-1c4a-4d10-b762-14bbc1529d0a","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev"></span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">missing requestId → 400, not 500</span>
+            <span class="dur">91ms</span>
+          </summary></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">amount below the 2.00 minimum (1.00) → 400 AMOUNT_BELOW_MINIMUM</span>
+            <span class="dur">68ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"amount: amount is below the permitted minimum of 2.00","statusCode":400,"code":"AMOUNT_BELOW_MINIMUM"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">amount -10.00 → 400 AMOUNT_BELOW_MINIMUM</span>
+            <span class="dur">57ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"amount: amount is below the permitted minimum of 2.00","statusCode":400,"code":"AMOUNT_BELOW_MINIMUM"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">amount 1.99 → 400 AMOUNT_BELOW_MINIMUM</span>
+            <span class="dur">56ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"amount: amount is below the permitted minimum of 2.00","statusCode":400,"code":"AMOUNT_BELOW_MINIMUM"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">amount with three decimals → 400 INVALID_FIELD_VALUE</span>
+            <span class="dur">73ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"amount: amount must have at most two decimal places","statusCode":400,"code":"INVALID_FIELD_VALUE"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">OPERATION_NOT_FOUND — 404 — check-operation</span>
+            <span class="dur">71ms</span>
+          </summary><pre class="log">check-operation → 404 {"message":"Operation not found","statusCode":404,"code":"OPERATION_NOT_FOUND","requestId":"503b7c8e-90cd-418e-bd82-fba7dedd2b63","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">SHOP_NOT_REGISTERED — 404 — start-operation (unknown idShop)</span>
+            <span class="dur">84ms</span>
+          </summary><pre class="log">start-operation → 404 {"message":"idShop SHOP-MILANO-01 is not a registered point of sale","statusCode":404,"code":"SHOP_NOT_REGISTERED","requestId":"56f358c2-a755-43d6-a1c9-d8864d4df7c5","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">SHOP_NOT_REGISTERED — 404 — start-operation (not verified shop)</span>
+            <span class="dur">220ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"887c6638-c9ab-403a-b7e6-ee52e6b9aaa7","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"ae53513a-f995-4a0e-b509-212e69208b34","stage":"GENERATED","qrCodeUrl":"23377","expiresAt":"2026-11-20T12:46:23.14926639+01:00"}
+  cancel-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"89f6cb37-37b6-48eb-968e-c626b92ec732","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"CANCELLED"}</pre><pre class="err">Error:  
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: 404
+Received: 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">channel ONLINE → 400 INVALID_CHANNEL_CONTEXT</span>
+            <span class="dur">95ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"operationType TOPUP_WALLET is not permitted on channel ONLINE","statusCode":400,"code":"INVALID_CHANNEL_CONTEXT","requestId":"aedfc2a7-fe02-45d9-b87a-14f04be549fb","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">currency USD → 400 CURRENCY_NOT_SUPPORTED</span>
+            <span class="dur">65ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"Only EUR is supported","statusCode":400,"code":"CURRENCY_NOT_SUPPORTED","requestId":"30d1bf1a-2703-415a-a084-687539880c52","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">INSUFFICIENT_FUNDS — 422 — start-operation</span>
+            <span class="dur">202ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"9e88a3de-568a-459c-a278-e65e8f7d768e","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"c8b7e9d6-e89f-4965-8143-c34ceb52b4ee","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:46:24.151397208+01:00"}
+  cancel-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"3054e942-d519-477a-a4df-f2a7209c2d47","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"CANCELLED"}</pre><pre class="err">Error:  
+
+expect(received).toBe(expected) // Object.is equality
+
+Expected: 422
+Received: 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">PURCHASE_PRODUCT → 400 from body parsing</span>
+            <span class="dur">78ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"Request body could not be read: check field types and enum values","statusCode":400}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">no token → 401 (verifies the security matcher)</span>
+            <span class="dur">61ms</span>
+          </summary><pre class="log">check-operation → 401 {}</pre></details><details class="test-item" data-status="fail" open>
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#f85149">❌ failed</span>
+            <span class="name">GET on a v2 method → 405</span>
+            <span class="dur">61ms</span>
+          </summary><pre class="err">Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: 405
+Received: 403</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/08-online-gaming-cash-in.spec.ts</div><div class="suite"><span class="suite-name">8 Online — Gaming Cash In / Deposit (ONLINE, TOPUP_GAMING_ACCOUNT)</span><span class="suite-counts"><span class="c-pass">✅ 10</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">28.6s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)
+  APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 86.91 | C 308.93 | A 32.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.0 APP account-details — aligns fiscalCode with the customer token</span>
+            <span class="dur">787ms</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  ⚠️ account-details has no fiscalCode — using PARTNER_FISCAL_CODE_WALLET RCCVNT88E22A089S</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.1 PARTNER start-operation (§7.2)</span>
+            <span class="dur">119ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"af854816-b445-475f-b5b6-2c15c0dd56aa","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"dd52e082-ad2f-4591-9257-b918425783d5","stage":"GENERATED","qrCodeUrl":"https://dev.portal.keepz.it/payment-redirect?requestId=dd52e08</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.2 PARTNER check-operation → GENERATED, no identity data (§7.3)</span>
+            <span class="dur">76ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"4088b622-0f31-40eb-83e8-a08c5fe46171","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.3 APP get-short-info — what the customer is asked to approve</span>
+            <span class="dur">584ms</span>
+          </summary><pre class="log">APP GET get-short-info → 200 {"value":{"balance":32.70,"amount":4.0,"vendorName":"kochana","vendorPhoto":null,"sender":"Valentina","redirectUrl":null,"fee":0,"operationType":"TOPUP_GAMING_ACCOUNT","otpRequired":true}}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.4 APP confirm-transaction — creates the transfer, sends the code</span>
+            <span class="dur">2.1s</span>
+          </summary><pre class="log">APP POST confirm-transaction → 200 {"value":{"operationId":"4374c720-909d-4071-b9d9-7de47870ca88"}}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.5 PARTNER check-operation → AWAITING_USER_AUTHORIZATION</span>
+            <span class="dur">101ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"e52cf464-e09a-4a0b-935d-cb6dbbc7ece2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"AWAITING_USER_AUTHORIZATION","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.6 APP verify-transfer-otp-gaming — money moves</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  APP POST verify-transfer-otp-gaming → 200 {"value":{"transactionId":50366,"transactionStatus":"SUCCESS"}}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.7 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">88ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"b8e46bf3-822e-4c4c-b1e2-81adea399bc1","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"50366","externalRef":"1795174914985-online-topup","completedAt":"2026-11-20T12:42:05.910033+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">8.99 balances after — money moved as the protocol says</span>
+            <span class="dur">8.0s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":28.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 90.91 (4, expected 4) | C 308.93 (0, expected 0) | A 28.7 (-4, expected -4)</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/09-online-gaming-cash-out.spec.ts</div><div class="suite"><span class="suite-name">9 Online — Gaming Cash Out / Withdrawal (ONLINE, WITHDRAW_GAMING_ACCOUNT)</span><span class="suite-counts"><span class="c-pass">✅ 7</span> <span class="c-total">/ 7</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.0 balances before — gaming company (E), merchant Technical (C), customer wallet (A)</span>
+            <span class="dur">3.8s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":28.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 before  E 90.91 | C 308.93 | A 28.7</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.0 APP account-details — aligns fiscalCode with the customer token</span>
+            <span class="dur">735ms</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":28.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  ⚠️ account-details has no fiscalCode — using PARTNER_FISCAL_CODE_WALLET RCCVNT88E22A089S</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.1 PARTNER start-operation — WITHDRAW_GAMING_ACCOUNT</span>
+            <span class="dur">107ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"cde2a057-0881-411f-9d0a-158aca67662c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"7bddcae3-9543-412d-b5d9-729cd208ee50","stage":"GENERATED","qrCodeUrl":"https://dev.portal.keepz.it/payment-redirect?requestId=7bddcae</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.2 APP get-short-info — no code will be needed</span>
+            <span class="dur">523ms</span>
+          </summary><pre class="log">APP GET get-short-info → 200 {"value":{"balance":28.70,"amount":4.0,"vendorName":"kochana","vendorPhoto":null,"sender":"Valentina","redirectUrl":null,"fee":0,"operationType":"WITHDRAW_GAMING_ACCOUNT","otpRequired":false}}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.3 APP confirm-transaction — the customer consents, transfer executes</span>
+            <span class="dur">2.6s</span>
+          </summary><pre class="log">APP POST confirm-transaction → 200 {"value":{"operationId":"4f390348-59eb-46f0-beb3-342688dc7727"}}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.4 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"4b287bf8-3681-4856-942d-24d9e4f3f2b3","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"4f390348-59eb-46f0-beb3-342688dc7727","externalRef":"1795174938622-online-withdraw","completedAt":"202</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">9.99 balances after — money moved as the protocol says</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP GET account-details → 200 {"value":{"balance":32.70,"iban":"IT38W3692801600000000995346","accountNumber":"000000995346","bic":"TPPAITM2","countryCode":"IT","cab":"00001","abi":"36928"}}
+  💶 after   E 86.91 (-4, expected -4) | C 308.93 (0, expected 0) | A 32.7 (4, expected 4)</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/10-existence-check.spec.ts</div><div class="suite"><span class="suite-name">Existence check (§7.7)</span><span class="suite-counts"><span class="c-pass">✅ 7</span> <span class="c-total">/ 7</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — wallet exists</span>
+            <span class="dur">73ms</span>
+          </summary><pre class="log">existence RCCVNT88E22A089S → 200 {"resultCode":200,"resultMessage":"Success","requestId":"3259edbb-2c41-4231-8c4c-088175d13e36","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","exists":true,"walletId":"10820IM2609300828","status":"ACTIVE","operational":true}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — no wallet, returns the onboarding link</span>
+            <span class="dur">134ms</span>
+          </summary><pre class="log">existence BNCLRA85B15H501R → 200 {"resultCode":200,"resultMessage":"Success","requestId":"f5a64c1d-fdd1-44a5-9e20-b3a2dfe5e610","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","exists":false,"onboardingUrl":"…","prePopulated":false}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — invalid fiscal code</span>
+            <span class="dur">88ms</span>
+          </summary><pre class="log">existence ZNTPLA91S23F205F1 → 400 {"message":"fiscalCode: fiscalCode must be a 16-character fiscal code or an 11-character company code","statusCode":400,"code":"INVALID_FIELD_VALUE"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — fiscal code is empty</span>
+            <span class="dur">91ms</span>
+          </summary><pre class="log">existence "" → 400 {"message":"fiscalCode: fiscalCode must be a 16-character fiscal code or an 11-character company code; fiscalCode: fiscalCode is mandatory","statusCode":400,"code":"MISSING_CONDITIONAL_FIELD"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — LIVENESS_PENDING customer</span>
+            <span class="dur">91ms</span>
+          </summary><pre class="log">existence CRLGLI02P09A769L → 200 {"resultCode":200,"resultMessage":"Success","requestId":"d44f3aa1-a65e-4e73-a975-23c777e91e2d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","exists":false,"onboardingUrl":"…","prePopulated":false}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — EXPIRED customer</span>
+            <span class="dur">88ms</span>
+          </summary><pre class="log">existence BNARCE26L53A047L → 200 {"resultCode":200,"resultMessage":"Success","requestId":"1eb848c6-3b4b-4860-b9bf-b19ea00c0fc4","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","exists":false,"onboardingUrl":"…","prePopulated":false}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">existence — deleted user</span>
+            <span class="dur">94ms</span>
+          </summary><pre class="log">existence SHAMGE99T05A089I → 200 {"resultCode":200,"resultMessage":"Success","requestId":"f582737b-0ae9-4e3e-82b4-5ff0bb6f8d9d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","exists":false,"onboardingUrl":"…","prePopulated":false}</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/13-bound-cash-in.spec.ts</div><div class="suite"><span class="suite-name">13A Wallet — Cash In, no fiscalCode — unbound, QR (as in 2.5.0) (TOPUP_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">9.4s</span>
+          </summary><pre class="log">👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">106ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"9aad3ba3-630d-4b63-be81-8ca170e9b91b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"14c40850-ff96-453a-9492-0667adb0a24a","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:47:40.080686296+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">62ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"19ef8683-b747-445e-9d0d-d64876f405eb","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.3a APP current-operation — unbound operation is not shown (404)</span>
+            <span class="dur">162ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.3b APP establish-connection (QR)</span>
+            <span class="dur">507ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"14c40850-ff96-453a-9492-0667adb0a24a","operationType":"CASH_IN","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage":"AWAIT</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.4 APP approve-document-sharing</span>
+            <span class="dur">500ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.9s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6eb058b0-0c19-47d6-ac6b-d3c8fc929096","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">292ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6bc906d6-2355-4c22-9fd7-79aa8c9020b0","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.7 APP confirm — money moves</span>
+            <span class="dur">3.6s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.8 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">69ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"1bb9236b-68ad-416c-9ae9-8bc03f980c2c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"c2358631-8000-4901-9464-09ad2ef7521b","externalRef":"1795174959987-topup_wallet","completedAt":"2026-1</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13A.9 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">162ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"248809d8-4cb7-4520-a77e-92eb4380b7a5","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">13B Wallet — Cash In, fiscalCode, no push — app open / Refresh (TOPUP_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 10</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">9.5s</span>
+          </summary><pre class="log">👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">212ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"5a6f1cce-bfc9-485a-a6c6-e2e1c1c72ea8","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"d1f07cf2-3c0b-497e-b8a7-633d163ea38b","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:44:59.032501031+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">88ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6547e710-90d3-4262-a672-e72fc7fb5c8b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">206ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"d1f07cf2-3c0b-497e-b8a7-633d163ea38b","operationType":"CASH_IN","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expiresAt":"2</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.4 APP approve-document-sharing</span>
+            <span class="dur">585ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">2.8s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"aba725aa-0b1f-42aa-9be1-fac5d3abdb93","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">371ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"0740d1d9-7214-4930-8b3a-fca409d98c5d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.7 APP confirm — money moves</span>
+            <span class="dur">3.4s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.8 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"4cb48ef6-39fd-4d8b-aa33-14d7864fb602","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"a3b3700a-4488-477a-b7e4-eda2cc86ca5a","externalRef":"1795174978925-topup_wallet-bound","completedAt":"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13B.9 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">166ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"d8738a51-76f4-4353-865f-23afd4ac9f1f","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">13C Wallet — Cash In, fiscalCode + sendPushNotification: true (TOPUP_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 10</span> <span class="c-total">/ 10</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">24.7s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">205ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"1cf39c18-9998-49fb-8dda-d2cbdd3c9b09","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"a40e7cc1-2317-4084-ab6d-428e0c078e44","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:45:31.695480878+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">75ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"33e2c210-08e5-4958-809e-6866c516e35c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">234ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"a40e7cc1-2317-4084-ab6d-428e0c078e44","operationType":"CASH_IN","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expiresAt":"2</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.4 APP approve-document-sharing</span>
+            <span class="dur">489ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.4s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"5dcd600f-a727-4ce8-a1d2-87899b12603d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">276ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"76efafa5-a0f6-4dec-884b-2a53bdc67c8c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.7 APP confirm — money moves</span>
+            <span class="dur">3.6s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.8 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">69ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"e3e25e7f-9545-4f00-b645-52988459a23c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"1905c292-78cf-4e4d-8c78-be2db38f7c82","externalRef":"1795175011597-topup_wallet-bound","completedAt":"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">13C.9 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">156ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"9bc7a377-847e-45cc-8ed8-a0c03103a2c7","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">13 Bound operation — start-operation errors (§7.11 v2.6.0)</span><span class="suite-counts"><span class="c-pass">✅ 3</span> <span class="c-total">/ 3</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">sendPushNotification: true without fiscalCode → 400 MISSING_CONDITIONAL_FIELD</span>
+            <span class="dur">57ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"retailContext.fiscalCode is mandatory when sendPushNotification = true","statusCode":400,"code":"MISSING_CONDITIONAL_FIELD","requestId":"9638f328-5c0c-4cb4-9bdb-022b4c50c060","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">fiscalCode without a Keepz wallet → 404 WALLET_NOT_FOUND</span>
+            <span class="dur">89ms</span>
+          </summary><pre class="log">start-operation → 404 {"message":"No Keepz wallet for the fiscal code supplied","statusCode":404,"code":"WALLET_NOT_FOUND","requestId":"a288f18a-0e84-4998-b2c8-34b4b99b9bd6","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">fiscalCode with 15 chars → 400 INVALID_FIELD_VALUE</span>
+            <span class="dur">60ms</span>
+          </summary><pre class="log">start-operation → 400 {"message":"retailContext.fiscalCode: retailContext.fiscalCode must be a 16-character fiscal code","statusCode":400,"code":"INVALID_FIELD_VALUE"}</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/14-bound-cash-out.spec.ts</div><div class="suite"><span class="suite-name">14A Wallet — Cash Out, no fiscalCode — unbound, QR (as in 2.5.0) (WITHDRAW_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 12</span> <span class="c-total">/ 12</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">24.5s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">116ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"b0a1b902-a63d-4f53-b152-1b8393e3e9a6","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"cf951802-c24d-4abd-b7a1-6b781bd0656f","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:49:05.094227899+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">83ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"d72f26e0-ad09-4164-b970-3a4a6f6390fb","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.3a APP current-operation — unbound operation is not shown (404)</span>
+            <span class="dur">157ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.3b APP establish-connection (QR)</span>
+            <span class="dur">505ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"cf951802-c24d-4abd-b7a1-6b781bd0656f","operationType":"CASH_OUT","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage":"AWAI</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.4 APP approve-document-sharing</span>
+            <span class="dur">479ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">2.6s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"efcd75b9-1d07-423e-9640-88209ac8beef","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">381ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6b8d6a97-1bea-4dc5-9204-8178f761d4b8","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">1.9s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">91.2s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  SCA code not seen in 35s — resend (1)
+  APP POST resend-otp → 200 {"value":{"remainingResends":1}}
+  resend-otp → remainingResends 1
+⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">94ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"85e1ab1f-ac1d-4d2f-b1d6-f7053e855ef4","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"5f8131ee-04a9-49ac-9c77-791e4cf52d4b","externalRef":"1795175044987-withdraw_wallet","completedAt":"202</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14A.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">217ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"2ac993b9-4ed8-47c7-8238-57326b3891d0","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">14B Wallet — Cash Out, fiscalCode, no push — app open / Refresh (WITHDRAW_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">9.3s</span>
+          </summary><pre class="log">👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">206ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"289d1f04-5ec4-4466-8e5e-1a205619447c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"27abde48-ba24-4bf0-b253-18266ec5ba32","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:47:52.345320189+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">93ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"99f3eb8e-d712-436c-b97f-c03e634aca26","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">253ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"27abde48-ba24-4bf0-b253-18266ec5ba32","operationType":"CASH_OUT","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expiresAt":"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.4 APP approve-document-sharing</span>
+            <span class="dur">681ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.6s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"a2e0baba-6a75-4dc2-9df6-d8c320bf3ee0","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">287ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"d95322a6-2c19-40c8-afd1-80d4f891ba5b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">1.7s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">23.9s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">63ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"c1cd5603-7715-4292-b614-c47b73057d70","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"7ff1d830-2dd4-4092-8a52-734bc7f6ea06","externalRef":"1795175152251-withdraw_wallet-bound","completedAt</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14B.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">153ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"11bb79d7-6d12-4bcb-a0ff-9365f809b424","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">14C Wallet — Cash Out, fiscalCode + sendPushNotification: true (WITHDRAW_WALLET, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">46.3s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">208ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"f5dc4202-dac1-432e-9d5f-27fc39ef7014","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"c85d6fb5-ca5b-46e0-9399-15d702c56a53","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:49:09.705846808+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">81ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"18e5e6e0-53d2-4f17-af18-1ba0ae7783e4","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">221ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"c85d6fb5-ca5b-46e0-9399-15d702c56a53","operationType":"CASH_OUT","walletType":"WALLET","cashierPhoto":null,"documentMandatory":true,"vendorName":null,"vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expiresAt":"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.4 APP approve-document-sharing</span>
+            <span class="dur">475ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">2.8s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"298cb929-8732-49fa-ac94-6679c24caa38","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">291ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"669127f6-a6ef-4cff-b380-ff22986c3792","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">1.9s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">7.7s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"bfaca72d-5b4f-4c8a-afc6-a0125e2df13b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"a61609cb-27af-46f6-a61e-cb7f3d48093e","externalRef":"1795175229610-withdraw_wallet-bound","completedAt</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">14C.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">154ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"afd69e6c-870e-4af9-b385-831d0cb80611","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/15-bound-gaming-cash-in.spec.ts</div><div class="suite"><span class="suite-name">15A Gaming — Cash In, no fiscalCode — unbound, QR (as in 2.5.0) (TOPUP_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 12</span> <span class="c-total">/ 12</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">24.5s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">155ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"412650e0-2b5f-4739-85f9-f31495fcf123","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"42723ba5-8a36-41eb-816f-c1c8c8854092","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:52:48.345966182+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">100ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"275ddee6-be37-4081-9243-214d6ef5f07f","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.3a APP current-operation — unbound operation is not shown (404)</span>
+            <span class="dur">161ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.3b APP establish-connection (QR)</span>
+            <span class="dur">445ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"42723ba5-8a36-41eb-816f-c1c8c8854092","operationType":"CASH_IN","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.4 APP approve-document-sharing</span>
+            <span class="dur">494ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">2.9s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"5092ed2c-44c2-4fe0-8e88-e9c18f0a826b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">279ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"a0aa8aeb-6c36-4f74-bf2f-7be1d5b85ef8","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">5.6s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">7.7s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"8c881380-a127-4863-8b16-eb0506296135","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"5c56adae-4c18-468e-a46e-4adb6ceb33e0","externalRef":"1795175268212-topup_gaming_account","completedAt"</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15A.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">157ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"3219c026-1587-4cb8-9833-cb8227afb8c4","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">15B Gaming — Cash In, fiscalCode, no push — app open / Refresh (TOPUP_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">46.3s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">233ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"a2924857-7581-41a4-84f5-4db43dbb0a18","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"8654aeb9-6b56-4c9d-8eca-3eb213ef4437","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:50:52.915347318+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">67ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"6e204ef0-2186-4b21-ab9e-49e2174d3619","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">222ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"8654aeb9-6b56-4c9d-8eca-3eb213ef4437","operationType":"CASH_IN","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expire</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.4 APP approve-document-sharing</span>
+            <span class="dur">546ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.7s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"3740b485-a71a-46d4-8128-244f39b25e5e","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">280ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"843fe9a1-f154-4551-87fb-bd11b3eec568","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">5.5s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">8.1s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">69ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"a29d5e86-553c-4584-b01d-2d0ba05a18e5","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"c2d99581-0937-44fd-a863-948478d8e40b","externalRef":"1795175332794-topup_gaming_account-bound","comple</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15B.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">169ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"33e4666d-a29e-4ee7-b986-bde3bf1b87d1","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">15C Gaming — Cash In, fiscalCode + sendPushNotification: true (TOPUP_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">46.7s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">223ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"597a07df-6ede-4874-9956-49f65b7ba1e2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"64a1cfc4-4612-4cd7-922b-93ea00064b75","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:51:58.690866382+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">71ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"9d686dd2-f2b8-4616-8f6b-420a5efdc5e6","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">246ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"64a1cfc4-4612-4cd7-922b-93ea00064b75","operationType":"CASH_IN","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expire</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.4 APP approve-document-sharing</span>
+            <span class="dur">585ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">4.4s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"d9b4e9f9-c046-40bc-b56f-51586b4251c9","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">302ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"79b7dbd9-e2d7-4d87-aaea-8299feaff14c","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">5.4s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">70ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"8e307cc2-3a56-47d0-b2d5-c884b5ecfa91","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"5afdc5a4-e297-4d94-aa87-46b13bc95777","externalRef":"1795175398586-topup_gaming_account-bound","comple</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">15C.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">218ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"52795e88-42b5-4100-9f1c-87cc1a8182c2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/16-bound-gaming-cash-out.spec.ts</div><div class="suite"><span class="suite-name">16A Gaming — Cash Out, no fiscalCode — unbound, QR (as in 2.5.0) (WITHDRAW_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 12</span> <span class="c-total">/ 12</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">46.6s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">120ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"564ac3a3-3d82-444f-8a79-048cb5056ee3","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"f18bf26c-6aab-49fc-8b8e-3bf60824e03c","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:56:04.931674183+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">60ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"5d4acb87-d979-43d6-8c89-a834e9bbd03d","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.3a APP current-operation — unbound operation is not shown (404)</span>
+            <span class="dur">161ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.3b APP establish-connection (QR)</span>
+            <span class="dur">517ms</span>
+          </summary><pre class="log">APP GET establish-connection → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"f18bf26c-6aab-49fc-8b8e-3bf60824e03c","operationType":"CASH_OUT","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","stage</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.4 APP approve-document-sharing</span>
+            <span class="dur">494ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.3s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"0b4a6df8-ca69-4d8f-9cff-67466845ec91","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">300ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"2cb95d44-7e35-4b44-a486-03396db39e83","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">4.5s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">7.9s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">69ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"850b0522-f3de-414e-9ba5-de8a06cfc3d0","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"eeb40b68-003b-4a93-ac6c-00e8030d3180","externalRef":"1795175464831-withdraw_gaming_account","completed</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16A.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">159ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"b4c0226f-432b-4fca-8c79-b22d1d088720","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">16B Gaming — Cash Out, fiscalCode, no push — app open / Refresh (WITHDRAW_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">46.5s</span>
+          </summary><pre class="log">⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  login code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">214ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"08b3cbbf-a59b-48c2-a94f-1ddb5350c7cf","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"4ff5fe2c-6a92-462b-baa0-0711877fa58b","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:54:09.247107095+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">71ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"07b28345-ecb6-4f52-80d4-91b25e34021b","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">223ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"4ff5fe2c-6a92-462b-baa0-0711877fa58b","operationType":"CASH_OUT","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expir</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.4 APP approve-document-sharing</span>
+            <span class="dur">482ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">3.0s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"55ac723a-854f-40e0-b511-027ee9aff5aa","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">375ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"98d2ad7c-4e42-402e-a0b0-580f457c7f19","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">4.7s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">23.2s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">84ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"361a430d-aaa7-40a5-9d28-8e2321c3be63","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"d4b8d7c9-907b-46c2-81c7-42b4f5848aeb","externalRef":"1795175529146-withdraw_gaming_account-bound","com</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16B.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">180ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"a5d55063-ff03-4d73-9c0f-00437748f03f","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div><div class="suite"><span class="suite-name">16C Gaming — Cash Out, fiscalCode + sendPushNotification: true (WITHDRAW_GAMING_ACCOUNT, RETAIL)</span><span class="suite-counts"><span class="c-pass">✅ 11</span> <span class="c-total">/ 11</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.0 APP customer login (before start — the bound operation lives ~2 min)</span>
+            <span class="dur">9.7s</span>
+          </summary><pre class="log">👤 customer logged in (+3934004388)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.1 PARTNER start-operation → GENERATED</span>
+            <span class="dur">373ms</span>
+          </summary><pre class="log">start-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"14cb98df-74f7-4312-8e23-7426e1db11ad","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationId":"42b722bc-9257-4a29-984f-84f35683917c","stage":"GENERATED","qrCodeUrl":"23424","expiresAt":"2026-11-20T12:54:51.664649974+01:00"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.2 PARTNER check-operation → GENERATED</span>
+            <span class="dur">109ms</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"ba5ecf8c-4c78-4fb8-a4b9-7e19cdd74855","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"GENERATED","amount":4}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.3 APP current-operation — the bound operation with its summary (no QR)</span>
+            <span class="dur">296ms</span>
+          </summary><pre class="log">APP GET current-operation → 200 {"value":{"cashierName":"Adriatica 295394 SRL","operationId":"42b722bc-9257-4a29-984f-84f35683917c","operationType":"CASH_OUT","walletType":"GAMBLING","cashierPhoto":null,"documentMandatory":true,"vendorName":"kochana","vendorPhoto":null,"amount":4,"fee":2.00,"tillName":"Adriatica 295394 SRL","expir</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.4 APP approve-document-sharing</span>
+            <span class="dur">515ms</span>
+          </summary><pre class="log">APP POST approve-document-sharing → 200</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.5 PARTNER check-operation → IDENTIFIED</span>
+            <span class="dur">4.3s</span>
+          </summary><pre class="log">check-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"7250a86c-1b61-4750-a6b7-c4094b6720c2","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"IDENTIFIED","amount":4,"name":"Valentina","dateOfBirth":"1988-05-22","gender":"M","fiscalCode":"RCCVNT88E22A089S","documents":[{"documentId</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.6 PARTNER verify-operation (§7.4)</span>
+            <span class="dur">294ms</span>
+          </summary><pre class="log">verify-operation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"cafddb2f-6957-4875-9448-1515a2aae951","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","stage":"VERIFIED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.7 APP confirm WITHOUT otp — sends the SCA code</span>
+            <span class="dur">4.5s</span>
+          </summary><pre class="log">APP POST confirm → 200 {"value":"CONFIRMED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.8 APP confirm WITH otp — money moves</span>
+            <span class="dur">96.1s</span>
+          </summary><pre class="log">APP POST resend-otp → 200 {"value":{"remainingResends":2}}
+  resend-otp → remainingResends 2
+⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  SCA code not seen in 35s — resend (1)
+  👤 customer logged in (+3934004388)
+  APP POST resend-otp → 200 {"value":{"remainingResends":1}}
+  resend-otp → remainingResends 1
+⏳ mailinator 500 (rate limit) — waiting 15s
+⏳ mailinator 500 (rate limit) — waiting 15s
+  SCA code not seen in 35s — resend (2)
+  APP POST resend-otp → 200 {"value":{"remainingResends":0}}
+  resend-otp → remainingResends 0
+  APP POST confirm → 200 {"value":"COMPLETED"}</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.9 PARTNER check-confirmation → COMPLETED (§7.5)</span>
+            <span class="dur">77ms</span>
+          </summary><pre class="log">check-confirmation → 200 {"resultCode":200,"resultMessage":"Success","requestId":"cec72c5a-78d1-4963-b36f-5aeb6ff78555","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c","operationStage":"COMPLETED","transactionId":"68a330d3-3a92-4b67-aa99-d40b00e60e13","externalRef":"1795175571525-withdraw_gaming_account-bound","com</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">16C.10 APP current-operation after completion → no operation (404)</span>
+            <span class="dur">166ms</span>
+          </summary><pre class="log">APP GET current-operation → 404 {"message":"Operation not found","statusCode":2434,"exceptionGroup":5}
+  code 
+  cancel-operation → 409 {"message":"An operation at stage COMPLETED can no longer be cancelled","statusCode":409,"code":"INVALID_STAGE_TRANSITION","requestId":"3231b924-5196-4147-9b96-7daf85cb9e05","clientId":"retail-71245631-1838-403a-af4a-daaa90eb3e2c"}</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/11-prePopulateKyc.spec.ts</div><div class="suite"><span class="suite-name">prePopulateKyc</span><span class="suite-counts"><span class="c-pass">✅ 6</span> <span class="c-total">/ 6</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — IDENTITY_CARD / MUNICIPALITY — ACCEPTED</span>
+            <span class="dur">225ms</span>
+          </summary><pre class="log">✅ prePopulateKyc — CNTFNC99R06H501C Francesco Conti (1999-10-06, +39 3175679198, IDENTITY_CARD/MUNICIPALITY) → ACCEPTED (batch 48996d88-3234-4458-905a-80d114bb67c3)
+existence/wallet CNTFNC99R06H501C → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=ud9MyN8QVqP4RMJrrVhqeSUAbuy4Ts1Hu1bJ0_pUWQU","onboardingExpiresAt":"2026-11-21T11:54:39.412483748Z"}
+✅ onboarding link — ref ud9MyN…</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — PASSPORT / POLICE_HEADQUARTER — ACCEPTED</span>
+            <span class="dur">219ms</span>
+          </summary><pre class="log">✅ prePopulateKyc — RSSLNZ79L19H501K Lorenzo Russo (1979-07-19, +39 3175679432, PASSPORT/POLICE_HEADQUARTER) → ACCEPTED (batch 7885cce0-abec-45c2-8f1b-3e2779cbee2d)
+existence/wallet RSSLNZ79L19H501K → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=zH2FjEHOfWhqMsyabTNDBrvowroQwDf731SkEw0vKEM","onboardingExpiresAt":"2026-11-21T11:54:39.632592191Z"}
+✅ onboarding link — ref zH2FjE…</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — DRIVING_LICENSE / MCTC — ACCEPTED</span>
+            <span class="dur">279ms</span>
+          </summary><pre class="log">✅ prePopulateKyc — MRTSMN85E22H501C Simone Moretti (1985-05-22, +39 3175679664, DRIVING_LICENSE/MCTC) → ACCEPTED (batch 60b22c38-89a6-431b-aad0-a1ad282cdda7)
+existence/wallet MRTSMN85E22H501C → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=E4FW28bwiGy87Nv1rxHFDL2x_KDjP2FPhhNvEJJ4FoU","onboardingExpiresAt":"2026-11-21T11:54:39.8630781Z"}
+✅ onboarding link — ref E4FW28…</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — 2 individuals — each link → OTP → registration form pre-filled</span>
+            <span class="dur">1.3s</span>
+          </summary><pre class="log">✅ prePopulateKyc — 2 individuals: Valentina Romano +39 3400452084, Davide Marino +39 3400452085
+existence/wallet RMNVNT90L52H501Z → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=YDQZ6jfdomMkt56sKBJ2rjGYEP53CY7MI94kqGaCg1U","onboardingExpiresAt":"2026-11-21T11:54:40.152431126Z"}
+existence/wallet MRNDVD90E17H501J → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=dVOIWngu1QVfJ249GXnLHBOafVLJ6zrUYg-IUDutk8w","onboardingExpiresAt":"2026-11-21T11:54:40.242682189Z"}
+open RMNVNT90L52H501Z → 200 {"maskedMobile":"+39 *** *** 084","otpSent":true,"accountType":"USER","alreadyRegistered":false}
+fields RMNVNT90L52H501Z → {"name":"Valentina","lastName":"Romano"}
+✅ link Valentina Romano (+39 3400452084) → OTP ok → form pre-filled
+open MRNDVD90E17H501J → 200 {"maskedMobile":"+39 *** *** 085","otpSent":true,"accountType":"USER","alreadyRegistered":false}
+fields MRNDVD90E17H501J → {"name":"Davide","lastName":"Marino"}
+✅ link Davide Marino (+39 3400452085) → OTP ok → form pre-filled</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — 50 individuals in one call (limit) — all ACCEPTED</span>
+            <span class="dur">624ms</span>
+          </summary><pre class="log">✅ prePopulateKyc — batch of 50 → 50 ACCEPTED (batch f48bfa22-7b1f-4b66-9446-08f34a286528)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyc — same fiscalCode again — UPDATED (idempotent)</span>
+            <span class="dur">361ms</span>
+          </summary><pre class="log">✅ prePopulateKyc — RZZBRC78R21H501S Beatrice Rizzo (1978-10-21, +39 3175681873, IDENTITY_CARD/MUNICIPALITY) → ACCEPTED (batch ee34a4b2-90d8-416c-9758-bf56846087e1)
+existence/wallet RZZBRC78R21H501S → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=qaTyCaJnpmLRGY8HzCMvMG46K0ufdrwtWCiIWmGcdZE","onboardingExpiresAt":"2026-11-21T11:54:42.07584881Z"}
+✅ onboarding link — ref qaTyCa…
+✅ prePopulateKyc — same RZZBRC78R21H501S → UPDATED</pre></details></div></div><div class="file-group"><div class="file">tests/Exalogic-API/12-prePopulateKyb.spec.ts</div><div class="suite"><span class="suite-name">prePopulateKyb</span><span class="suite-counts"><span class="c-pass">✅ 9</span> <span class="c-total">/ 9</span></span></div><div class="suite-group"><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — 1 merchant, 1 shop — ACCEPTED + onboarding link</span>
+            <span class="dur">209ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — M-b715690b Alfa 682337 SRL (VAT 35175682337, CF 86466482391, rep Francesco Gallo GLLFNC77L22H501I, 1 shop) → ACCEPTED (batch 683ac963-9592-433c-bb35-76533f7cc281)
+existence/wallet 86466482391 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=bgyH3aB2SmaWDT3U0QhrRnPxiJC_0sKc96pOl4y0GKM","onboardingExpiresAt":"2026-11-21T11:54:42.531978073Z"}
+✅ onboarding link — ref bgyH3a…</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — 1 merchant, 3 shops — merchant and all shops ACCEPTED</span>
+            <span class="dur">226ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — M-c94238ad Alfa 682555 SRL (VAT 35175682555, CF 86034032112, rep Elena Mancini MNCLNE72S52H501C, 3 shop) → ACCEPTED (batch 27bfbd35-7c96-42c8-a75f-c933a3035cdd)
+existence/wallet 86034032112 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=eyeiOC77XqIArQRo8nUN-1lTIOWAQJaZ9RWhbJ-JAP4","onboardingExpiresAt":"2026-11-21T11:54:42.760482396Z"}
+✅ onboarding link — ref eyeiOC…</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — PEP legal representative (type + relationship) — ACCEPTED</span>
+            <span class="dur">102ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — PEP member → ACCEPTED</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — 2 merchants — each link → MERCHANT → OTP → registration form pre-filled</span>
+            <span class="dur">1.2s</span>
+          </summary><pre class="log">✅ prePopulateKyb — 2 merchants: Orion 682905 SRL +39 3400452086, Meridiana 682906 SRL +39 3400452087
+existence/wallet 84618952412 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=gyMESLuQ7FeKesutxhtqaQLbIVdZ7RKHgb_95C7x-L8","onboardingExpiresAt":"2026-11-21T11:54:43.376549524Z"}
+existence/wallet 82171851887 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=WFyE5I58PxtTkQvBB7QHfP6_lafmM_TntfMXVNpHKu4","onboardingExpiresAt":"2026-11-21T11:54:43.486124748Z"}
+open M-d94523e6 → 200 {"maskedMobile":"+39 *** *** 086","otpSent":true,"accountType":"MERCHANT","alreadyRegistered":false}
+fields M-d94523e6 → {"name":"Orion 682905 SRL","legalRepresentativeSurname":"Costa","legalRepresentativeName":"Federica","personalNumber":"84618952412","email":"keepzit1868@mailinator.com"}
+✅ link Orion 682905 SRL (rep +39 3400452086) → OTP ok → form pre-filled
+open M-d4e8327f → 200 {"maskedMobile":"+39 *** *** 087","otpSent":true,"accountType":"MERCHANT","alreadyRegistered":false}
+fields M-d4e8327f → {"name":"Meridiana 682906 SRL","legalRepresentativeSurname":"Mancini","legalRepresentativeName":"Sofia","personalNumber":"82171851887","email":"keepzit1869@mailinator.com"}
+✅ link Meridiana 682906 SRL (rep +39 3400452087) → OTP ok → form pre-filled</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — 50 merchants in one call (limit) — all ACCEPTED</span>
+            <span class="dur">952ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — batch of 50 → 50 ACCEPTED (batch e43ca31d-4b65-4f3e-8de5-405eb0d112e9)</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — same merchantId again — merchant and shop UPDATED (idempotent)</span>
+            <span class="dur">325ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — M-7e296746 Dolomiti 685127 SRL (VAT 35175685127, CF 87911503430, rep Luca Moretti MRTLCU88H18H501N, 1 shop) → ACCEPTED (batch 7c498d5a-bdbc-4bcd-b76c-c2617c954f47)
+existence/wallet 87911503430 → {"exists":false,"prePopulated":true,"onboardingUrl":"https://dev.portal.keepz.it/register?ref=vGZM-9LcfUWfrhc0mGhRxs9xT5Hqx3J8hXlwP8trBz4","onboardingExpiresAt":"2026-11-21T11:54:45.319062964Z"}
+✅ onboarding link — ref vGZM-9…
+✅ prePopulateKyb — same M-7e296746 → UPDATED</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — shop status SUSPENDED — ACCEPTED</span>
+            <span class="dur">100ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — shop SUSPENDED → ACCEPTED</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — shop status CLOSED — ACCEPTED</span>
+            <span class="dur">101ms</span>
+          </summary><pre class="log">✅ prePopulateKyb — shop CLOSED → ACCEPTED</pre></details><details class="test-item" data-status="pass">
+          <summary class="test">
+            <span class="chev">▶</span>
+            <span class="st" style="color:#3fb950">✅ passed</span>
+            <span class="name">prePopulateKyb — company fiscal code 11 digits — onboarding link returned</span>
+            <span class="dur">200ms</span>
+          </summary><pre class="log">existence 11-digit company CF → 200 {"prePopulated":true}</pre></details></div></div>
+  <script>
+    (function () {
+      const cards = document.querySelectorAll('.card');
+      const items = document.querySelectorAll('.test-item');
+      const groups = document.querySelectorAll('.file-group');
+      const suiteGroups = document.querySelectorAll('.suite-group');
+      const visible = (g) => {
+        let any = false;
+        g.querySelectorAll('.test-item').forEach((it) => { if (it.style.display !== 'none') any = true; });
+        return any;
+      };
+      function applyFilter(f) {
+        items.forEach((it) => {
+          it.style.display = (f === 'all' || it.dataset.status === f) ? '' : 'none';
+        });
+        // ცარიელი suite-group + მისი header დამალვა
+        suiteGroups.forEach((sg) => {
+          const show = visible(sg);
+          sg.style.display = show ? '' : 'none';
+          const hdr = sg.previousElementSibling;
+          if (hdr && hdr.classList.contains('suite')) hdr.style.display = show ? '' : 'none';
+        });
+        // ცარიელი file-group-ის header დამალვა
+        groups.forEach((g) => {
+          g.style.display = visible(g) ? '' : 'none';
+        });
+        cards.forEach((c) => c.classList.toggle('active', c.dataset.filter === f));
+      }
+      cards.forEach((c) => c.addEventListener('click', () => applyFilter(c.dataset.filter)));
+    })();
+  </script>
+</body>
+</html>
